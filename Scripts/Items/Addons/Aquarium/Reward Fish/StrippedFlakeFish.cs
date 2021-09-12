@@ -2,15 +2,15 @@ using System;
 
 namespace Server.Items
 {
-    public class Coral : BaseFish
+    public class StrippedFlakeFish : BaseFish
     { 
         [Constructable]
-        public Coral()
-            : base(Utility.RandomList(0x3AF9, 0x3AFA, 0x3AFB))
+        public StrippedFlakeFish()
+            : base(0x3B0A)
         {
         }
 
-        public Coral(Serial serial)
+        public StrippedFlakeFish(Serial serial)
             : base(serial)
         { 
         }
@@ -19,9 +19,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074588;
+                return 1074595;
             }
-        }// Coral
+        }// Stripped Flake Fish
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

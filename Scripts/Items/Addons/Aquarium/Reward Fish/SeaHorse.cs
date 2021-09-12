@@ -2,15 +2,15 @@ using System;
 
 namespace Server.Items
 {
-    public class Coral : BaseFish
+    public class SeaHorseFish : BaseFish
     { 
         [Constructable]
-        public Coral()
-            : base(Utility.RandomList(0x3AF9, 0x3AFA, 0x3AFB))
+        public SeaHorseFish()
+            : base(0x3B10)
         {
         }
 
-        public Coral(Serial serial)
+        public SeaHorseFish(Serial serial)
             : base(serial)
         { 
         }
@@ -19,9 +19,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074588;
+                return 1074414;
             }
-        }// Coral
+        }// A sea horse
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

@@ -2,15 +2,15 @@ using System;
 
 namespace Server.Items
 {
-    public class Coral : BaseFish
+    public class FullMoonFish : BaseFish
     { 
         [Constructable]
-        public Coral()
-            : base(Utility.RandomList(0x3AF9, 0x3AFA, 0x3AFB))
+        public FullMoonFish()
+            : base(0x3B15)
         {
         }
 
-        public Coral(Serial serial)
+        public FullMoonFish(Serial serial)
             : base(serial)
         { 
         }
@@ -19,9 +19,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074588;
+                return 1074597;
             }
-        }// Coral
+        }// A Full Moon Fish
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

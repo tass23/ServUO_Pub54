@@ -2,11 +2,11 @@ using System;
 
 namespace Server.Items
 {
-    public class DeathArms : LeatherArms
+    public class DeathGloves : LeatherGloves
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public DeathArms()
+        public DeathGloves()
             : base()
         {
             this.SetHue = 0x455;			
@@ -27,7 +27,7 @@ namespace Server.Items
             this.SetEnergyBonus = 4;
         }
 
-        public DeathArms(Serial serial)
+        public DeathGloves(Serial serial)
             : base(serial)
         {
         }
@@ -91,15 +91,15 @@ namespace Server.Items
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-			
+
             writer.Write((int)0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-			
-            int version = reader.ReadInt(); // version
+
+            int version = reader.ReadInt();
         }
     }
 }

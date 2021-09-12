@@ -1,20 +1,18 @@
 using System;
-using Server.Engines.Craft;
 
 namespace Server.Items
 {
-    [Alterable(typeof(DefBlacksmithy), typeof(Shortblade))]
-    [FlipableAttribute(0x2D21, 0x2D2D)]
-    public class AssassinSpike : BaseKnife
+    [FlipableAttribute(0x2D35, 0x2D29)]
+    public class ElvenMachete : BaseSword
     {
         [Constructable]
-        public AssassinSpike()
-            : base(0x2D21)
+        public ElvenMachete()
+            : base(0x2D35)
         {
-            this.Weight = 4.0;
+            this.Weight = 6.0;
         }
 
-        public AssassinSpike(Serial serial)
+        public ElvenMachete(Serial serial)
             : base(serial)
         {
         }
@@ -23,77 +21,84 @@ namespace Server.Items
         {
             get
             {
-                return WeaponAbility.InfectiousStrike;
+                return WeaponAbility.DefenseMastery;
             }
         }
         public override WeaponAbility SecondaryAbility
         {
             get
             {
-                return WeaponAbility.ShadowStrike;
+                return WeaponAbility.Bladeweave;
             }
         }
         public override int AosStrengthReq
         {
             get
             {
-                return 15;
+                return 20;
             }
         }
         public override int AosMinDamage
         {
             get
             {
-                return 10;
+                return 11;
             }
         }
         public override int AosMaxDamage
         {
             get
             {
-                return 12;
+                return 15;
             }
         }
         public override int AosSpeed
         {
             get
             {
-                return 50;
+                return 41;
             }
         }
         public override float MlSpeed
         {
             get
             {
-                return 2.00f;
+                return 2.75f;
             }
         }
         public override int OldStrengthReq
         {
             get
             {
-                return 15;
+                return 20;
             }
         }
         public override int OldMinDamage
         {
             get
             {
-                return 10;
+                return 13;
             }
         }
         public override int OldMaxDamage
         {
             get
             {
-                return 12;
+                return 15;
             }
         }
         public override int OldSpeed
         {
             get
             {
-                return 50;
+                return 41;
+            }
+        }
+        public override int DefHitSound
+        {
+            get
+            {
+                return 0x23B;
             }
         }
         public override int DefMissSound
@@ -103,27 +108,20 @@ namespace Server.Items
                 return 0x239;
             }
         }
-        public override SkillName DefSkill
-        {
-            get
-            {
-                return SkillName.Fencing;
-            }
-        }
         public override int InitMinHits
         {
             get
             {
                 return 30;
             }
-        }// TODO
+        }
         public override int InitMaxHits
         {
             get
             {
                 return 60;
             }
-        }// TODO
+        }
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

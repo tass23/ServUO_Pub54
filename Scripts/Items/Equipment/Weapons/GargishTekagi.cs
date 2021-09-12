@@ -1,20 +1,20 @@
 using System;
-using Server.Engines.Craft;
 
 namespace Server.Items
 {
-    [Alterable(typeof(DefBlacksmithy), typeof(Shortblade))]
-    [FlipableAttribute(0x2D21, 0x2D2D)]
-    public class AssassinSpike : BaseKnife
+    //Bassed Off Tekagi
+    [FlipableAttribute(0x48CE, 0x48Cf)]
+    public class GargishTekagi : BaseKnife
     {
         [Constructable]
-        public AssassinSpike()
-            : base(0x2D21)
+        public GargishTekagi()
+            : base(0x48CE)
         {
-            this.Weight = 4.0;
+            this.Weight = 5.0;
+            this.Layer = Layer.TwoHanded;
         }
 
-        public AssassinSpike(Serial serial)
+        public GargishTekagi(Serial serial)
             : base(serial)
         {
         }
@@ -23,21 +23,21 @@ namespace Server.Items
         {
             get
             {
-                return WeaponAbility.InfectiousStrike;
+                return WeaponAbility.DualWield;
             }
         }
         public override WeaponAbility SecondaryAbility
         {
             get
             {
-                return WeaponAbility.ShadowStrike;
+                return WeaponAbility.TalonStrike;
             }
         }
         public override int AosStrengthReq
         {
             get
             {
-                return 15;
+                return 10;
             }
         }
         public override int AosMinDamage
@@ -51,14 +51,14 @@ namespace Server.Items
         {
             get
             {
-                return 12;
+                return 13;
             }
         }
         public override int AosSpeed
         {
             get
             {
-                return 50;
+                return 53;
             }
         }
         public override float MlSpeed
@@ -72,7 +72,7 @@ namespace Server.Items
         {
             get
             {
-                return 15;
+                return 10;
             }
         }
         public override int OldMinDamage
@@ -93,14 +93,35 @@ namespace Server.Items
         {
             get
             {
-                return 50;
+                return 53;
+            }
+        }
+        public override int DefHitSound
+        {
+            get
+            {
+                return 0x238;
             }
         }
         public override int DefMissSound
         {
             get
             {
-                return 0x239;
+                return 0x232;
+            }
+        }
+        public override int InitMinHits
+        {
+            get
+            {
+                return 35;
+            }
+        }
+        public override int InitMaxHits
+        {
+            get
+            {
+                return 60;
             }
         }
         public override SkillName DefSkill
@@ -110,32 +131,46 @@ namespace Server.Items
                 return SkillName.Fencing;
             }
         }
-        public override int InitMinHits
+        public override WeaponType DefType
         {
             get
             {
-                return 30;
+                return WeaponType.Piercing;
             }
-        }// TODO
-        public override int InitMaxHits
+        }
+        public override WeaponAnimation DefAnimation
         {
             get
             {
-                return 60;
+                return WeaponAnimation.Pierce1H;
             }
-        }// TODO
+        }
+        public override Race RequiredRace
+        {
+            get
+            {
+                return Race.Gargoyle;
+            }
+        }
+        public override bool CanBeWornByGargoyles
+        {
+            get
+            {
+                return true;
+            }
+        }
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.WriteEncodedInt(0); // version
+            writer.Write((int)0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
 
-            int version = reader.ReadEncodedInt();
+            int version = reader.ReadInt();
         }
     }
 }

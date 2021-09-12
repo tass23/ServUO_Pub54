@@ -1,141 +1,160 @@
 using System;
-using Server.Engines.Craft;
 
 namespace Server.Items
 {
-    [Alterable(typeof(DefBlacksmithy), typeof(Shortblade))]
-    [FlipableAttribute(0x2D21, 0x2D2D)]
-    public class AssassinSpike : BaseKnife
+    [FlipableAttribute(0x26C2, 0x26CC)]
+    public class CompositeBow : BaseRanged
     {
         [Constructable]
-        public AssassinSpike()
-            : base(0x2D21)
+        public CompositeBow()
+            : base(0x26C2)
         {
-            this.Weight = 4.0;
+            this.Weight = 5.0;
         }
 
-        public AssassinSpike(Serial serial)
+        public CompositeBow(Serial serial)
             : base(serial)
         {
         }
 
+        public override int EffectID
+        {
+            get
+            {
+                return 0xF42;
+            }
+        }
+        public override Type AmmoType
+        {
+            get
+            {
+                return typeof(Arrow);
+            }
+        }
+        public override Item Ammo
+        {
+            get
+            {
+                return new Arrow();
+            }
+        }
         public override WeaponAbility PrimaryAbility
         {
             get
             {
-                return WeaponAbility.InfectiousStrike;
+                return WeaponAbility.ArmorIgnore;
             }
         }
         public override WeaponAbility SecondaryAbility
         {
             get
             {
-                return WeaponAbility.ShadowStrike;
+                return WeaponAbility.MovingShot;
             }
         }
         public override int AosStrengthReq
         {
             get
             {
-                return 15;
+                return 45;
             }
         }
         public override int AosMinDamage
         {
             get
             {
-                return 10;
+                return Core.ML ? 16 : 15;
             }
         }
         public override int AosMaxDamage
         {
             get
             {
-                return 12;
+                return 20;
             }
         }
         public override int AosSpeed
         {
             get
             {
-                return 50;
+                return 25;
             }
         }
         public override float MlSpeed
         {
             get
             {
-                return 2.00f;
+                return 4.00f;
             }
         }
         public override int OldStrengthReq
         {
             get
             {
-                return 15;
+                return 45;
             }
         }
         public override int OldMinDamage
         {
             get
             {
-                return 10;
+                return 15;
             }
         }
         public override int OldMaxDamage
         {
             get
             {
-                return 12;
+                return 17;
             }
         }
         public override int OldSpeed
         {
             get
             {
-                return 50;
+                return 25;
             }
         }
-        public override int DefMissSound
+        public override int DefMaxRange
         {
             get
             {
-                return 0x239;
-            }
-        }
-        public override SkillName DefSkill
-        {
-            get
-            {
-                return SkillName.Fencing;
+                return 10;
             }
         }
         public override int InitMinHits
         {
             get
             {
-                return 30;
+                return 31;
             }
-        }// TODO
+        }
         public override int InitMaxHits
         {
             get
             {
-                return 60;
+                return 70;
             }
-        }// TODO
+        }
+        public override WeaponAnimation DefAnimation
+        {
+            get
+            {
+                return WeaponAnimation.ShootBow;
+            }
+        }
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.WriteEncodedInt(0); // version
+            writer.Write((int)0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
 
-            int version = reader.ReadEncodedInt();
+            int version = reader.ReadInt();
         }
     }
 }

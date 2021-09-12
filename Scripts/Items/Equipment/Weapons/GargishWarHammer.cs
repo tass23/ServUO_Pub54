@@ -1,20 +1,20 @@
 using System;
-using Server.Engines.Craft;
 
 namespace Server.Items
 {
-    [Alterable(typeof(DefBlacksmithy), typeof(Shortblade))]
-    [FlipableAttribute(0x2D21, 0x2D2D)]
-    public class AssassinSpike : BaseKnife
+    //Based Off War Hammer
+    [FlipableAttribute(0x48C0, 0x481)]
+    public class GargishWarHammer : BaseBashing
     {
         [Constructable]
-        public AssassinSpike()
-            : base(0x2D21)
+        public GargishWarHammer()
+            : base(0x48C0)
         {
-            this.Weight = 4.0;
+            this.Weight = 10.0;
+            this.Layer = Layer.TwoHanded;
         }
 
-        public AssassinSpike(Serial serial)
+        public GargishWarHammer(Serial serial)
             : base(serial)
         {
         }
@@ -23,119 +23,126 @@ namespace Server.Items
         {
             get
             {
-                return WeaponAbility.InfectiousStrike;
+                return WeaponAbility.WhirlwindAttack;
             }
         }
         public override WeaponAbility SecondaryAbility
         {
             get
             {
-                return WeaponAbility.ShadowStrike;
+                return WeaponAbility.CrushingBlow;
             }
         }
         public override int AosStrengthReq
         {
             get
             {
-                return 15;
+                return 95;
             }
         }
         public override int AosMinDamage
         {
             get
             {
-                return 10;
+                return 17;
             }
         }
         public override int AosMaxDamage
         {
             get
             {
-                return 12;
+                return 20;
             }
         }
         public override int AosSpeed
         {
             get
             {
-                return 50;
+                return 28;
             }
         }
         public override float MlSpeed
         {
             get
             {
-                return 2.00f;
+                return 3.75f;
             }
         }
         public override int OldStrengthReq
         {
             get
             {
-                return 15;
+                return 40;
             }
         }
         public override int OldMinDamage
         {
             get
             {
-                return 10;
+                return 8;
             }
         }
         public override int OldMaxDamage
         {
             get
             {
-                return 12;
+                return 36;
             }
         }
         public override int OldSpeed
         {
             get
             {
-                return 50;
-            }
-        }
-        public override int DefMissSound
-        {
-            get
-            {
-                return 0x239;
-            }
-        }
-        public override SkillName DefSkill
-        {
-            get
-            {
-                return SkillName.Fencing;
+                return 31;
             }
         }
         public override int InitMinHits
         {
             get
             {
-                return 30;
+                return 31;
             }
-        }// TODO
+        }
         public override int InitMaxHits
         {
             get
             {
-                return 60;
+                return 110;
             }
-        }// TODO
+        }
+        public override WeaponAnimation DefAnimation
+        {
+            get
+            {
+                return WeaponAnimation.Bash2H;
+            }
+        }
+        public override Race RequiredRace
+        {
+            get
+            {
+                return Race.Gargoyle;
+            }
+        }
+        public override bool CanBeWornByGargoyles
+        {
+            get
+            {
+                return true;
+            }
+        }
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.WriteEncodedInt(0); // version
+            writer.Write((int)0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
 
-            int version = reader.ReadEncodedInt();
+            int version = reader.ReadInt();
         }
     }
 }

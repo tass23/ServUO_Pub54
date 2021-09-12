@@ -1,20 +1,19 @@
 using System;
-using Server.Engines.Craft;
 
 namespace Server.Items
 {
-    [Alterable(typeof(DefBlacksmithy), typeof(Shortblade))]
-    [FlipableAttribute(0x2D21, 0x2D2D)]
-    public class AssassinSpike : BaseKnife
+    // Based off a Kryss
+    [FlipableAttribute(0x8FE, 0x4072)]
+    public class BloodBlade : BaseSword
     {
         [Constructable]
-        public AssassinSpike()
-            : base(0x2D21)
+        public BloodBlade()
+            : base(0x8FE)
         {
-            this.Weight = 4.0;
+            //Weight = 2.0;
         }
 
-        public AssassinSpike(Serial serial)
+        public BloodBlade(Serial serial)
             : base(serial)
         {
         }
@@ -23,21 +22,21 @@ namespace Server.Items
         {
             get
             {
-                return WeaponAbility.InfectiousStrike;
+                return WeaponAbility.BleedAttack;
             }
         }
         public override WeaponAbility SecondaryAbility
         {
             get
             {
-                return WeaponAbility.ShadowStrike;
+                return WeaponAbility.ParalyzingBlow;
             }
         }
         public override int AosStrengthReq
         {
             get
             {
-                return 15;
+                return 10;
             }
         }
         public override int AosMinDamage
@@ -58,7 +57,7 @@ namespace Server.Items
         {
             get
             {
-                return 50;
+                return 53;
             }
         }
         public override float MlSpeed
@@ -72,35 +71,56 @@ namespace Server.Items
         {
             get
             {
-                return 15;
+                return 10;
             }
         }
         public override int OldMinDamage
         {
             get
             {
-                return 10;
+                return 3;
             }
         }
         public override int OldMaxDamage
         {
             get
             {
-                return 12;
+                return 28;
             }
         }
         public override int OldSpeed
         {
             get
             {
-                return 50;
+                return 53;
+            }
+        }
+        public override int DefHitSound
+        {
+            get
+            {
+                return 0x23C;
             }
         }
         public override int DefMissSound
         {
             get
             {
-                return 0x239;
+                return 0x238;
+            }
+        }
+        public override int InitMinHits
+        {
+            get
+            {
+                return 31;
+            }
+        }
+        public override int InitMaxHits
+        {
+            get
+            {
+                return 90;
             }
         }
         public override SkillName DefSkill
@@ -110,32 +130,34 @@ namespace Server.Items
                 return SkillName.Fencing;
             }
         }
-        public override int InitMinHits
+        public override WeaponType DefType
         {
             get
             {
-                return 30;
+                return WeaponType.Piercing;
             }
-        }// TODO
-        public override int InitMaxHits
+        }
+        public override WeaponAnimation DefAnimation
         {
             get
             {
-                return 60;
+                return WeaponAnimation.Pierce1H;
             }
-        }// TODO
+        }
+
+        public override Race RequiredRace { get { return Race.Gargoyle; } }
+        public override bool CanBeWornByGargoyles { get { return true; } }
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
-            writer.WriteEncodedInt(0); // version
+            writer.Write((int)0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
-            int version = reader.ReadEncodedInt();
+            int version = reader.ReadInt();
         }
     }
 }

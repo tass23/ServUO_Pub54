@@ -3,18 +3,18 @@ using Server.Engines.Craft;
 
 namespace Server.Items
 {
-    [Alterable(typeof(DefBlacksmithy), typeof(Shortblade))]
-    [FlipableAttribute(0x2D21, 0x2D2D)]
-    public class AssassinSpike : BaseKnife
+    [Alterable(typeof(DefBlacksmithy), typeof(DiscMace))]
+    [FlipableAttribute(0x2D24, 0x2D30)]
+    public class DiamondMace : BaseBashing
     {
         [Constructable]
-        public AssassinSpike()
-            : base(0x2D21)
+        public DiamondMace()
+            : base(0x2D24)
         {
-            this.Weight = 4.0;
+            this.Weight = 10.0;
         }
 
-        public AssassinSpike(Serial serial)
+        public DiamondMace(Serial serial)
             : base(serial)
         {
         }
@@ -23,91 +23,77 @@ namespace Server.Items
         {
             get
             {
-                return WeaponAbility.InfectiousStrike;
+                return WeaponAbility.ConcussionBlow;
             }
         }
         public override WeaponAbility SecondaryAbility
         {
             get
             {
-                return WeaponAbility.ShadowStrike;
+                return WeaponAbility.CrushingBlow;
             }
         }
         public override int AosStrengthReq
         {
             get
             {
-                return 15;
+                return 35;
             }
         }
         public override int AosMinDamage
         {
             get
             {
-                return 10;
+                return 13;
             }
         }
         public override int AosMaxDamage
         {
             get
             {
-                return 12;
+                return 17;
             }
         }
         public override int AosSpeed
         {
             get
             {
-                return 50;
+                return 37;
             }
         }
         public override float MlSpeed
         {
             get
             {
-                return 2.00f;
+                return 3.25f;
             }
         }
         public override int OldStrengthReq
         {
             get
             {
-                return 15;
+                return 35;
             }
         }
         public override int OldMinDamage
         {
             get
             {
-                return 10;
+                return 14;
             }
         }
         public override int OldMaxDamage
         {
             get
             {
-                return 12;
+                return 17;
             }
         }
         public override int OldSpeed
         {
             get
             {
-                return 50;
-            }
-        }
-        public override int DefMissSound
-        {
-            get
-            {
-                return 0x239;
-            }
-        }
-        public override SkillName DefSkill
-        {
-            get
-            {
-                return SkillName.Fencing;
+                return 37;
             }
         }
         public override int InitMinHits

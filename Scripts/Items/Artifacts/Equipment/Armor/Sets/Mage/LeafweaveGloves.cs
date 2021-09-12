@@ -2,12 +2,12 @@ using System;
 
 namespace Server.Items
 {
-    [FlipableAttribute(0x2B74, 0x316B)]
-    public class LeafweaveChest : HideChest
+    [FlipableAttribute(0x2B75, 0x316C)]
+    public class LeafweaveGloves : HideGloves
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public LeafweaveChest()
+        public LeafweaveGloves()
             : base()
         {
             this.SetHue = 0x47E;
@@ -27,7 +27,7 @@ namespace Server.Items
             this.SetEnergyBonus = 4;
         }
 
-        public LeafweaveChest(Serial serial)
+        public LeafweaveGloves(Serial serial)
             : base(serial)
         {
         }

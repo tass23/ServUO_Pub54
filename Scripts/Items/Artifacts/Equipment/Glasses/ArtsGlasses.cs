@@ -2,20 +2,20 @@ using System;
 
 namespace Server.Items
 {
-    public class AnthropomorphistGlasses : ElvenGlasses
+    public class ArtsGlasses : ElvenGlasses
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AnthropomorphistGlasses()
+        public ArtsGlasses()
         {
-            this.Attributes.BonusHits = 5;
-            this.Attributes.RegenMana = 3;
-            this.Attributes.ReflectPhysical = 20;
+            this.Attributes.BonusStr = 5;
+            this.Attributes.BonusInt = 5;
+            this.Attributes.BonusHits = 15;
 
-            this.Hue = 0x80;
+            this.Hue = 0x73;
         }
 
-        public AnthropomorphistGlasses(Serial serial)
+        public ArtsGlasses(Serial serial)
             : base(serial)
         {
         }
@@ -24,42 +24,42 @@ namespace Server.Items
         {
             get
             {
-                return 1073379;
+                return 1073363;
             }
-        }//Anthropomorphist Reading Glasses
+        }//Reading Glasses of the Arts
         public override int BasePhysicalResistance
-        {
-            get
-            {
-                return 5;
-            }
-        }
-        public override int BaseFireResistance
-        {
-            get
-            {
-                return 5;
-            }
-        }
-        public override int BaseColdResistance
         {
             get
             {
                 return 10;
             }
         }
+        public override int BaseFireResistance
+        {
+            get
+            {
+                return 8;
+            }
+        }
+        public override int BaseColdResistance
+        {
+            get
+            {
+                return 8;
+            }
+        }
         public override int BasePoisonResistance
         {
             get
             {
-                return 20;
+                return 4;
             }
         }
         public override int BaseEnergyResistance
         {
             get
             {
-                return 20;
+                return 10;
             }
         }
         public override int InitMinHits
@@ -88,7 +88,7 @@ namespace Server.Items
             int version = reader.ReadInt();
 
             if (version == 0 && this.Hue == 0)
-                this.Hue = 0x80;
+                this.Hue = 0x73;
         }
     }
 }

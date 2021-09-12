@@ -2,20 +2,17 @@ using System;
 
 namespace Server.Items
 {
-    public class AnthropomorphistGlasses : ElvenGlasses
+    public class TradeGlasses : ElvenGlasses
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AnthropomorphistGlasses()
+        public TradeGlasses()
         {
-            this.Attributes.BonusHits = 5;
-            this.Attributes.RegenMana = 3;
-            this.Attributes.ReflectPhysical = 20;
-
-            this.Hue = 0x80;
+            this.Attributes.BonusStr = 10;
+            this.Attributes.BonusInt = 10;
         }
 
-        public AnthropomorphistGlasses(Serial serial)
+        public TradeGlasses(Serial serial)
             : base(serial)
         {
         }
@@ -24,21 +21,21 @@ namespace Server.Items
         {
             get
             {
-                return 1073379;
+                return 1073362;
             }
-        }//Anthropomorphist Reading Glasses
+        }//Reading Glasses of the Trades
         public override int BasePhysicalResistance
         {
             get
             {
-                return 5;
+                return 10;
             }
         }
         public override int BaseFireResistance
         {
             get
             {
-                return 5;
+                return 10;
             }
         }
         public override int BaseColdResistance
@@ -52,14 +49,14 @@ namespace Server.Items
         {
             get
             {
-                return 20;
+                return 10;
             }
         }
         public override int BaseEnergyResistance
         {
             get
             {
-                return 20;
+                return 10;
             }
         }
         public override int InitMinHits
@@ -79,16 +76,13 @@ namespace Server.Items
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-            writer.Write((int)1);
+            writer.Write((int)0);
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
             int version = reader.ReadInt();
-
-            if (version == 0 && this.Hue == 0)
-                this.Hue = 0x80;
         }
     }
 }

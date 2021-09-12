@@ -2,20 +2,19 @@ using System;
 
 namespace Server.Items
 {
-    public class AnthropomorphistGlasses : ElvenGlasses
+    public class PoisonedGlasses : ElvenGlasses
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AnthropomorphistGlasses()
+        public PoisonedGlasses()
         {
-            this.Attributes.BonusHits = 5;
-            this.Attributes.RegenMana = 3;
-            this.Attributes.ReflectPhysical = 20;
+            this.Attributes.BonusStam = 3;
+            this.Attributes.RegenStam = 4;
 
-            this.Hue = 0x80;
+            this.Hue = 0x113;
         }
 
-        public AnthropomorphistGlasses(Serial serial)
+        public PoisonedGlasses(Serial serial)
             : base(serial)
         {
         }
@@ -24,21 +23,21 @@ namespace Server.Items
         {
             get
             {
-                return 1073379;
+                return 1073376;
             }
-        }//Anthropomorphist Reading Glasses
+        }//Poisoned Reading Glasses
         public override int BasePhysicalResistance
         {
             get
             {
-                return 5;
+                return 10;
             }
         }
         public override int BaseFireResistance
         {
             get
             {
-                return 5;
+                return 10;
             }
         }
         public override int BaseColdResistance
@@ -52,14 +51,14 @@ namespace Server.Items
         {
             get
             {
-                return 20;
+                return 30;
             }
         }
         public override int BaseEnergyResistance
         {
             get
             {
-                return 20;
+                return 10;
             }
         }
         public override int InitMinHits
@@ -88,7 +87,7 @@ namespace Server.Items
             int version = reader.ReadInt();
 
             if (version == 0 && this.Hue == 0)
-                this.Hue = 0x80;
+                this.Hue = 0x113;
         }
     }
 }

@@ -2,20 +2,22 @@ using System;
 
 namespace Server.Items
 {
-    public class AnthropomorphistGlasses : ElvenGlasses
+    public class BrightsightLenses : ElvenGlasses
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AnthropomorphistGlasses()
+        public BrightsightLenses()
+            : base()
         {
-            this.Attributes.BonusHits = 5;
-            this.Attributes.RegenMana = 3;
-            this.Attributes.ReflectPhysical = 20;
+            this.Hue = 0x501;
 
-            this.Hue = 0x80;
+            this.Attributes.NightSight = 1;
+            this.Attributes.RegenMana = 3;
+
+            this.ArmorAttributes.SelfRepair = 3;
         }
 
-        public AnthropomorphistGlasses(Serial serial)
+        public BrightsightLenses(Serial serial)
             : base(serial)
         {
         }
@@ -24,42 +26,42 @@ namespace Server.Items
         {
             get
             {
-                return 1073379;
+                return 1075039;
             }
-        }//Anthropomorphist Reading Glasses
+        }// Brightsight Lenses
         public override int BasePhysicalResistance
         {
             get
             {
-                return 5;
+                return 9;
             }
         }
         public override int BaseFireResistance
         {
             get
             {
-                return 5;
+                return 29;
             }
         }
         public override int BaseColdResistance
         {
             get
             {
-                return 10;
+                return 7;
             }
         }
         public override int BasePoisonResistance
         {
             get
             {
-                return 20;
+                return 8;
             }
         }
         public override int BaseEnergyResistance
         {
             get
             {
-                return 20;
+                return 7;
             }
         }
         public override int InitMinHits
@@ -79,16 +81,21 @@ namespace Server.Items
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-            writer.Write((int)1);
+
+            writer.Write((int)1); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
+
             int version = reader.ReadInt();
 
-            if (version == 0 && this.Hue == 0)
-                this.Hue = 0x80;
+            if (version < 1)
+            {
+                this.WeaponAttributes.SelfRepair = 0;
+                this.ArmorAttributes.SelfRepair = 3;
+            }
         }
     }
 }

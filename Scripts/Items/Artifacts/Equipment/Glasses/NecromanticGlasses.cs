@@ -2,20 +2,19 @@ using System;
 
 namespace Server.Items
 {
-    public class AnthropomorphistGlasses : ElvenGlasses
+    public class NecromanticGlasses : ElvenGlasses
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AnthropomorphistGlasses()
+        public NecromanticGlasses()
         {
-            this.Attributes.BonusHits = 5;
-            this.Attributes.RegenMana = 3;
-            this.Attributes.ReflectPhysical = 20;
+            this.Attributes.LowerManaCost = 15;
+            this.Attributes.LowerRegCost = 30;
 
-            this.Hue = 0x80;
+            this.Hue = 0x22D;
         }
 
-        public AnthropomorphistGlasses(Serial serial)
+        public NecromanticGlasses(Serial serial)
             : base(serial)
         {
         }
@@ -24,42 +23,42 @@ namespace Server.Items
         {
             get
             {
-                return 1073379;
+                return 1073377;
             }
-        }//Anthropomorphist Reading Glasses
+        }//Necromantic Reading Glasses
         public override int BasePhysicalResistance
         {
             get
             {
-                return 5;
+                return 0;
             }
         }
         public override int BaseFireResistance
         {
             get
             {
-                return 5;
+                return 0;
             }
         }
         public override int BaseColdResistance
         {
             get
             {
-                return 10;
+                return 0;
             }
         }
         public override int BasePoisonResistance
         {
             get
             {
-                return 20;
+                return 0;
             }
         }
         public override int BaseEnergyResistance
         {
             get
             {
-                return 20;
+                return 0;
             }
         }
         public override int InitMinHits
@@ -88,7 +87,7 @@ namespace Server.Items
             int version = reader.ReadInt();
 
             if (version == 0 && this.Hue == 0)
-                this.Hue = 0x80;
+                this.Hue = 0x22D;
         }
     }
 }

@@ -2,20 +2,20 @@ using System;
 
 namespace Server.Items
 {
-    public class AnthropomorphistGlasses : ElvenGlasses
+    public class TreasureTrinketGlasses : ElvenGlasses
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AnthropomorphistGlasses()
+        public TreasureTrinketGlasses()
         {
+            this.Attributes.BonusInt = 10;
             this.Attributes.BonusHits = 5;
-            this.Attributes.RegenMana = 3;
-            this.Attributes.ReflectPhysical = 20;
+            this.Attributes.SpellDamage = 10;
 
-            this.Hue = 0x80;
+            this.Hue = 0x1C2;
         }
 
-        public AnthropomorphistGlasses(Serial serial)
+        public TreasureTrinketGlasses(Serial serial)
             : base(serial)
         {
         }
@@ -24,21 +24,21 @@ namespace Server.Items
         {
             get
             {
-                return 1073379;
+                return 1073373;
             }
-        }//Anthropomorphist Reading Glasses
+        }//Treasures and Trinkets Reading Glasses
         public override int BasePhysicalResistance
         {
             get
             {
-                return 5;
+                return 10;
             }
         }
         public override int BaseFireResistance
         {
             get
             {
-                return 5;
+                return 10;
             }
         }
         public override int BaseColdResistance
@@ -52,14 +52,14 @@ namespace Server.Items
         {
             get
             {
-                return 20;
+                return 10;
             }
         }
         public override int BaseEnergyResistance
         {
             get
             {
-                return 20;
+                return 10;
             }
         }
         public override int InitMinHits
@@ -88,7 +88,7 @@ namespace Server.Items
             int version = reader.ReadInt();
 
             if (version == 0 && this.Hue == 0)
-                this.Hue = 0x80;
+                this.Hue = 0x1C2;
         }
     }
 }

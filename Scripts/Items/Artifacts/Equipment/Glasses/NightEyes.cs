@@ -2,43 +2,39 @@ using System;
 
 namespace Server.Items
 {
-    public class AnthropomorphistGlasses : ElvenGlasses
+    public class NightEyes : Glasses, ITokunoDyable
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AnthropomorphistGlasses()
+        public NightEyes()
+            : base()
         {
-            this.Attributes.BonusHits = 5;
-            this.Attributes.RegenMana = 3;
-            this.Attributes.ReflectPhysical = 20;
-
-            this.Hue = 0x80;
+            this.Name = ("Night Eyes");
+		
+            this.Hue = 26;
+		
+            this.Attributes.NightSight = 1;
+            this.Attributes.DefendChance = 10;
+            this.Attributes.CastRecovery = 3;			
         }
 
-        public AnthropomorphistGlasses(Serial serial)
+        public NightEyes(Serial serial)
             : base(serial)
         {
         }
 
-        public override int LabelNumber
-        {
-            get
-            {
-                return 1073379;
-            }
-        }//Anthropomorphist Reading Glasses
         public override int BasePhysicalResistance
         {
             get
             {
-                return 5;
+                return 10;
             }
         }
         public override int BaseFireResistance
         {
             get
             {
-                return 5;
+                return 10;
             }
         }
         public override int BaseColdResistance
@@ -52,14 +48,14 @@ namespace Server.Items
         {
             get
             {
-                return 20;
+                return 10;
             }
         }
         public override int BaseEnergyResistance
         {
             get
             {
-                return 20;
+                return 10;
             }
         }
         public override int InitMinHits
@@ -79,16 +75,15 @@ namespace Server.Items
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-            writer.Write((int)1);
+			
+            writer.Write((int)0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
+			
             int version = reader.ReadInt();
-
-            if (version == 0 && this.Hue == 0)
-                this.Hue = 0x80;
         }
     }
 }

@@ -2,20 +2,20 @@ using System;
 
 namespace Server.Items
 {
-    public class AnthropomorphistGlasses : ElvenGlasses
+    public class WizardsGlasses : ElvenGlasses
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AnthropomorphistGlasses()
+        public WizardsGlasses()
         {
-            this.Attributes.BonusHits = 5;
+            this.Attributes.BonusMana = 10;
             this.Attributes.RegenMana = 3;
-            this.Attributes.ReflectPhysical = 20;
+            this.Attributes.SpellDamage = 15;
 
-            this.Hue = 0x80;
+            this.Hue = 0x2B0;
         }
 
-        public AnthropomorphistGlasses(Serial serial)
+        public WizardsGlasses(Serial serial)
             : base(serial)
         {
         }
@@ -24,9 +24,9 @@ namespace Server.Items
         {
             get
             {
-                return 1073379;
+                return 1073374;
             }
-        }//Anthropomorphist Reading Glasses
+        }//Wizard's Crystal Reading Glasses
         public override int BasePhysicalResistance
         {
             get
@@ -45,21 +45,21 @@ namespace Server.Items
         {
             get
             {
-                return 10;
+                return 5;
             }
         }
         public override int BasePoisonResistance
         {
             get
             {
-                return 20;
+                return 5;
             }
         }
         public override int BaseEnergyResistance
         {
             get
             {
-                return 20;
+                return 5;
             }
         }
         public override int InitMinHits
@@ -88,7 +88,7 @@ namespace Server.Items
             int version = reader.ReadInt();
 
             if (version == 0 && this.Hue == 0)
-                this.Hue = 0x80;
+                this.Hue = 0x2B0;
         }
     }
 }

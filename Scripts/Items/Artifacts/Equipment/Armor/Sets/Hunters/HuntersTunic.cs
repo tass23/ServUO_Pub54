@@ -2,11 +2,11 @@ using System;
 
 namespace Server.Items
 {
-    public class HunterArms : LeafArms
+    public class HunterChest : LeafChest
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public HunterArms()
+        public HunterChest()
             : base()
         {
             this.SetHue = 0x483;
@@ -27,7 +27,7 @@ namespace Server.Items
             this.SetEnergyBonus = 4;
         }
 
-        public HunterArms(Serial serial)
+        public HunterChest(Serial serial)
             : base(serial)
         {
         }

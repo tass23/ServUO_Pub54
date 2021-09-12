@@ -2,33 +2,28 @@ using System;
 
 namespace Server.Items
 {
-    public class ClaininsSpellbook : Spellbook
+    public class ConjurersGrimoire : Spellbook
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public ClaininsSpellbook()
+        public ConjurersGrimoire()
             : base()
         {
-            this.Hue = 0x84D;
-			
-            this.Attributes.SpellChanneling = 1;
-            this.Attributes.RegenMana = 3;
-            this.Attributes.Luck = 80;
-            this.Attributes.LowerRegCost = 15;
+            this.Hue = 0x4AA;
+			this.Name = "Conjurer's Grimoire";
+			this.Slayer = SlayerName.Silver;
+            this.Attributes.LowerManaCost = 10;
+            this.Attributes.BonusInt = 8;
+            this.Attributes.SpellDamage = 15;
+            this.SkillBonuses.SetValues(0, SkillName.Magery, 15.0);
         }
 
-        public ClaininsSpellbook(Serial serial)
+        public ConjurersGrimoire(Serial serial)
             : base(serial)
         {
         }
 
-        public override int LabelNumber
-        {
-            get
-            {
-                return 1073262;
-            }
-        }// Clainin's Spellbook - Museum of Vesper Replica
+        // Conjurer's Grimoire
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

@@ -3,7 +3,7 @@ using Server.Items;
 
 namespace Server.Items
 {
-	public class InitiationArms : LeatherArms
+	public class InitiationCap : LeatherCap
 	{
 		public override bool IsArtifact { get { return true; } }
 		public override int LabelNumber{ get{ return 1116255; } } // Armor of Initiation
@@ -20,14 +20,14 @@ namespace Server.Items
 		public override int InitMaxHits{ get{ return 150; } }
 
 		[Constructable]
-		public InitiationArms() : base()
+		public InitiationCap() : base()
 		{
 
-			this.Weight = 2;	
+			Weight = 1;	
 			this.Hue = 0x9C4;
-			this.LootType = LootType.Blessed;
 			//this.Attributes.Brittle = 1; //If you have imbuing add this part in!!!!
-				
+			this.LootType = LootType.Blessed;
+			
 			SetHue = 0x30;	
 			SetPhysicalBonus = 2;
 			SetFireBonus = 5;
@@ -36,7 +36,7 @@ namespace Server.Items
 			SetEnergyBonus = 5;
 		}
 
-		public InitiationArms( Serial serial ) : base( serial )
+		public InitiationCap( Serial serial ) : base( serial )
 		{
 		}
 		

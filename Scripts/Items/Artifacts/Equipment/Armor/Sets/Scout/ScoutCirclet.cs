@@ -3,10 +3,10 @@ using Server.Items;
 
 namespace Server.Items
 {
-	public class ScoutArms : StuddedArms
+	public class ScoutCirclet : Circlet
 	{
 		public override bool IsArtifact { get { return true; } }
-		public override int LabelNumber{ get{ return 1080475; } } //Thank you Paradyme
+		public override int LabelNumber{ get{ return 1080472; } } //Thank you Paradyme
 		
 		public override SetItem SetID{ get{ return SetItem.Scout; } }
 		public override int Pieces{ get{ return 6; } }
@@ -20,11 +20,11 @@ namespace Server.Items
 		public override int InitMaxHits{ get{ return 255; } }
 
 		[Constructable]
-		public ScoutArms() : base()
+		public ScoutCirclet() : base()
 		{
-
+	
 			SetHue = 0x46D;
-			Weight = 4;
+			Weight = 2;
 			
 			Attributes.BonusDex = 1;
 			ArmorAttributes.MageArmor = 1;
@@ -41,7 +41,7 @@ namespace Server.Items
 			SetEnergyBonus = 28;
 		}
 
-		public ScoutArms( Serial serial ) : base( serial )
+		public ScoutCirclet( Serial serial ) : base( serial )
 		{
 		}
 		

@@ -3,15 +3,14 @@ using Server.Engines.Craft;
 
 namespace Server.Items
 {
-    [FlipableAttribute(0x2B67, 0x315E)]
-    public class DarkwoodChest : WoodlandChest
+    public class DarkwoodGloves : WoodlandGloves
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public DarkwoodChest()
+        public DarkwoodGloves()
             : base()
         {
-            this.Hue = 0x455;							
+            this.Hue = 0x455;								
             this.SetHue = 0x494;
 						
             this.Attributes.BonusHits = 2;		
@@ -21,7 +20,8 @@ namespace Server.Items
             this.SetAttributes.BonusStr = 10;		
             this.SetAttributes.NightSight = 1;		
 			
-            this.SetSelfRepair = 3;			
+            this.SetSelfRepair = 3;
+			
             this.SetPhysicalBonus = 2;
             this.SetFireBonus = 5;
             this.SetColdBonus = 5;
@@ -29,18 +29,18 @@ namespace Server.Items
             this.SetEnergyBonus = 5;
         }
 
-        public DarkwoodChest(Serial serial)
+        public DarkwoodGloves(Serial serial)
             : base(serial)
-        { 
+        {
         }
 
         public override int LabelNumber
         {
             get
             {
-                return 1073482;
+                return 1073486;
             }
-        }// Darkwood Chest
+        }// Darkwood Gauntlets
         public override SetItem SetID
         {
             get

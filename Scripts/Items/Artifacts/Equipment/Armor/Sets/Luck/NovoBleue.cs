@@ -3,19 +3,18 @@ using Server.Items;
 
 namespace Server.Items
 {
-	public class EtoileBleue : GoldRing
+	public class NovoBleue : GoldBracelet
 	{
 		public override bool IsArtifact { get { return true; } }
-		public override int LabelNumber{ get{ return 1080238; } } // Thank you Paradyme
+		public override int LabelNumber{ get{ return 1080239; } } // Thank you Paradyme
 		public override SetItem SetID{ get{ return SetItem.Luck; } }
 		public override int Pieces{ get{ return 2; } }
 		[Constructable]
-		public EtoileBleue() : base()
+		public NovoBleue() : base()
 		{
-
-			Weight = 1.0;
+			Weight = 1.0;			
 	
-			SetHue = 0x554;  //a guess
+			SetHue = 0x554;
 			
 			Attributes.Luck = 150;
 			Attributes.CastSpeed = 1;
@@ -28,7 +27,7 @@ namespace Server.Items
 			SetAttributes.CastRecovery = 4;
 		}
 
-		public EtoileBleue( Serial serial ) : base( serial )
+		public NovoBleue( Serial serial ) : base( serial )
 		{
 		}
 

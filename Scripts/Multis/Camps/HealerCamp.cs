@@ -4,15 +4,15 @@ using Server.Mobiles;
 
 namespace Server.Multis
 {
-    public class BankerCamp : BaseCamp
+    public class HealerCamp : BaseCamp
     {
         [Constructable]
-        public BankerCamp()
-            : base(0x1F6)
+        public HealerCamp()
+            : base(0x1F4)
         {
         }
 
-        public BankerCamp(Serial serial)
+        public HealerCamp(Serial serial)
             : base(serial)
         {
         }
@@ -27,10 +27,10 @@ namespace Server.Multis
             west.Link = east;
             east.Link = west;
 
-            this.AddItem(new Sign(SignType.Bank, SignFacing.West), -5, 5, -4);
+            this.AddItem(new Sign(SignType.Healer, SignFacing.West), -5, 5, -4);
 
-            this.AddMobile(new Banker(), 4, -4, 3, 7);
-            this.AddMobile(new Banker(), 5, 4, -2, 0);
+            this.AddMobile(new Healer(), 4, -4, 3, 7);
+            this.AddMobile(new Healer(), 5, 4, -2, 0);
         }
 
         public override void Serialize(GenericWriter writer)

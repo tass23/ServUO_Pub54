@@ -2,19 +2,19 @@ using System;
 
 namespace Server.Items
 {
-    [FlipableAttribute(0x13dc, 0x13d4)]
-    public class RangerArms : BaseArmor
+    [FlipableAttribute(0x13db, 0x13e2)]
+    public class RangerChest : BaseArmor
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public RangerArms()
-            : base(0x13DC)
+        public RangerChest()
+            : base(0x13DB)
         {
-            this.Weight = 4.0;
+            this.Weight = 8.0;
             this.Hue = 0x59C;
         }
 
-        public RangerArms(Serial serial)
+        public RangerChest(Serial serial)
             : base(serial)
         {
         }
@@ -72,14 +72,14 @@ namespace Server.Items
         {
             get
             {
-                return 25;
+                return 35;
             }
         }
         public override int OldStrReq
         {
             get
             {
-                return 25;
+                return 35;
             }
         }
         public override int ArmorBase
@@ -107,9 +107,9 @@ namespace Server.Items
         {
             get
             {
-                return 1041493;
+                return 1041497;
             }
-        }// studded sleeves, ranger armor
+        }// studded tunic, ranger armor
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
@@ -122,7 +122,7 @@ namespace Server.Items
             int version = reader.ReadInt();
 
             if (this.Weight == 1.0)
-                this.Weight = 4.0;
+                this.Weight = 8.0;
         }
     }
 }

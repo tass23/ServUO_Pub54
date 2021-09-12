@@ -2,14 +2,14 @@ using System;
 
 namespace Server.Items
 {
-    public class GreymistArms : LeatherArms
+    public class GreymistGloves : LeatherGloves
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public GreymistArms()
+        public GreymistGloves()
             : base()
         {
-            this.SetHue = 0xCB;
+            this.SetHue = 0xCB;			
 			
             this.Attributes.BonusMana = 2;
             this.Attributes.SpellDamage = 2;
@@ -26,7 +26,7 @@ namespace Server.Items
             this.SetEnergyBonus = 3;
         }
 
-        public GreymistArms(Serial serial)
+        public GreymistGloves(Serial serial)
             : base(serial)
         {
         }
@@ -90,15 +90,15 @@ namespace Server.Items
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-			
+
             writer.Write((int)0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-			
-            int version = reader.ReadInt(); // version
+
+            int version = reader.ReadInt();
         }
     }
 }

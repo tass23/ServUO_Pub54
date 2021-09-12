@@ -2,36 +2,27 @@ using System;
 
 namespace Server.Items
 {
-    public class AbyssalBlade : StoneWarSword
+    public class DeathsHead : DiscMace
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AbyssalBlade()
+        public DeathsHead() 
         {
-            this.Name = ("Abyssal Blade");
-
-            this.Hue = 2404;
-            this.WeaponAttributes.HitManaDrain = 50;
-            this.WeaponAttributes.HitFatigue = 50;
-            this.WeaponAttributes.HitLeechHits = 60;
-            this.WeaponAttributes.HitLeechStam = 60;
+            this.Name = ("Death's Head");
+		
+            this.Hue = 1154;	
+		
+            this.WeaponAttributes.HitFatigue = 10;
+            this.WeaponAttributes.HitLightning = 45;	
+            this.WeaponAttributes.HitLowerDefend = 30;
             this.Attributes.WeaponSpeed = 20;
-            this.Attributes.WeaponDamage = 60;
-            this.AosElementDamages.Chaos = 100;
+            this.Attributes.WeaponDamage = 45;
         }
 
-        public AbyssalBlade(Serial serial)
+        public DeathsHead(Serial serial)
             : base(serial)
         {
         }
-		
-		 public override float MlSpeed
-        {
-            get
-            {
-                return 3.75f;
-            }
-        }		
 
         public override int InitMinHits
         {

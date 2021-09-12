@@ -2,36 +2,29 @@ using System;
 
 namespace Server.Items
 {
-    public class AbyssalBlade : StoneWarSword
+    public class BladeOfBattle : Shortblade
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AbyssalBlade()
+        public BladeOfBattle() 
         {
-            this.Name = ("Abyssal Blade");
-
-            this.Hue = 2404;
-            this.WeaponAttributes.HitManaDrain = 50;
-            this.WeaponAttributes.HitFatigue = 50;
-            this.WeaponAttributes.HitLeechHits = 60;
-            this.WeaponAttributes.HitLeechStam = 60;
-            this.Attributes.WeaponSpeed = 20;
-            this.Attributes.WeaponDamage = 60;
-            this.AosElementDamages.Chaos = 100;
+            this.Name = ("Blade Of Battle");
+		
+            this.Hue = 2045;	
+		
+            this.WeaponAttributes.HitLowerDefend = 40;
+            this.WeaponAttributes.BattleLust = 1;
+            this.Attributes.AttackChance = 15;
+            this.Attributes.DefendChance = 10;
+            this.Attributes.WeaponSpeed = 25;
+            this.Attributes.WeaponDamage = 50;
+			this.StrRequirement = 10;
         }
 
-        public AbyssalBlade(Serial serial)
+        public BladeOfBattle(Serial serial)
             : base(serial)
         {
         }
-		
-		 public override float MlSpeed
-        {
-            get
-            {
-                return 3.75f;
-            }
-        }		
 
         public override int InitMinHits
         {
@@ -47,6 +40,22 @@ namespace Server.Items
                 return 255;
             }
         }
+		
+        public override int AosMinDamage
+        {
+            get
+            {
+                return 9;
+            }
+        }
+        public override int AosMaxDamage
+        {
+            get
+            {
+                return 13;
+            }
+        }		
+		
         public override bool CanBeWornByGargoyles
         {
             get

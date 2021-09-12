@@ -2,36 +2,31 @@ using System;
 
 namespace Server.Items
 {
-    public class AbyssalBlade : StoneWarSword
+    public class PetrifiedSnake : SerpentStoneStaff
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AbyssalBlade()
+        public PetrifiedSnake()
+            : base()
         {
-            this.Name = ("Abyssal Blade");
-
-            this.Hue = 2404;
-            this.WeaponAttributes.HitManaDrain = 50;
-            this.WeaponAttributes.HitFatigue = 50;
-            this.WeaponAttributes.HitLeechHits = 60;
-            this.WeaponAttributes.HitLeechStam = 60;
-            this.Attributes.WeaponSpeed = 20;
-            this.Attributes.WeaponDamage = 60;
-            this.AosElementDamages.Chaos = 100;
+            this.Name = ("Petrified Snake");
+		
+            this.Hue = 460;
+			
+            this.AbsorptionAttributes.EaterPoison = 20;	
+            this.Slayer = SlayerName.ReptilianDeath;
+            this.WeaponAttributes.HitMagicArrow = 30;
+            this.WeaponAttributes.HitLowerDefend = 30;		
+            this.Attributes.WeaponSpeed = 30;
+            this.Attributes.WeaponDamage = 50;	
+            this.AosElementDamages.Poison = 100;		
+            this.WeaponAttributes.ResistPoisonBonus = 10;			
         }
 
-        public AbyssalBlade(Serial serial)
+        public PetrifiedSnake(Serial serial)
             : base(serial)
         {
         }
-		
-		 public override float MlSpeed
-        {
-            get
-            {
-                return 3.75f;
-            }
-        }		
 
         public override int InitMinHits
         {

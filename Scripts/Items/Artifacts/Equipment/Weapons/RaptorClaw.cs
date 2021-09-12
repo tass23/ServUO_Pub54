@@ -2,36 +2,62 @@ using System;
 
 namespace Server.Items
 {
-    public class AbyssalBlade : StoneWarSword
+    public class RaptorClaw : Boomerang
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AbyssalBlade()
+        public RaptorClaw()
         {
-            this.Name = ("Abyssal Blade");
+            this.Name = ("Raptor Claw");
 
-            this.Hue = 2404;
-            this.WeaponAttributes.HitManaDrain = 50;
-            this.WeaponAttributes.HitFatigue = 50;
-            this.WeaponAttributes.HitLeechHits = 60;
-            this.WeaponAttributes.HitLeechStam = 60;
-            this.Attributes.WeaponSpeed = 20;
-            this.Attributes.WeaponDamage = 60;
-            this.AosElementDamages.Chaos = 100;
+			this.Weight = 4.0;
+            this.Hue = 53;
+            this.Slayer = SlayerName.Silver;
+			this.Attributes = new AosAttributes(this);
+            this.Attributes.AttackChance = 12;			
+            this.Attributes.WeaponSpeed = 30;
+            this.Attributes.WeaponDamage = 35;
+			this.WeaponAttributes = new AosWeaponAttributes(this);
+            this.WeaponAttributes.HitLeechStam = 40;
+			this.StrRequirement = 25;
         }
 
-        public AbyssalBlade(Serial serial)
+		public override int AosMinDamage
+		{
+			get
+			{
+				return 8;
+			}
+		}
+
+		public override int AosMaxDamage
+		{
+			get
+			{
+				return 12;
+			}
+		}
+
+		public override int MaxThrowRange
+		{
+			get
+			{
+				return 7;
+			}
+		}
+
+		public override float MlSpeed
+		{
+			get
+			{
+				return 2;
+			}
+		}
+
+        public RaptorClaw(Serial serial)
             : base(serial)
         {
         }
-		
-		 public override float MlSpeed
-        {
-            get
-            {
-                return 3.75f;
-            }
-        }		
 
         public override int InitMinHits
         {

@@ -2,25 +2,25 @@ using System;
 
 namespace Server.Items
 {
-    public class Feathernock : BaseQuiver
+    public class Swiftflight : Bow
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public Feathernock()
+        public Swiftflight()
             : base()
         {
             this.SetHue = 0x594;
 			
-            this.Attributes.WeaponDamage = 10;
-            this.WeightReduction = 30;
-						
+            this.Attributes.WeaponDamage = 40;
+			
+            this.SetSelfRepair = 3;			
             this.SetAttributes.AttackChance = 15;
             this.SetAttributes.BonusDex = 8;
             this.SetAttributes.WeaponSpeed = 30;
             this.SetAttributes.WeaponDamage = 20;
         }
 
-        public Feathernock(Serial serial)
+        public Swiftflight(Serial serial)
             : base(serial)
         {
         }
@@ -29,9 +29,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074324;
+                return 1074308;
             }
-        }// Feathernock (Marksman Set)
+        }// Swiftflight (Marksman Set)
         public override SetItem SetID
         {
             get

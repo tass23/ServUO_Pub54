@@ -2,16 +2,15 @@ using System;
 
 namespace Server.Items
 {
-    public class AlbinoFrog : BaseFish
+    public class AlbinoCourtesanFish : BaseFish
     { 
         [Constructable]
-        public AlbinoFrog()
-            : base(0x3B0D)
+        public AlbinoCourtesanFish()
+            : base(0x3B04)
         {
-            this.Hue = 0x47E;
         }
 
-        public AlbinoFrog(Serial serial)
+        public AlbinoCourtesanFish(Serial serial)
             : base(serial)
         { 
         }
@@ -20,9 +19,9 @@ namespace Server.Items
         {
             get
             {
-                return 1073824;
+                return 1074592;
             }
-        }// An Albino Frog
+        }// Albino Courtesan Fish
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

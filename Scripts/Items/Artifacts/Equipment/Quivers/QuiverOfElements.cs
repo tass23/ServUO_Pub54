@@ -2,17 +2,18 @@ using System;
 
 namespace Server.Items
 {
-    public class QuiverOfBlight : ElvenQuiver
+    public class QuiverOfElements : BaseQuiver
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public QuiverOfBlight()
+        public QuiverOfElements()
             : base()
         {
-            this.Hue = 0x4F3;
+            this.Hue = 0xEB;
+            this.WeightReduction = 50;
         }
 
-        public QuiverOfBlight(Serial serial)
+        public QuiverOfElements(Serial serial)
             : base(serial)
         {
         }
@@ -21,13 +22,13 @@ namespace Server.Items
         {
             get
             {
-                return 1073111;
+                return 1075040;
             }
-        }// Quiver of Blight
+        }// Quiver of the Elements
         public override void AlterBowDamage(ref int phys, ref int fire, ref int cold, ref int pois, ref int nrgy, ref int chaos, ref int direct)
         {
-            phys = fire = nrgy = chaos = direct = 0;
-            cold = pois = 50;
+            phys = fire = cold = pois = nrgy = direct = 0;
+            chaos = 100;
         }
 
         public override void Serialize(GenericWriter writer)

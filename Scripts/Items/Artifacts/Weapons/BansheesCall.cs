@@ -2,37 +2,37 @@ using System;
 
 namespace Server.Items
 {
-    public class AbyssalBlade : StoneWarSword
+    public class BansheesCall : Cyclone
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AbyssalBlade()
+        public BansheesCall() 
         {
-            this.Name = ("Abyssal Blade");
-
-            this.Hue = 2404;
-            this.WeaponAttributes.HitManaDrain = 50;
-            this.WeaponAttributes.HitFatigue = 50;
-            this.WeaponAttributes.HitLeechHits = 60;
-            this.WeaponAttributes.HitLeechStam = 60;
-            this.Attributes.WeaponSpeed = 20;
-            this.Attributes.WeaponDamage = 60;
-            this.AosElementDamages.Chaos = 100;
+            this.Name = ("Banshee's Call");
+		
+            this.Hue = 1266;
+			
+            this.WeaponAttributes.HitHarm = 40;
+            this.Attributes.BonusStr = 5;
+            this.WeaponAttributes.HitLeechHits = 45;
+            this.Attributes.WeaponSpeed = 30;
+            this.Attributes.WeaponDamage = 50;
+            this.Velocity = 35;		
+            this.AosElementDamages.Cold = 100;
         }
 
-        public AbyssalBlade(Serial serial)
+        public BansheesCall(Serial serial)
             : base(serial)
         {
         }
-		
-		 public override float MlSpeed
+
+        public override int MinThrowRange
         {
             get
             {
-                return 3.75f;
+                return 4;
             }
-        }		
-
+        }// MaxRange 8
         public override int InitMinHits
         {
             get

@@ -1,37 +1,30 @@
 using System;
+using Server.Engines.Harvest;
 
 namespace Server.Items
 {
-    public class AbyssalBlade : StoneWarSword
+    public class JadeWarAxe : WarAxe
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AbyssalBlade()
+        public JadeWarAxe()
         {
-            this.Name = ("Abyssal Blade");
-
-            this.Hue = 2404;
-            this.WeaponAttributes.HitManaDrain = 50;
-            this.WeaponAttributes.HitFatigue = 50;
-            this.WeaponAttributes.HitLeechHits = 60;
-            this.WeaponAttributes.HitLeechStam = 60;
+            this.Name = ("Jade War Axe");
+		
+            this.Hue = 1162;
+			
+            this.AbsorptionAttributes.EaterFire = 10;
+            this.Slayer = SlayerName.ReptilianDeath;
+            this.WeaponAttributes.HitFireball = 30;	
+            this.WeaponAttributes.HitLowerDefend = 60;		
             this.Attributes.WeaponSpeed = 20;
-            this.Attributes.WeaponDamage = 60;
-            this.AosElementDamages.Chaos = 100;
+            this.Attributes.WeaponDamage = 50;
         }
 
-        public AbyssalBlade(Serial serial)
+        public JadeWarAxe(Serial serial)
             : base(serial)
         {
         }
-		
-		 public override float MlSpeed
-        {
-            get
-            {
-                return 3.75f;
-            }
-        }		
 
         public override int InitMinHits
         {
@@ -47,29 +40,24 @@ namespace Server.Items
                 return 255;
             }
         }
-        public override bool CanBeWornByGargoyles
+        public override HarvestSystem HarvestSystem
         {
             get
             {
-                return true;
-            }
-        }
-        public override Race RequiredRace
-        {
-            get
-            {
-                return Race.Gargoyle;
+                return null;
             }
         }
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
+
             writer.Write((int)0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
+
             int version = reader.ReadInt();
         }
     }

@@ -2,36 +2,29 @@ using System;
 
 namespace Server.Items
 {
-    public class AbyssalBlade : StoneWarSword
+    public class ChannelersDefender : GlassSword
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AbyssalBlade()
+        public ChannelersDefender()
         {
-            this.Name = ("Abyssal Blade");
-
-            this.Hue = 2404;
-            this.WeaponAttributes.HitManaDrain = 50;
-            this.WeaponAttributes.HitFatigue = 50;
-            this.WeaponAttributes.HitLeechHits = 60;
-            this.WeaponAttributes.HitLeechStam = 60;
-            this.Attributes.WeaponSpeed = 20;
-            this.Attributes.WeaponDamage = 60;
-            this.AosElementDamages.Chaos = 100;
+            this.Name = ("Channeler's Defender");
+		
+            this.Hue = 95;	
+            this.Attributes.DefendChance = 10;				
+            this.Attributes.AttackChance = 5;	
+            this.Attributes.LowerManaCost = 5;
+            this.Attributes.WeaponSpeed = 20;					
+            this.Attributes.CastRecovery = 1;		
+            this.Attributes.SpellChanneling = 1;	
+            this.WeaponAttributes.HitLowerAttack = 60;
+            this.AosElementDamages.Energy = 100;		
         }
 
-        public AbyssalBlade(Serial serial)
+        public ChannelersDefender(Serial serial)
             : base(serial)
         {
         }
-		
-		 public override float MlSpeed
-        {
-            get
-            {
-                return 3.75f;
-            }
-        }		
 
         public override int InitMinHits
         {

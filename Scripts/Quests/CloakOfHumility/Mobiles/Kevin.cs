@@ -4,17 +4,26 @@ using Server.Engines.Quests;
 
 namespace Server.Mobiles
 {
-    public class Dierdre : HumilityQuestMobile
+    public class Kevin : HumilityQuestMobile
     {
-        public override int Greeting { get { return 1075744; } }
+        public override int Greeting { get { return 1075759; } }
+
+        public override bool IsActiveVendor { get { return true; } }
+        public override bool CanTeach { get { return true; } }
 
         [Constructable]
-        public Dierdre()
-            : base("Dierdre", "the Beggar")
+        public Kevin()
+            : base("Kevin", "the butcher")
         {
+            SetSkill(SkillName.Anatomy, 45.0, 68.0);
         }
 
-        public Dierdre(Serial serial)
+        public override void InitSBInfo()
+        {
+            SBInfos.Add(new SBButcher());
+        }
+
+        public Kevin(Serial serial)
             : base(serial)
         {
         }
@@ -23,21 +32,21 @@ namespace Server.Mobiles
         {
             this.InitStats(100, 100, 25);
 
-            this.Female = true;
+            this.Female = false;
             this.Race = Race.Human;
-            this.Body = 0x191;
+            this.Body = 0x190;
 
             this.Hue = Race.RandomSkinHue();
-            this.HairItemID = Race.RandomHair(true);
+            this.HairItemID = Race.RandomHair(false);
             this.HairHue = Race.RandomHairHue();
         }
 
         public override void InitOutfit()
         {
-            this.AddItem(new Backpack());
-            this.AddItem(new Sandals());
-            this.AddItem(new FancyShirt());
-            this.AddItem(new PlainDress());
+            base.InitOutfit();
+
+            AddItem(new Server.Items.HalfApron());
+            AddItem(new Server.Items.Cleaver());
         }
 
         public override void Serialize(GenericWriter writer)

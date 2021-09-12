@@ -4,17 +4,17 @@ using Server.Engines.Quests;
 
 namespace Server.Mobiles
 {
-    public class Dierdre : HumilityQuestMobile
+    public class Walton : HumilityQuestMobile
     {
-        public override int Greeting { get { return 1075744; } }
+        public override int Greeting { get { return 1075739; } }
 
         [Constructable]
-        public Dierdre()
-            : base("Dierdre", "the Beggar")
+        public Walton()
+            : base("Walton", "the Horse Trainer")
         {
         }
 
-        public Dierdre(Serial serial)
+        public Walton(Serial serial)
             : base(serial)
         {
         }
@@ -23,21 +23,22 @@ namespace Server.Mobiles
         {
             this.InitStats(100, 100, 25);
 
-            this.Female = true;
+            this.Female = false;
             this.Race = Race.Human;
-            this.Body = 0x191;
+            this.Body = 0x190;
 
             this.Hue = Race.RandomSkinHue();
-            this.HairItemID = Race.RandomHair(true);
+            this.HairItemID = Race.RandomHair(false);
             this.HairHue = Race.RandomHairHue();
         }
 
         public override void InitOutfit()
         {
             this.AddItem(new Backpack());
-            this.AddItem(new Sandals());
             this.AddItem(new FancyShirt());
-            this.AddItem(new PlainDress());
+            this.AddItem(new Doublet(1109));
+            this.AddItem(new LongPants(Utility.RandomBlueHue()));
+            this.AddItem(new Boots());
         }
 
         public override void Serialize(GenericWriter writer)

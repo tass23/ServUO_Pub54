@@ -1,20 +1,26 @@
 using System;
-using Server.Items;
 using Server.Engines.Quests;
 
 namespace Server.Mobiles
 {
-    public class Dierdre : HumilityQuestMobile
+    public class Maribel : HumilityQuestMobile
     {
-        public override int Greeting { get { return 1075744; } }
+        public override int Greeting { get { return 1075754; } }
+
+        public override bool IsActiveVendor { get { return true; } }
 
         [Constructable]
-        public Dierdre()
-            : base("Dierdre", "the Beggar")
+        public Maribel()
+            : base("Maribel", "the Waitress")
         {
         }
 
-        public Dierdre(Serial serial)
+        public override void InitSBInfo()
+        {
+            SBInfos.Add(new SBWaiter());
+        }
+
+        public Maribel(Serial serial)
             : base(serial)
         {
         }
@@ -27,17 +33,15 @@ namespace Server.Mobiles
             this.Race = Race.Human;
             this.Body = 0x191;
 
-            this.Hue = Race.RandomSkinHue();
-            this.HairItemID = Race.RandomHair(true);
-            this.HairHue = Race.RandomHairHue();
+            this.Hue = 0x83EA;
+            this.HairItemID = 0x2049;
         }
 
         public override void InitOutfit()
         {
-            this.AddItem(new Backpack());
-            this.AddItem(new Sandals());
-            this.AddItem(new FancyShirt());
-            this.AddItem(new PlainDress());
+            this.AddItem(new Server.Items.Backpack());
+            this.AddItem(new Server.Items.Sandals());
+            this.AddItem(new Server.Items.FancyDress(2205));
         }
 
         public override void Serialize(GenericWriter writer)

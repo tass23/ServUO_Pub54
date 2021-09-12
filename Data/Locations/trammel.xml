@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <places>
-	<parent name="Felucca">
-		<parent name="Factions">
-			<parent name="Towns">
-				<child name="Britain" x="1592" y="1680" z="10" />
-				<child name="Magincia" x="3714" y="2235" z="20" />
-				<child name="Minoc" x="2471" y="439" z="15" />
-				<child name="Moonglow" x="4436" y="1083" z="0" />
-				<child name="Skara Brae" x="576" y="2200" z="0" />
-				<child name="Trinsic" x="1914" y=" 2717" z="20" />
-				<child name="Vesper" x="2982" y=" 818" z="0" />
-				<child name="Yew" x="548" y=" 979" z="0" />
-			</parent>
-			<child name="Council of Mages" x="3750" y="2241" z="20" />
-			<child name="Minax" x="1172" y="2593" z="0" />
-			<child name="Shadowlords" x="969" y="768" z="0" />
-			<child name="True Britannians" x="1419" y="1622" z="20" />
-		</parent>
+	<parent name="Trammel">
 		<parent name="Dungeons">
 			<parent name="Blighted Grove">
 				<child name="Entrance" x="586" y="1643" z="-5" />
@@ -137,11 +121,6 @@
 					<child name="Entrance" x="5732" y="1858" z="0" />
 				</parent>
 			</parent>
-			<parent name="Khaldun">
-				<child name="Entrance 1" x="6009" y="3775" z="19" />
-				<child name="Entrance 2" x="5882" y="3819" z="-1" />
-				<child name="Level 1" x="5571" y="1302" z="0" />
-			</parent>
 		</parent>
 		<parent name="Internal">
 			<parent name="Jail Cells">
@@ -192,6 +171,9 @@
 				<child name="Guard Post" x="2218" y="1116" z="19" />
 				<child name="Orc Fort" x="2171" y="1332" z="0" />
 			</parent>
+			<parent name="Heartwood">
+				<child name="Entrance" x="6986" y="340" z="0" />
+			</parent>
 			<parent name="Jhelom">
 				<child name="Cemetery" x="1296" y="3719" z="0" />
 				<child name="East Docks" x="1492" y="3696" z="-3" />
@@ -229,10 +211,12 @@
 				<child name="Palace" x="3698" y="1279" z="20" />
 				<child name="West" x="3572" y="1211" z="0" />
 			</parent>
-			<parent name="Ocllo">
-				<child name="Docks" x="3650" y="2653" z="0" />
+			<parent name="Haven">
+				<child name="Old Haven" x="3650" y="2592" z="0" />
+				<child name="Old Haven North" x="3650" y="2516" z="0" />
+				<child name="New Haven" x="3506" y="2570" z="14" />
+				<child name="New Haven North" x="3502" y="2475" z="34" />
 				<child name="Farmlands" x="3722" y="2647" z="20" />
-				<child name="North" x="3650" y="2516" z="0" />
 			</parent>
 			<parent name="Serpents Hold">
 				<child name="North" x="3023" y="3417" z="15" />

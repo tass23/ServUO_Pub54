@@ -2,17 +2,16 @@ using System;
 
 namespace Server.Items
 {
-    public class AcidProofRobe : Robe
+    public class ANecromancerShroud : Robe
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AcidProofRobe()
+        public ANecromancerShroud()
         {
             this.Hue = 0x455;
-            this.LootType = LootType.Blessed;
         }
 
-        public AcidProofRobe(Serial serial)
+        public ANecromancerShroud(Serial serial)
             : base(serial)
         {
         }
@@ -21,14 +20,14 @@ namespace Server.Items
         {
             get
             {
-                return 1095236;
+                return 1094913;
             }
-        }// Acid-Proof Robe [Replica]
-        public override int BaseFireResistance
+        }// A Necromancer Shroud [Replica]
+        public override int BaseColdResistance
         {
             get
             {
-                return 4;
+                return 5;
             }
         }
         public override int InitMinHits
@@ -56,7 +55,7 @@ namespace Server.Items
         {
             base.Serialize(writer);
 
-            writer.Write((int)1);
+            writer.Write((int)0);
         }
 
         public override void Deserialize(GenericReader reader)
@@ -64,11 +63,6 @@ namespace Server.Items
             base.Deserialize(reader);
 
             int version = reader.ReadInt();
-
-            if (version < 1 && this.Hue == 1)
-            {
-                this.Hue = 0x455;
-            }
         }
     }
 }

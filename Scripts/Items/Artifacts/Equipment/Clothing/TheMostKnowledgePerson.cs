@@ -2,17 +2,20 @@ using System;
 
 namespace Server.Items
 {
-    public class AcidProofRobe : Robe
+    public class TheMostKnowledgePerson : BaseOuterTorso
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AcidProofRobe()
+        public TheMostKnowledgePerson()
+            : base(0x2684)
         {
-            this.Hue = 0x455;
-            this.LootType = LootType.Blessed;
+            this.Hue = 0x117;
+            this.StrRequirement = 0;
+
+            this.Attributes.BonusHits = 3 + Utility.RandomMinMax(0, 2);
         }
 
-        public AcidProofRobe(Serial serial)
+        public TheMostKnowledgePerson(Serial serial)
             : base(serial)
         {
         }
@@ -21,16 +24,9 @@ namespace Server.Items
         {
             get
             {
-                return 1095236;
+                return 1094893;
             }
-        }// Acid-Proof Robe [Replica]
-        public override int BaseFireResistance
-        {
-            get
-            {
-                return 4;
-            }
-        }
+        }// The Most Knowledge Person [Replica]
         public override int InitMinHits
         {
             get
@@ -52,11 +48,18 @@ namespace Server.Items
                 return false;
             }
         }
+        public override bool CanBeBlessed
+        {
+            get
+            {
+                return false;
+            }
+        }
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)1);
+            writer.Write((int)0);
         }
 
         public override void Deserialize(GenericReader reader)
@@ -64,11 +67,6 @@ namespace Server.Items
             base.Deserialize(reader);
 
             int version = reader.ReadInt();
-
-            if (version < 1 && this.Hue == 1)
-            {
-                this.Hue = 0x455;
-            }
         }
     }
 }

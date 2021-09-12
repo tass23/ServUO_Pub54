@@ -2,17 +2,20 @@ using System;
 
 namespace Server.Items
 {
-    public class AcidProofRobe : Robe
+    public class CrownOfTalKeesh : Bandana
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AcidProofRobe()
+        public CrownOfTalKeesh()
         {
-            this.Hue = 0x455;
-            this.LootType = LootType.Blessed;
+            this.Hue = 0x4F2;
+
+            this.Attributes.BonusInt = 8;
+            this.Attributes.RegenMana = 4;
+            this.Attributes.SpellDamage = 10;
         }
 
-        public AcidProofRobe(Serial serial)
+        public CrownOfTalKeesh(Serial serial)
             : base(serial)
         {
         }
@@ -21,14 +24,42 @@ namespace Server.Items
         {
             get
             {
-                return 1095236;
+                return 1094903;
             }
-        }// Acid-Proof Robe [Replica]
+        }// Crown of Tal'Keesh [Replica]
+        public override int BasePhysicalResistance
+        {
+            get
+            {
+                return 0;
+            }
+        }
         public override int BaseFireResistance
         {
             get
             {
-                return 4;
+                return 5;
+            }
+        }
+        public override int BaseColdResistance
+        {
+            get
+            {
+                return 9;
+            }
+        }
+        public override int BasePoisonResistance
+        {
+            get
+            {
+                return 20;
+            }
+        }
+        public override int BaseEnergyResistance
+        {
+            get
+            {
+                return 20;
             }
         }
         public override int InitMinHits
@@ -56,7 +87,7 @@ namespace Server.Items
         {
             base.Serialize(writer);
 
-            writer.Write((int)1);
+            writer.Write((int)0);
         }
 
         public override void Deserialize(GenericReader reader)
@@ -64,11 +95,6 @@ namespace Server.Items
             base.Deserialize(reader);
 
             int version = reader.ReadInt();
-
-            if (version < 1 && this.Hue == 1)
-            {
-                this.Hue = 0x455;
-            }
         }
     }
 }

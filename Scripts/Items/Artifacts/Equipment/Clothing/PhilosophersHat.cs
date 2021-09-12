@@ -2,17 +2,19 @@ using System;
 
 namespace Server.Items
 {
-    public class AcidProofRobe : Robe
+    public class PhilosophersHat : WizardsHat
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AcidProofRobe()
+        public PhilosophersHat()
         {
-            this.Hue = 0x455;
             this.LootType = LootType.Blessed;
+
+            this.Attributes.RegenMana = 1;
+            this.Attributes.LowerRegCost = 7;
         }
 
-        public AcidProofRobe(Serial serial)
+        public PhilosophersHat(Serial serial)
             : base(serial)
         {
         }
@@ -21,54 +23,56 @@ namespace Server.Items
         {
             get
             {
-                return 1095236;
+                return 1077602;
             }
-        }// Acid-Proof Robe [Replica]
+        }// Philosopher's Hat
+        public override int BasePhysicalResistance
+        {
+            get
+            {
+                return 5;
+            }
+        }
         public override int BaseFireResistance
         {
             get
             {
-                return 4;
+                return 5;
             }
         }
-        public override int InitMinHits
+        public override int BaseColdResistance
         {
             get
             {
-                return 150;
+                return 9;
             }
         }
-        public override int InitMaxHits
+        public override int BasePoisonResistance
         {
             get
             {
-                return 150;
+                return 5;
             }
         }
-        public override bool CanFortify
+        public override int BaseEnergyResistance
         {
             get
             {
-                return false;
+                return 5;
             }
         }
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)1);
+            writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
 
-            int version = reader.ReadInt();
-
-            if (version < 1 && this.Hue == 1)
-            {
-                this.Hue = 0x455;
-            }
+            int version = reader.ReadEncodedInt();
         }
     }
 }

@@ -2,17 +2,18 @@ using System;
 
 namespace Server.Items
 {
-    public class AcidProofRobe : Robe
+    public class DetectiveBoots : Boots
 	{
 		public override bool IsArtifact { get { return true; } }
+        private int m_Level;
         [Constructable]
-        public AcidProofRobe()
+        public DetectiveBoots()
         {
             this.Hue = 0x455;
-            this.LootType = LootType.Blessed;
+            this.Level = Utility.RandomMinMax(0, 2);
         }
 
-        public AcidProofRobe(Serial serial)
+        public DetectiveBoots(Serial serial)
             : base(serial)
         {
         }
@@ -21,16 +22,9 @@ namespace Server.Items
         {
             get
             {
-                return 1095236;
+                return 1094894 + this.m_Level;
             }
-        }// Acid-Proof Robe [Replica]
-        public override int BaseFireResistance
-        {
-            get
-            {
-                return 4;
-            }
-        }
+        }// [Quality] Detective of the Royal Guard [Replica]
         public override int InitMinHits
         {
             get
@@ -52,11 +46,25 @@ namespace Server.Items
                 return false;
             }
         }
+        [CommandProperty(AccessLevel.GameMaster)]
+        public int Level
+        {
+            get
+            {
+                return this.m_Level;
+            }
+            set
+            {
+                this.m_Level = Math.Max(Math.Min(2, value), 0);
+                this.Attributes.BonusInt = 2 + this.m_Level;
+                this.InvalidateProperties();
+            }
+        }
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)1);
+            writer.Write((int)0);
         }
 
         public override void Deserialize(GenericReader reader)
@@ -65,10 +73,7 @@ namespace Server.Items
 
             int version = reader.ReadInt();
 
-            if (version < 1 && this.Hue == 1)
-            {
-                this.Hue = 0x455;
-            }
+            this.Level = this.Attributes.BonusInt - 2;
         }
     }
 }

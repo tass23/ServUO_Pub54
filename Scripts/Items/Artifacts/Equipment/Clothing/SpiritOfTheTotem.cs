@@ -2,17 +2,20 @@ using System;
 
 namespace Server.Items
 {
-    public class AcidProofRobe : Robe
+    public class SpiritOfTheTotem : BearMask
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AcidProofRobe()
+        public SpiritOfTheTotem()
         {
             this.Hue = 0x455;
-            this.LootType = LootType.Blessed;
+
+            this.Attributes.BonusStr = 20;
+            this.Attributes.ReflectPhysical = 15;
+            this.Attributes.AttackChance = 15;
         }
 
-        public AcidProofRobe(Serial serial)
+        public SpiritOfTheTotem(Serial serial)
             : base(serial)
         {
         }
@@ -21,35 +24,35 @@ namespace Server.Items
         {
             get
             {
-                return 1095236;
+                return 1061599;
             }
-        }// Acid-Proof Robe [Replica]
-        public override int BaseFireResistance
+        }// Spirit of the Totem
+        public override int ArtifactRarity
         {
             get
             {
-                return 4;
+                return 11;
+            }
+        }
+        public override int BasePhysicalResistance
+        {
+            get
+            {
+                return 20;
             }
         }
         public override int InitMinHits
         {
             get
             {
-                return 150;
+                return 255;
             }
         }
         public override int InitMaxHits
         {
             get
             {
-                return 150;
-            }
-        }
-        public override bool CanFortify
-        {
-            get
-            {
-                return false;
+                return 255;
             }
         }
         public override void Serialize(GenericWriter writer)
@@ -65,9 +68,13 @@ namespace Server.Items
 
             int version = reader.ReadInt();
 
-            if (version < 1 && this.Hue == 1)
+            switch ( version )
             {
-                this.Hue = 0x455;
+                case 0:
+                    {
+                        this.Resistances.Physical = 0;
+                        break;
+                    }
             }
         }
     }

@@ -6,16 +6,16 @@ using Server.Gumps;
 
 namespace Server.Items
 {
-    public class ForTheLifeOfBritanniaSash : BodySash
+    public class SpecialPrintingOfVirtue : Item
     {
-        public override int LabelNumber { get { return 1075792; } } // For the Life of Britannia Sash
+        public override int LabelNumber { get { return 1075793; } } // Special Printing of 'Virtue' by Lord British
 
         [Constructable]
-        public ForTheLifeOfBritanniaSash()
+        public SpecialPrintingOfVirtue() : base(4082)
         {
         }
 
-        public ForTheLifeOfBritanniaSash(Serial serial)
+        public SpecialPrintingOfVirtue(Serial serial)
             : base(serial)
         {
         }

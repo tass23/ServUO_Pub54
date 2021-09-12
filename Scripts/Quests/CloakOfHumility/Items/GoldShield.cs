@@ -6,16 +6,16 @@ using Server.Gumps;
 
 namespace Server.Items
 {
-    public class ForTheLifeOfBritanniaSash : BodySash
+    public class GoldShield : OrderShield
     {
-        public override int LabelNumber { get { return 1075792; } } // For the Life of Britannia Sash
-
         [Constructable]
-        public ForTheLifeOfBritanniaSash()
+        public GoldShield()
         {
+            Name = "a gold shield";
+            Hue = 0x501;
         }
 
-        public ForTheLifeOfBritanniaSash(Serial serial)
+        public GoldShield(Serial serial)
             : base(serial)
         {
         }

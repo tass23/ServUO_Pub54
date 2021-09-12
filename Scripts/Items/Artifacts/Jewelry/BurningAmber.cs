@@ -2,31 +2,27 @@ using System;
 
 namespace Server.Items
 {
-    public class AlchemistsBauble : GoldBracelet
+    public class BurningAmber : GoldRing
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AlchemistsBauble()
+        public BurningAmber()
         {
-            this.Hue = 0x290;
-            this.SkillBonuses.SetValues(0, SkillName.Magery, 10.0);
-            this.Attributes.EnhancePotions = 30;
-            this.Attributes.LowerRegCost = 20;
-            this.Resistances.Poison = 10;
+            this.Name = ("Burning Amber");
+		
+            this.Hue = 1174;	
+		
+            this.Attributes.CastRecovery = 3;
+            this.Attributes.RegenMana = 2;
+            this.Attributes.BonusDex = 5;
+            this.Resistances.Fire = 20;
         }
 
-        public AlchemistsBauble(Serial serial)
+        public BurningAmber(Serial serial)
             : base(serial)
         {
         }
 
-        public override int LabelNumber
-        {
-            get
-            {
-                return 1070638;
-            }
-        }
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
@@ -39,6 +35,9 @@ namespace Server.Items
             base.Deserialize(reader);
 
             int version = reader.ReadInt();
+
+            if (this.Hue == 0x4F4)
+                this.Hue = 0x4F7;
         }
     }
 }

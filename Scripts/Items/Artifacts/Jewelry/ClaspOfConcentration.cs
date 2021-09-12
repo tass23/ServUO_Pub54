@@ -2,20 +2,21 @@ using System;
 
 namespace Server.Items
 {
-    public class AlchemistsBauble : GoldBracelet
+    public class ClaspOfConcentration : SilverBracelet
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AlchemistsBauble()
+        public ClaspOfConcentration()
         {
-            this.Hue = 0x290;
-            this.SkillBonuses.SetValues(0, SkillName.Magery, 10.0);
-            this.Attributes.EnhancePotions = 30;
-            this.Attributes.LowerRegCost = 20;
-            this.Resistances.Poison = 10;
+            this.LootType = LootType.Blessed;
+
+            this.Attributes.RegenStam = 2;
+            this.Attributes.RegenMana = 1;
+            this.Resistances.Fire = 5;
+            this.Resistances.Cold = 5;
         }
 
-        public AlchemistsBauble(Serial serial)
+        public ClaspOfConcentration(Serial serial)
             : base(serial)
         {
         }
@@ -24,21 +25,21 @@ namespace Server.Items
         {
             get
             {
-                return 1070638;
+                return 1077695;
             }
-        }
+        }// Clasp of Concentration
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)0);
+            writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
 
-            int version = reader.ReadInt();
+            int version = reader.ReadEncodedInt();
         }
     }
 }

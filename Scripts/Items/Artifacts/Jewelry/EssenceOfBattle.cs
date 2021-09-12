@@ -2,20 +2,19 @@ using System;
 
 namespace Server.Items
 {
-    public class AlchemistsBauble : GoldBracelet
+    public class EssenceOfBattle : GoldRing
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AlchemistsBauble()
+        public EssenceOfBattle()
         {
-            this.Hue = 0x290;
-            this.SkillBonuses.SetValues(0, SkillName.Magery, 10.0);
-            this.Attributes.EnhancePotions = 30;
-            this.Attributes.LowerRegCost = 20;
-            this.Resistances.Poison = 10;
+            this.Hue = 0x550;
+            this.Attributes.BonusDex = 7;
+            this.Attributes.BonusStr = 7;
+            this.Attributes.WeaponDamage = 30;
         }
 
-        public AlchemistsBauble(Serial serial)
+        public EssenceOfBattle(Serial serial)
             : base(serial)
         {
         }
@@ -24,21 +23,21 @@ namespace Server.Items
         {
             get
             {
-                return 1070638;
+                return 1072935;
             }
-        }
+        }// Essence of Battle
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)0);
+            writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
 
-            int version = reader.ReadInt();
+            int version = reader.ReadEncodedInt();
         }
     }
 }

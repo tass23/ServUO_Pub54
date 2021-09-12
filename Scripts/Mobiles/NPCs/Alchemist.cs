@@ -1,36 +1,36 @@
 using System;
 using System.Collections.Generic;
-using Server.Items;
 
 namespace Server.Mobiles
 {
-    public class Abbein : BaseVendor
+    public class Alchemist : BaseVendor
     {
         private readonly List<SBInfo> m_SBInfos = new List<SBInfo>();
         [Constructable]
-        public Abbein()
-            : base("the wise")
-        { 
-            this.Name = "Elder Abbein";
+        public Alchemist()
+            : base("the alchemist")
+        {
+            this.SetSkill(SkillName.Alchemy, 85.0, 100.0);
+            this.SetSkill(SkillName.TasteID, 65.0, 88.0);
         }
 
-        public Abbein(Serial serial)
+        public Alchemist(Serial serial)
             : base(serial)
         {
         }
 
-        public override bool CanTeach
+        public override NpcGuild NpcGuild
         {
             get
             {
-                return false;
+                return NpcGuild.MagesGuild;
             }
         }
-        public override bool IsInvulnerable
+        public override VendorShoeType ShoeType
         {
             get
             {
-                return true;
+                return Utility.RandomBool() ? VendorShoeType.Shoes : VendorShoeType.Sandals;
             }
         }
         protected override List<SBInfo> SBInfos
@@ -41,39 +41,28 @@ namespace Server.Mobiles
             }
         }
         public override void InitSBInfo()
-        { 
-        }
-
-        public override void InitBody()
         {
-            this.InitStats(100, 100, 25);
-			
-            this.Female = true;
-            this.Race = Race.Elf;
-			
-            this.Hue = 0x824D;
-            this.HairItemID = 0x2FD1;
-            this.HairHue = 0x321;			
+            this.m_SBInfos.Add(new SBAlchemist());
         }
 
         public override void InitOutfit()
         {
-            this.AddItem(new ElvenBoots(0x74B));
-            this.AddItem(new FemaleElvenRobe(0x8A8));
-            this.AddItem(new RoyalCirclet());
+            base.InitOutfit();
+
+            this.AddItem(new Server.Items.Robe(Utility.RandomPinkHue()));
         }
 
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-	
+
             writer.Write((int)0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-	
+
             int version = reader.ReadInt();
         }
     }

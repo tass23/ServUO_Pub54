@@ -4,17 +4,17 @@ using Server.Items;
 
 namespace Server.Mobiles
 {
-    public class Abbein : BaseVendor
+    public class Bolaevin : BaseVendor
     {
         private readonly List<SBInfo> m_SBInfos = new List<SBInfo>();
         [Constructable]
-        public Abbein()
-            : base("the wise")
+        public Bolaevin()
+            : base("the arcanist")
         { 
-            this.Name = "Elder Abbein";
+            this.Name = "Bolaevin";
         }
 
-        public Abbein(Serial serial)
+        public Bolaevin(Serial serial)
             : base(serial)
         {
         }
@@ -48,19 +48,26 @@ namespace Server.Mobiles
         {
             this.InitStats(100, 100, 25);
 			
-            this.Female = true;
+            this.Female = false;
             this.Race = Race.Elf;
 			
-            this.Hue = 0x824D;
-            this.HairItemID = 0x2FD1;
-            this.HairHue = 0x321;			
+            this.Hue = 0x84DE;
+            this.HairItemID = 0x2FC0;
+            this.HairHue = 0x36;			
         }
 
         public override void InitOutfit()
         {
-            this.AddItem(new ElvenBoots(0x74B));
-            this.AddItem(new FemaleElvenRobe(0x8A8));
+            this.AddItem(new ElvenBoots(0x3B3));
             this.AddItem(new RoyalCirclet());
+            this.AddItem(new LeafChest());
+            this.AddItem(new LeafArms());
+			
+            Item item;
+			
+            item = new LeafLegs();
+            item.Hue = 0x1BB;
+            this.AddItem(item);
         }
 
         public override void Serialize(GenericWriter writer)

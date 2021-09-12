@@ -2,14 +2,14 @@ using System;
 
 namespace Server.Items
 {
-    public class PaladinArms : PlateArms
+    public class PaladinHelm : PlateHelm
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public PaladinArms()
+        public PaladinHelm()
             : base()
         {
-            this.SetHue = 0x47E;			
+            this.SetHue = 0x47E;					
 			
             this.Attributes.RegenHits = 1;
             this.Attributes.AttackChance = 5;
@@ -28,7 +28,7 @@ namespace Server.Items
             this.SetEnergyBonus = 5;
         }
 
-        public PaladinArms(Serial serial)
+        public PaladinHelm(Serial serial)
             : base(serial)
         {
         }
@@ -58,35 +58,35 @@ namespace Server.Items
         {
             get
             {
-                return 8;
+                return 4;
             }
         }
         public override int BaseFireResistance
         {
             get
             {
-                return 5;
+                return 9;
             }
         }
         public override int BaseColdResistance
         {
             get
             {
-                return 5;
+                return 3;
             }
         }
         public override int BasePoisonResistance
         {
             get
             {
-                return 7;
+                return 6;
             }
         }
         public override int BaseEnergyResistance
         {
             get
             {
-                return 5;
+                return 8;
             }
         }
         public override void Serialize(GenericWriter writer)

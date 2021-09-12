@@ -2,11 +2,11 @@ using System;
 
 namespace Server.Items
 {
-    public class PaladinArms : PlateArms
+    public class PaladinLegs : PlateLegs
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public PaladinArms()
+        public PaladinLegs()
             : base()
         {
             this.SetHue = 0x47E;			
@@ -28,7 +28,7 @@ namespace Server.Items
             this.SetEnergyBonus = 5;
         }
 
-        public PaladinArms(Serial serial)
+        public PaladinLegs(Serial serial)
             : base(serial)
         {
         }

@@ -2,21 +2,21 @@ using System;
 
 namespace Server.Items
 {
-    [FlipableAttribute(0x144f, 0x1454)]
-    public class DaemonChest : BaseArmor
+    [FlipableAttribute(0x1452, 0x1457)]
+    public class DaemonLegs : BaseArmor
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public DaemonChest()
-            : base(0x144F)
+        public DaemonLegs()
+            : base(0x1452)
         {
-            this.Weight = 6.0;
+            this.Weight = 3.0;
             this.Hue = 0x648;
 
             this.ArmorAttributes.SelfRepair = 1;
         }
 
-        public DaemonChest(Serial serial)
+        public DaemonLegs(Serial serial)
             : base(serial)
         {
         }
@@ -74,7 +74,7 @@ namespace Server.Items
         {
             get
             {
-                return 60;
+                return 55;
             }
         }
         public override int OldStrReq
@@ -88,7 +88,7 @@ namespace Server.Items
         {
             get
             {
-                return -6;
+                return -4;
             }
         }
         public override int ArmorBase
@@ -116,24 +116,19 @@ namespace Server.Items
         {
             get
             {
-                return 1041372;
+                return 1041375;
             }
-        }// daemon bone armor
+        }// daemon bone leggings
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
             writer.Write((int)0);
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
             int version = reader.ReadInt();
-
-            if (this.Weight == 1.0)
-                this.Weight = 6.0;
 
             if (this.ArmorAttributes.SelfRepair == 0)
                 this.ArmorAttributes.SelfRepair = 1;

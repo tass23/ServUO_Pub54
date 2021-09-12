@@ -2,15 +2,15 @@ using System;
 
 namespace Server.Items
 {
-    public class Shell : Item
+    public class FishBones : Item
     {
         [Constructable]
-        public Shell()
-            : base(Utility.RandomList(0x3B12, 0x3B13))
+        public FishBones()
+            : base(0x3B0C)
         {
         }
 
-        public Shell(Serial serial)
+        public FishBones(Serial serial)
             : base(serial)
         {
         }
@@ -19,9 +19,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074598;
+                return 1074601;
             }
-        }// A shell
+        }// Fish bones
         public override double DefaultWeight
         {
             get

@@ -2,15 +2,16 @@ using System;
 
 namespace Server.Items
 {
-    public class Shell : Item
+    [FlipableAttribute(0x14F3, 0x14F4)]
+    public class ToyBoat : Item
     {
         [Constructable]
-        public Shell()
-            : base(Utility.RandomList(0x3B12, 0x3B13))
+        public ToyBoat()
+            : base(0x14F4)
         {
         }
 
-        public Shell(Serial serial)
+        public ToyBoat(Serial serial)
             : base(serial)
         {
         }
@@ -19,9 +20,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074598;
+                return 1074363;
             }
-        }// A shell
+        }// A toy boat
         public override double DefaultWeight
         {
             get

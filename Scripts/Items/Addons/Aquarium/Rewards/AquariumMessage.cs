@@ -2,15 +2,15 @@ using System;
 
 namespace Server.Items
 {
-    public class Shell : Item
+    public class AquariumMessage : MessageInABottle
     {
         [Constructable]
-        public Shell()
-            : base(Utility.RandomList(0x3B12, 0x3B13))
+        public AquariumMessage()
+            : base()
         {
         }
 
-        public Shell(Serial serial)
+        public AquariumMessage(Serial serial)
             : base(serial)
         {
         }
@@ -19,16 +19,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074598;
+                return 1073894;
             }
-        }// A shell
-        public override double DefaultWeight
-        {
-            get
-            {
-                return 1.0;
-            }
-        }
+        }// Message in a Bottle
         public override void AddNameProperties(ObjectPropertyList list)
         {
             base.AddNameProperties(list);

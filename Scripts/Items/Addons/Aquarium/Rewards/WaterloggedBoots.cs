@@ -2,15 +2,27 @@ using System;
 
 namespace Server.Items
 {
-    public class Shell : Item
+    public class WaterloggedBoots : BaseShoes
     {
         [Constructable]
-        public Shell()
-            : base(Utility.RandomList(0x3B12, 0x3B13))
+        public WaterloggedBoots()
+            : base(0x1711)
         {
+            if (Utility.RandomBool())
+            {
+                // thigh boots
+                this.ItemID = 0x1711;
+                this.Weight = 4.0;
+            }
+            else
+            {
+                // boots
+                this.ItemID = 0x170B;
+                this.Weight = 3.0;
+            }
         }
 
-        public Shell(Serial serial)
+        public WaterloggedBoots(Serial serial)
             : base(serial)
         {
         }
@@ -19,16 +31,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074598;
+                return 1074364;
             }
-        }// A shell
-        public override double DefaultWeight
-        {
-            get
-            {
-                return 1.0;
-            }
-        }
+        }// Waterlogged boots
         public override void AddNameProperties(ObjectPropertyList list)
         {
             base.AddNameProperties(list);

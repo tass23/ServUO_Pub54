@@ -3,37 +3,29 @@ using Server.Network;
 
 namespace Server.Items
 {
-	[FlipableAttribute(0x1765, 0x1767)]
-    public class AbyssalCloth : Item, ICommodity, IScissorable
+    [FlipableAttribute(0xF95, 0xF96, 0xF97, 0xF98, 0xF99, 0xF9A, 0xF9B, 0xF9C)]
+    public class BoltOfCloth : Item, IScissorable, IDyable, ICommodity
     {
         [Constructable]
-        public AbyssalCloth()
+        public BoltOfCloth()
             : this(1)
         {
         }
 
         [Constructable]
-        public AbyssalCloth(int amount)
-            : base(0x1767)
+        public BoltOfCloth(int amount)
+            : base(0xF95)
         {
             this.Stackable = true;
-            this.Amount = amount;			
-			this.Hue = 2075;
+            this.Weight = 5.0;
+            this.Amount = amount;
         }
 
-        public AbyssalCloth(Serial serial)
+        public BoltOfCloth(Serial serial)
             : base(serial)
         {
         }
 
-        public override int LabelNumber
-        {
-            get
-            {
-                return 1113350;
-            }
-        }// abyssal cloth
-		
         int ICommodity.DescriptionNumber
         {
             get
@@ -48,7 +40,16 @@ namespace Server.Items
                 return true;
             }
         }
-		
+        public bool Dye(Mobile from, DyeTub sender)
+        {
+            if (this.Deleted)
+                return false;
+
+            this.Hue = sender.DyedHue;
+
+            return true;
+        }
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
@@ -62,22 +63,22 @@ namespace Server.Items
 
             int version = reader.ReadInt();
         }
-		
-		public override void OnSingleClick(Mobile from)
-        {
-            int number = (this.Amount == 1) ? 1049124 : 1049123;
 
-            from.Send(new MessageLocalized(this.Serial, this.ItemID, MessageType.Regular, 0x3B2, 3, number, "", this.Amount.ToString()));
-        }
-		
-		public bool Scissor(Mobile from, Scissors scissors)
+        public bool Scissor(Mobile from, Scissors scissors)
         {
             if (this.Deleted || !from.CanSee(this))
                 return false;
 
-            base.ScissorHelper(from, new Bandage(), 1);
+            base.ScissorHelper(from, new Cloth(), 50);
 
             return true;
+        }
+
+        public override void OnSingleClick(Mobile from)
+        {
+            int number = (this.Amount == 1) ? 1049122 : 1049121;
+
+            from.Send(new MessageLocalized(this.Serial, this.ItemID, MessageType.Label, 0x3B2, 3, number, "", (this.Amount * 50).ToString()));
         }
     }
 }

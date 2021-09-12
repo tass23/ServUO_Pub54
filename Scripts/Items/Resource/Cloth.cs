@@ -3,37 +3,35 @@ using Server.Network;
 
 namespace Server.Items
 {
-	[FlipableAttribute(0x1765, 0x1767)]
-    public class AbyssalCloth : Item, ICommodity, IScissorable
+    [FlipableAttribute(0x1766, 0x1768)]
+    public class Cloth : Item, IScissorable, IDyable, ICommodity
     {
         [Constructable]
-        public AbyssalCloth()
+        public Cloth()
             : this(1)
         {
         }
 
         [Constructable]
-        public AbyssalCloth(int amount)
-            : base(0x1767)
+        public Cloth(int amount)
+            : base(0x1766)
         {
             this.Stackable = true;
-            this.Amount = amount;			
-			this.Hue = 2075;
+            this.Amount = amount;
         }
 
-        public AbyssalCloth(Serial serial)
+        public Cloth(Serial serial)
             : base(serial)
         {
         }
 
-        public override int LabelNumber
+        public override double DefaultWeight
         {
             get
             {
-                return 1113350;
+                return 0.1;
             }
-        }// abyssal cloth
-		
+        }
         int ICommodity.DescriptionNumber
         {
             get
@@ -48,7 +46,16 @@ namespace Server.Items
                 return true;
             }
         }
-		
+        public bool Dye(Mobile from, DyeTub sender)
+        {
+            if (this.Deleted)
+                return false;
+
+            this.Hue = sender.DyedHue;
+
+            return true;
+        }
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
@@ -62,15 +69,15 @@ namespace Server.Items
 
             int version = reader.ReadInt();
         }
-		
-		public override void OnSingleClick(Mobile from)
+
+        public override void OnSingleClick(Mobile from)
         {
             int number = (this.Amount == 1) ? 1049124 : 1049123;
 
             from.Send(new MessageLocalized(this.Serial, this.ItemID, MessageType.Regular, 0x3B2, 3, number, "", this.Amount.ToString()));
         }
-		
-		public bool Scissor(Mobile from, Scissors scissors)
+
+        public bool Scissor(Mobile from, Scissors scissors)
         {
             if (this.Deleted || !from.CanSee(this))
                 return false;

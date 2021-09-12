@@ -2,11 +2,11 @@ using System;
 
 namespace Server.Items
 {
-    public class MyrmidonArms : StuddedArms
+    public class MyrmidonChest : StuddedChest
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public MyrmidonArms()
+        public MyrmidonChest()
             : base()
         {
             this.SetHue = 0x331;
@@ -26,7 +26,7 @@ namespace Server.Items
             this.SetEnergyBonus = 3;
         }
 
-        public MyrmidonArms(Serial serial)
+        public MyrmidonChest(Serial serial)
             : base(serial)
         {
         }

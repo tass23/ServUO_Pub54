@@ -2,11 +2,11 @@ using System;
 
 namespace Server.Items
 {
-    public class MyrmidonArms : StuddedArms
+    public class MyrmidonGorget : StuddedGorget
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public MyrmidonArms()
+        public MyrmidonGorget()
             : base()
         {
             this.SetHue = 0x331;
@@ -17,8 +17,7 @@ namespace Server.Items
             this.SetAttributes.Luck = 500;
             this.SetAttributes.NightSight = 1;
 			
-            this.SetSelfRepair = 3;
-			
+            this.SetSelfRepair = 3;			
             this.SetPhysicalBonus = 3;
             this.SetFireBonus = 3;
             this.SetColdBonus = 3;
@@ -26,7 +25,7 @@ namespace Server.Items
             this.SetEnergyBonus = 3;
         }
 
-        public MyrmidonArms(Serial serial)
+        public MyrmidonGorget(Serial serial)
             : base(serial)
         {
         }

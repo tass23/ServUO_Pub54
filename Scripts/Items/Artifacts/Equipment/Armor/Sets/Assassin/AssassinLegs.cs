@@ -2,11 +2,11 @@ using System;
 
 namespace Server.Items
 {
-    public class AssassinArms : LeatherArms
+    public class AssassinLegs : LeatherLegs
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AssassinArms()
+        public AssassinLegs()
             : base()
         {
             this.SetHue = 0x455;
@@ -27,7 +27,7 @@ namespace Server.Items
             this.SetEnergyBonus = 4;
         }
 
-        public AssassinArms(Serial serial)
+        public AssassinLegs(Serial serial)
             : base(serial)
         {
         }
@@ -99,7 +99,7 @@ namespace Server.Items
         {
             base.Deserialize(reader);
 			
-            int version = reader.ReadInt(); 
+            int version = reader.ReadInt();
         }
     }
 }

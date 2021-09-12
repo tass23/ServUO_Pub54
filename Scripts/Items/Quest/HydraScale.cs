@@ -2,17 +2,16 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    public class HydraScale : Item
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public HydraScale()
+            : base(0x26B4)
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
+            this.Hue = 0xC2; // TODO check
         }
 
-        public AbscessTail(Serial serial)
+        public HydraScale(Serial serial)
             : base(serial)
         {
         }
@@ -21,9 +20,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1074760;
             }
-        }// Abscess' Tail
+        }// A hydra scale.
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

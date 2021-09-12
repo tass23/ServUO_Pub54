@@ -2,17 +2,16 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    [Flipable(0x315C, 0x315D)]
+    public class HornOfTheDreadhorn : Item
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public HornOfTheDreadhorn()
+            : base(0x315C)
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
         }
 
-        public AbscessTail(Serial serial)
+        public HornOfTheDreadhorn(Serial serial)
             : base(serial)
         {
         }
@@ -21,9 +20,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1072089;
             }
-        }// Abscess' Tail
+        }// Horn of the Dread
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

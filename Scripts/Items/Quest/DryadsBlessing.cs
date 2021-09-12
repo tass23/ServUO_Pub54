@@ -2,39 +2,32 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    public class DryadsBlessing : PeerlessKey
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public DryadsBlessing()
+            : base(0x21C)
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
+            this.Weight = 1.0;
+            this.Hue = 0x488; // TOOD check
         }
 
-        public AbscessTail(Serial serial)
+        public DryadsBlessing(Serial serial)
             : base(serial)
         {
         }
 
-        public override int LabelNumber
-        {
-            get
-            {
-                return 1074231;
-            }
-        }// Abscess' Tail
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
+			
             writer.Write((int)0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
+			
             int version = reader.ReadInt();
         }
     }

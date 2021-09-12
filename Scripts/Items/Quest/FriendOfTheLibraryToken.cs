@@ -2,17 +2,17 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    public class FriendOfTheLibraryToken : BaseTalisman
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public FriendOfTheLibraryToken()
+            : base(0x2F58)
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
+            this.Weight = 1.0;
+            this.Hue = 0x28A;
         }
 
-        public AbscessTail(Serial serial)
+        public FriendOfTheLibraryToken(Serial serial)
             : base(serial)
         {
         }
@@ -21,9 +21,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1073136;
             }
-        }// Abscess' Tail
+        }// Friend of the Library Token (allows donations to be made)
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

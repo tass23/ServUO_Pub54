@@ -2,17 +2,17 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    public class Bluekeyfragment : Item
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public Bluekeyfragment()
+            : base(0x1012)
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
+            this.Movable = false;
+            this.Hue = 0x5D;
         }
 
-        public AbscessTail(Serial serial)
+        public Bluekeyfragment(Serial serial)
             : base(serial)
         {
         }
@@ -21,20 +21,27 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1111646;
             }
-        }// Abscess' Tail
+        }
+        public override void OnDoubleClick(Mobile from)
+        {
+            from.SendMessage("You make a copy of the key in your pack");
+			
+            BlueKey1 bluekey = new BlueKey1();
+            if (!from.AddToBackpack(bluekey))
+                bluekey.Delete();
+        }
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
             writer.Write((int)0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
             int version = reader.ReadInt();
         }
     }

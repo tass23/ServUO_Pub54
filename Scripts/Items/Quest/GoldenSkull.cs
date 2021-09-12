@@ -1,18 +1,19 @@
 using System;
 
-namespace Server.Items
+namespace Server.Engines.Quests.Doom
 {
-    public class AbscessTail : Item
+    public class GoldenSkull : Item
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public GoldenSkull()
+            : base(Utility.Random(0x1AE2, 3))
         {
+            this.Weight = 1.0;
+            this.Hue = 0x8A5;
             this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
         }
 
-        public AbscessTail(Serial serial)
+        public GoldenSkull(Serial serial)
             : base(serial)
         {
         }
@@ -21,9 +22,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1061619;
             }
-        }// Abscess' Tail
+        }// a golden skull
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

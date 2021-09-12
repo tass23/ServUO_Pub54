@@ -2,17 +2,17 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    public class GrobusFur : Item
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public GrobusFur()
+            : base(0x11F4)
         {
             this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
+            this.Hue = 0x455;
         }
 
-        public AbscessTail(Serial serial)
+        public GrobusFur(Serial serial)
             : base(serial)
         {
         }
@@ -21,9 +21,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1074676;
             }
-        }// Abscess' Tail
+        }// Grobu's Fur
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

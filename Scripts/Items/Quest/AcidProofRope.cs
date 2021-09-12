@@ -2,17 +2,16 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    public class AcidProofRope : Item
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public AcidProofRope()
+            : base(0x20D)
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
+            this.Hue = 0x3D1; // TODO check
         }
 
-        public AbscessTail(Serial serial)
+        public AcidProofRope(Serial serial)
             : base(serial)
         {
         }
@@ -21,9 +20,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1074886;
             }
-        }// Abscess' Tail
+        }// Acid Proof Rope
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

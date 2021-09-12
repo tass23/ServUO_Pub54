@@ -2,17 +2,18 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    public class DreadSpiderSilk : Item
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public DreadSpiderSilk()
+            : base(0xDF8)
         {
             this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
+            this.Weight = 4.0;
+            this.Hue = 0x481;
         }
 
-        public AbscessTail(Serial serial)
+        public DreadSpiderSilk(Serial serial)
             : base(serial)
         {
         }
@@ -21,9 +22,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1075319;
             }
-        }// Abscess' Tail
+        }// Dread Spider Silk
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

@@ -2,17 +2,25 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    public class FlaskOfOil : Item
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public FlaskOfOil()
+            : this(1)
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
         }
 
-        public AbscessTail(Serial serial)
+        [Constructable]
+        public FlaskOfOil(int amount)
+            : base(0xEFF)
+        {
+            this.Stackable = true;
+            this.Weight = 1.0;
+            this.Amount = amount;
+            this.Hue = 33;
+        }
+
+        public FlaskOfOil(Serial serial)
             : base(serial)
         {
         }
@@ -21,9 +29,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1027199;
             }
-        }// Abscess' Tail
+        }
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

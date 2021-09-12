@@ -2,17 +2,26 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    public class GamanHorns : Item
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public GamanHorns()
+            : this(1)
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
         }
 
-        public AbscessTail(Serial serial)
+        [Constructable]
+        public GamanHorns(int amount)
+            : base(0x1084)
+        {
+            this.LootType = LootType.Blessed;
+            this.Stackable = true;
+            this.Amount = amount;
+            this.Weight = 1;
+            this.Hue = 0x395;
+        }
+
+        public GamanHorns(Serial serial)
             : base(serial)
         {
         }
@@ -21,9 +30,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1074557;
             }
-        }// Abscess' Tail
+        }// Gaman Horns
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

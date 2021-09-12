@@ -1,29 +1,29 @@
 using System;
+using Server.Mobiles;
 
-namespace Server.Items
+namespace Server.Engines.Quests.Necro
 {
-    public class AbscessTail : Item
+    public class DarkTidesHorn : HornOfRetreat
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public DarkTidesHorn()
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
+            this.DestLoc = new Point3D(2103, 1319, -68);
+            this.DestMap = Map.Malas;
         }
 
-        public AbscessTail(Serial serial)
+        public DarkTidesHorn(Serial serial)
             : base(serial)
         {
         }
 
-        public override int LabelNumber
+        public override bool ValidateUse(Mobile from)
         {
-            get
-            {
-                return 1074231;
-            }
-        }// Abscess' Tail
+            PlayerMobile pm = from as PlayerMobile;
+
+            return (pm != null && pm.Quest is DarkTidesQuest);
+        }
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

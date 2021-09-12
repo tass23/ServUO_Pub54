@@ -2,28 +2,25 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    public class BedlamKey : MasterKey
     {
-        [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public BedlamKey()
+            : base(0xFF3)
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
         }
 
-        public AbscessTail(Serial serial)
+        public BedlamKey(Serial serial)
             : base(serial)
         {
         }
 
-        public override int LabelNumber
+        public override int Lifespan
         {
             get
             {
-                return 1074231;
+                return 600;
             }
-        }// Abscess' Tail
+        }
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
@@ -36,6 +33,14 @@ namespace Server.Items
             base.Deserialize(reader);
 
             int version = reader.ReadInt();
+        }
+
+        public override bool CanOfferConfirmation(Mobile from)
+        {
+            if (from.Region != null && from.Region.IsPartOf("Bedlam"))
+                return base.CanOfferConfirmation(from);
+				
+            return false;
         }
     }
 }

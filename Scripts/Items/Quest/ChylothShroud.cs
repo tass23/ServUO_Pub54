@@ -1,29 +1,22 @@
 using System;
 
-namespace Server.Items
+namespace Server.Engines.Quests.Doom
 {
-    public class AbscessTail : Item
+    public class ChylothShroud : Item
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public ChylothShroud()
+            : base(0x204E)
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
+            this.Hue = 0x846;
+            this.Layer = Layer.OuterTorso;
         }
 
-        public AbscessTail(Serial serial)
+        public ChylothShroud(Serial serial)
             : base(serial)
         {
         }
 
-        public override int LabelNumber
-        {
-            get
-            {
-                return 1074231;
-            }
-        }// Abscess' Tail
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

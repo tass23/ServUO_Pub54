@@ -2,17 +2,17 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    public class DragonFlameKey : PeerlessKey
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public DragonFlameKey()
+            : base(0x1012)
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
+            this.Weight = 1.0;
+            this.Hue = 0x8F; // TODO check
         }
 
-        public AbscessTail(Serial serial)
+        public DragonFlameKey(Serial serial)
             : base(serial)
         {
         }
@@ -21,20 +21,20 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1074343;
             }
-        }// Abscess' Tail
+        }// dragon flame key
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
+			
             writer.Write((int)0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
+			
             int version = reader.ReadInt();
         }
     }

@@ -2,17 +2,17 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    public class CompletedTuitionReimbursementForm : Item
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public CompletedTuitionReimbursementForm()
+            : base(0x14F0)
         {
             this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
+            this.Weight = 1;
         }
 
-        public AbscessTail(Serial serial)
+        public CompletedTuitionReimbursementForm(Serial serial)
             : base(serial)
         {
         }
@@ -21,9 +21,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1074625;
             }
-        }// Abscess' Tail
+        }// Completed Tuition Reimbursement Form
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

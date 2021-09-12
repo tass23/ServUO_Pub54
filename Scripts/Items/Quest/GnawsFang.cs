@@ -2,17 +2,17 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
-    {
+    public class GnawsFang : PeerlessKey
+    { 
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public GnawsFang()
+            : base(0x10E8)
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
+            this.Weight = 1;
+            this.Hue = 0x174; // TODO check
         }
 
-        public AbscessTail(Serial serial)
+        public GnawsFang(Serial serial)
             : base(serial)
         {
         }
@@ -21,20 +21,20 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1074332;
             }
-        }// Abscess' Tail
+        }// gnaw's fang
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
+			
             writer.Write((int)0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
+			
             int version = reader.ReadInt();
         }
     }

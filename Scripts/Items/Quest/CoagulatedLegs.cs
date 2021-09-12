@@ -2,17 +2,16 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    public class CoagulatedLegs : PeerlessKey
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public CoagulatedLegs()
+            : base(0x1CDF)
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
+            this.Weight = 30.0;
         }
 
-        public AbscessTail(Serial serial)
+        public CoagulatedLegs(Serial serial)
             : base(serial)
         {
         }
@@ -21,20 +20,20 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1074327;
             }
-        }// Abscess' Tail
+        }// coagulated legs
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
-
+			
             writer.Write((int)0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
-
+			
             int version = reader.ReadInt();
         }
     }

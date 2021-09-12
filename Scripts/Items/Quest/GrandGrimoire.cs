@@ -1,18 +1,20 @@
 using System;
 
-namespace Server.Items
+namespace Server.Engines.Quests.Doom
 {
-    public class AbscessTail : Item
+    public class GrandGrimoire : Item
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public GrandGrimoire()
+            : base(0xEFA)
         {
+            this.Weight = 1.0;
+            this.Hue = 0x835;
+            this.Layer = Layer.OneHanded;
             this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
         }
 
-        public AbscessTail(Serial serial)
+        public GrandGrimoire(Serial serial)
             : base(serial)
         {
         }
@@ -21,9 +23,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1060801;
             }
-        }// Abscess' Tail
+        }// The Grand Grimoire
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

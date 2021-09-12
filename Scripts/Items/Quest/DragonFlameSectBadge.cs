@@ -2,17 +2,16 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    public class DragonFlameSectBadge : Item
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public DragonFlameSectBadge()
+            : base(0x23E)
         {
             this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
         }
 
-        public AbscessTail(Serial serial)
+        public DragonFlameSectBadge(Serial serial)
             : base(serial)
         {
         }
@@ -21,9 +20,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1073141;
             }
-        }// Abscess' Tail
+        }// A Dragon Flame Sect Badge
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

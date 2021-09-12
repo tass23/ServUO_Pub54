@@ -1,18 +1,17 @@
 using System;
+using Server.Items;
 
-namespace Server.Items
+namespace Server.Engines.Quests.Doom
 {
-    public class AbscessTail : Item
+    public class ChylothStaff : BlackStaff
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public ChylothStaff()
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
+            this.Hue = 0x482;
         }
 
-        public AbscessTail(Serial serial)
+        public ChylothStaff(Serial serial)
             : base(serial)
         {
         }
@@ -21,9 +20,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074231;
+                return 1041111;
             }
-        }// Abscess' Tail
+        }// a magic staff
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

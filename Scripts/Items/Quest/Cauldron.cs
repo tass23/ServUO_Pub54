@@ -2,28 +2,27 @@ using System;
 
 namespace Server.Items
 {
-    public class AbscessTail : Item
+    public class Cauldron : Item
     {
         [Constructable]
-        public AbscessTail()
-            : base(0x1A9D)
+        public Cauldron()
+            : base(0x9ED)
         {
-            this.LootType = LootType.Blessed;
-            this.Hue = 0x51D; // TODO check
+            this.Weight = 1.0;
         }
 
-        public AbscessTail(Serial serial)
+        public Cauldron(Serial serial)
             : base(serial)
         {
         }
 
-        public override int LabelNumber
+        public override string DefaultName
         {
             get
             {
-                return 1074231;
+                return "a cauldron";
             }
-        }// Abscess' Tail
+        }
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

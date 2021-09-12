@@ -2,31 +2,26 @@ using System;
 
 namespace Server.Items
 {
-    public class AlchemistsBauble : GoldBracelet
+    public class Venom : GoldBracelet
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AlchemistsBauble()
+        public Venom()
         {
-            this.Hue = 0x290;
-            this.SkillBonuses.SetValues(0, SkillName.Magery, 10.0);
-            this.Attributes.EnhancePotions = 30;
-            this.Attributes.LowerRegCost = 20;
-            this.Resistances.Poison = 10;
+            this.Name = ("Venom");
+		
+            this.Hue = 1371;
+            this.Attributes.CastRecovery = 1;
+            this.Attributes.CastSpeed = 2;
+            this.Attributes.SpellDamage = 10;
+            this.Resistances.Poison = 20;
         }
 
-        public AlchemistsBauble(Serial serial)
+        public Venom(Serial serial)
             : base(serial)
         {
         }
 
-        public override int LabelNumber
-        {
-            get
-            {
-                return 1070638;
-            }
-        }
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

@@ -2,20 +2,24 @@ using System;
 
 namespace Server.Items
 {
-    public class AlchemistsBauble : GoldBracelet
+    public class Lavaliere : GoldNecklace
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AlchemistsBauble()
+        public Lavaliere()
         {
-            this.Hue = 0x290;
-            this.SkillBonuses.SetValues(0, SkillName.Magery, 10.0);
-            this.Attributes.EnhancePotions = 30;
+            this.Name = ("Lavaliere");
+		
+            this.Hue = 39;
+			
+            this.AbsorptionAttributes.EaterKinetic = 20;
+            this.Attributes.DefendChance = 10;
+            this.Resistances.Physical = 15;
+            this.Attributes.LowerManaCost = 10;
             this.Attributes.LowerRegCost = 20;
-            this.Resistances.Poison = 10;
         }
 
-        public AlchemistsBauble(Serial serial)
+        public Lavaliere(Serial serial)
             : base(serial)
         {
         }
@@ -24,21 +28,21 @@ namespace Server.Items
         {
             get
             {
-                return 1070638;
+                return 1072937;
             }
-        }
+        }// Pendant of the Magi
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)0);
+            writer.WriteEncodedInt(0); // version
         }
 
         public override void Deserialize(GenericReader reader)
         {
             base.Deserialize(reader);
 
-            int version = reader.ReadInt();
+            int version = reader.ReadEncodedInt();
         }
     }
 }

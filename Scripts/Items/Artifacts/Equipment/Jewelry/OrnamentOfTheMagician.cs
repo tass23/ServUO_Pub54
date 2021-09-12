@@ -2,20 +2,21 @@ using System;
 
 namespace Server.Items
 {
-    public class AlchemistsBauble : GoldBracelet
+    public class OrnamentOfTheMagician : GoldBracelet
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AlchemistsBauble()
+        public OrnamentOfTheMagician()
         {
-            this.Hue = 0x290;
-            this.SkillBonuses.SetValues(0, SkillName.Magery, 10.0);
-            this.Attributes.EnhancePotions = 30;
+            this.Hue = 0x554;
+            this.Attributes.CastRecovery = 3;
+            this.Attributes.CastSpeed = 2;
+            this.Attributes.LowerManaCost = 10;
             this.Attributes.LowerRegCost = 20;
-            this.Resistances.Poison = 10;
+            this.Resistances.Energy = 15;
         }
 
-        public AlchemistsBauble(Serial serial)
+        public OrnamentOfTheMagician(Serial serial)
             : base(serial)
         {
         }
@@ -24,7 +25,14 @@ namespace Server.Items
         {
             get
             {
-                return 1070638;
+                return 1061105;
+            }
+        }// Ornament of the Magician
+        public override int ArtifactRarity
+        {
+            get
+            {
+                return 11;
             }
         }
         public override void Serialize(GenericWriter writer)
@@ -39,6 +47,9 @@ namespace Server.Items
             base.Deserialize(reader);
 
             int version = reader.ReadInt();
+
+            if (this.Hue == 0x12B)
+                this.Hue = 0x554;
         }
     }
 }

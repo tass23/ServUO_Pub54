@@ -2,20 +2,18 @@ using System;
 
 namespace Server.Items
 {
-    public class AlchemistsBauble : GoldBracelet
+    public class ReginasRing : SilverRing
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AlchemistsBauble()
+        public ReginasRing()
+            : base()
         {
-            this.Hue = 0x290;
-            this.SkillBonuses.SetValues(0, SkillName.Magery, 10.0);
-            this.Attributes.EnhancePotions = 30;
-            this.Attributes.LowerRegCost = 20;
-            this.Resistances.Poison = 10;
+            this.LootType = LootType.Blessed;
+            this.Weight = 1;
         }
 
-        public AlchemistsBauble(Serial serial)
+        public ReginasRing(Serial serial)
             : base(serial)
         {
         }
@@ -24,14 +22,14 @@ namespace Server.Items
         {
             get
             {
-                return 1070638;
+                return 1075305;
             }
-        }
+        }// Regina's Ring
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 
-            writer.Write((int)0);
+            writer.Write((int)0); // version
         }
 
         public override void Deserialize(GenericReader reader)

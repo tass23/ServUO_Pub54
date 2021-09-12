@@ -2,20 +2,21 @@ using System;
 
 namespace Server.Items
 {
-    public class AlchemistsBauble : GoldBracelet
+    public class RingOfTheElements : GoldRing
 	{
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public AlchemistsBauble()
+        public RingOfTheElements()
         {
-            this.Hue = 0x290;
-            this.SkillBonuses.SetValues(0, SkillName.Magery, 10.0);
-            this.Attributes.EnhancePotions = 30;
-            this.Attributes.LowerRegCost = 20;
-            this.Resistances.Poison = 10;
+            this.Hue = 0x4E9;
+            this.Attributes.Luck = 100;
+            this.Resistances.Fire = 16;
+            this.Resistances.Cold = 16;
+            this.Resistances.Poison = 16;
+            this.Resistances.Energy = 16;
         }
 
-        public AlchemistsBauble(Serial serial)
+        public RingOfTheElements(Serial serial)
             : base(serial)
         {
         }
@@ -24,7 +25,14 @@ namespace Server.Items
         {
             get
             {
-                return 1070638;
+                return 1061104;
+            }
+        }// Ring of the Elements
+        public override int ArtifactRarity
+        {
+            get
+            {
+                return 11;
             }
         }
         public override void Serialize(GenericWriter writer)

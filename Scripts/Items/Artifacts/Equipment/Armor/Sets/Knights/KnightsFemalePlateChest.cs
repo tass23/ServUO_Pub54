@@ -3,10 +3,10 @@ using Server.Items;
 
 namespace Server.Items
 {
-	public class KnightsBascinet : Bascinet
+	public class KnightsFemalePlateChest : FemalePlateChest
 	{
 		public override bool IsArtifact { get { return true; } }
-		public override int LabelNumber{ get{ return 1080159; } } // Thank you Paradyme
+		public override int LabelNumber{ get{ return 1080164; } } // Thank you Paradyme
 		
 		public override SetItem SetID{ get{ return SetItem.Knights; } }
 		public override int Pieces{ get{ return 6; } }
@@ -20,11 +20,11 @@ namespace Server.Items
 		public override int InitMaxHits{ get{ return 255; } }
 
 		[Constructable]
-		public KnightsBascinet() : base()
+		public KnightsFemalePlateChest() : base()
 		{
-	
+		
 			SetHue = 0x47E;	
-            Weight = 5;			
+            Weight = 4;			
 			
 			Attributes.BonusHits = 1;
 			
@@ -41,7 +41,7 @@ namespace Server.Items
 			SetEnergyBonus = 28;
 		}
 
-		public KnightsBascinet( Serial serial ) : base( serial )
+		public KnightsFemalePlateChest( Serial serial ) : base( serial )
 		{
 		}
 		

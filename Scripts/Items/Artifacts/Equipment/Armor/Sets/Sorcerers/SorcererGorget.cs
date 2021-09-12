@@ -3,10 +3,10 @@ using Server.Items;
 
 namespace Server.Items
 {
-	public class SorcererArms : LeatherArms
+	public class SorcererGorget : LeatherGorget
 	{
 		public override bool IsArtifact { get { return true; } }
-		public override int LabelNumber{ get{ return 1080467; } } // Thank You Paradyme
+		public override int LabelNumber{ get{ return 1080466; } } // Thank You Paradyme
 		
 		public override SetItem SetID{ get{ return SetItem.Sorcerer; } }
 		public override int Pieces{ get{ return 6; } }
@@ -20,10 +20,10 @@ namespace Server.Items
 		public override int InitMaxHits{ get{ return 255; } }
 
 		[Constructable]
-		public SorcererArms() : base()
+		public SorcererGorget() : base()
 		{
 			SetHue = 0x1F4;	
-			Weight = 2;	
+			Weight = 1;	
 			
 			Attributes.BonusInt = 1;
 			Attributes.LowerRegCost = 10;
@@ -40,7 +40,7 @@ namespace Server.Items
 			SetEnergyBonus = 28;
 		}
 
-		public SorcererArms( Serial serial ) : base( serial )
+		public SorcererGorget( Serial serial ) : base( serial )
 		{
 		}
 		

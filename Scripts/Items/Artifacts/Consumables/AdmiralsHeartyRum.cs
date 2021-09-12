@@ -2,17 +2,17 @@ using System;
 
 namespace Server.Items
 {
-    public class Bleach : PigmentsOfTokuno
+    public class AdmiralsHeartyRum : BeverageBottle
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public Bleach()
-            : base(PigmentType.None)
+        public AdmiralsHeartyRum()
+            : base(BeverageType.Ale)
         {
-            this.LootType = LootType.Blessed;
+            this.Hue = 0x66C;
         }
 
-        public Bleach(Serial serial)
+        public AdmiralsHeartyRum(Serial serial)
             : base(serial)
         {
         }
@@ -21,9 +21,9 @@ namespace Server.Items
         {
             get
             {
-                return 1075375;
+                return 1063477;
             }
-        }// Bleach
+        }
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

@@ -2,17 +2,17 @@ using System;
 
 namespace Server.Items
 {
-    public class AlchemyStone : Item
+    public class IngotStone : Item
     {
         [Constructable]
-        public AlchemyStone()
+        public IngotStone()
             : base(0xED4)
         {
             this.Movable = false;
-            this.Hue = 0x250;
+            this.Hue = 0x480;
         }
 
-        public AlchemyStone(Serial serial)
+        public IngotStone(Serial serial)
             : base(serial)
         {
         }
@@ -21,15 +21,15 @@ namespace Server.Items
         {
             get
             {
-                return "an Alchemist Supply Stone";
+                return "an Ingot stone";
             }
         }
         public override void OnDoubleClick(Mobile from)
         {
-            AlchemyBag alcBag = new AlchemyBag();
+            BagOfingots ingotBag = new BagOfingots(5000);
 
-            if (!from.AddToBackpack(alcBag))
-                alcBag.Delete();
+            if (!from.AddToBackpack(ingotBag))
+                ingotBag.Delete();
         }
 
         public override void Serialize(GenericWriter writer)

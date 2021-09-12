@@ -2,17 +2,17 @@ using System;
 
 namespace Server.Items
 {
-    public class AlchemyStone : Item
+    public class SwarmOfFlies : Item
     {
         [Constructable]
-        public AlchemyStone()
-            : base(0xED4)
+        public SwarmOfFlies()
+            : base(0x91B)
         {
+            this.Hue = 1;
             this.Movable = false;
-            this.Hue = 0x250;
         }
 
-        public AlchemyStone(Serial serial)
+        public SwarmOfFlies(Serial serial)
             : base(serial)
         {
         }
@@ -21,17 +21,9 @@ namespace Server.Items
         {
             get
             {
-                return "an Alchemist Supply Stone";
+                return "a swarm of flies";
             }
         }
-        public override void OnDoubleClick(Mobile from)
-        {
-            AlchemyBag alcBag = new AlchemyBag();
-
-            if (!from.AddToBackpack(alcBag))
-                alcBag.Delete();
-        }
-
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);

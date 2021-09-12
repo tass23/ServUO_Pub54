@@ -1,24 +1,26 @@
+/* Based on AbysmalHorror, still no infos on Abyssal Abomination... Including correct body ID */
 using System;
 using Server.Items;
 
 namespace Server.Mobiles
 {
-    [CorpseName("an abyssmal horror corpse")]
-    public class AbysmalHorror : BaseCreature
+    [CorpseName("an abyssal abomination corpse")]
+    public class AbyssalAbomination : BaseCreature
     {
         [Constructable]
-        public AbysmalHorror()
+        public AbyssalAbomination()
             : base(AIType.AI_Mage, FightMode.Closest, 10, 1, 0.2, 0.4)
         {
-            this.Name = "an abyssmal horror";
-            this.Body = 312;
+            this.Name = "an Abyssal abomination";
+            this.Body = 742;
+            this.Hue = 769;
             this.BaseSoundID = 0x451;
 
             this.SetStr(401, 420);
             this.SetDex(81, 90);
             this.SetInt(401, 420);
 
-            this.SetHits(6000);
+            this.SetHits(600, 750);
 
             this.SetDamage(13, 17);
 
@@ -44,7 +46,7 @@ namespace Server.Mobiles
             this.VirtualArmor = 54;
         }
 
-        public AbysmalHorror(Serial serial)
+        public AbyssalAbomination(Serial serial)
             : base(serial)
         {
         }
@@ -84,13 +86,6 @@ namespace Server.Mobiles
                 return Poison.Lethal;
             }
         }
-        public override int TreasureMapLevel
-        {
-            get
-            {
-                return 1;
-            }
-        }
         public override WeaponAbility GetWeaponAbility()
         {
             return Utility.RandomBool() ? WeaponAbility.MortalStrike : WeaponAbility.WhirlwindAttack;
@@ -100,8 +95,6 @@ namespace Server.Mobiles
         {
             this.AddLoot(LootPack.UltraRich, 2);
         }
-
-       
 
         public override void Serialize(GenericWriter writer)
         {

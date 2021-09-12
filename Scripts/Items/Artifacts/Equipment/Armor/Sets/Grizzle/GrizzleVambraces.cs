@@ -2,11 +2,11 @@ using System;
 
 namespace Server.Items
 {
-    public class GrizzleGauntlets : BoneGloves
+    public class GrizzleVambraces : BoneArms
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public GrizzleGauntlets()
+        public GrizzleVambraces()
             : base()
         {
             this.SetHue = 0x278;
@@ -27,7 +27,7 @@ namespace Server.Items
             this.SetEnergyBonus = 5;
         }
 
-        public GrizzleGauntlets(Serial serial)
+        public GrizzleVambraces(Serial serial)
             : base(serial)
         {
         }
@@ -36,9 +36,9 @@ namespace Server.Items
         {
             get
             {
-                return 1074471;
+                return 1074470;
             }
-        }// Gauntlets of the Grizzle
+        }// Vambraces of the Grizzle
         public override SetItem SetID
         {
             get

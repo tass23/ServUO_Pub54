@@ -2,16 +2,16 @@ using System;
 
 namespace Server.Items
 {
-    [FlipableAttribute(0x2B0A, 0x2B0B)]
-    public class CompassionArms : BaseArmor
+    [FlipableAttribute(0x2B10, 0x2B11)]
+    public class SpiritualityHelm : BaseArmor
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public CompassionArms()
-            : base(0x2B0A)
-        {
+        public SpiritualityHelm()
+            : base(0x2B10)
+        { 
             this.LootType = LootType.Blessed;
-            this.Weight = 3.0;
+            this.Weight = 6.0;
             this.SetHue = 0;
             this.Hue = 0x226;
 			
@@ -24,7 +24,7 @@ namespace Server.Items
             this.SetEnergyBonus = 5;
         }
 
-        public CompassionArms(Serial serial)
+        public SpiritualityHelm(Serial serial)
             : base(serial)
         {
         }
@@ -33,9 +33,9 @@ namespace Server.Items
         {
             get
             {
-                return 1075191;
+                return 1075237;
             }
-        }// Arms of Compassion (Virtue Armor Set)
+        }// Helm of Spirituality (Virtue Armor Set)
         public override SetItem SetID
         {
             get
@@ -61,28 +61,28 @@ namespace Server.Items
         {
             get
             {
-                return 11;
+                return 8;
             }
         }
         public override int BaseColdResistance
         {
             get
             {
-                return 6;
+                return 7;
             }
         }
         public override int BasePoisonResistance
         {
             get
             {
-                return 8;
+                return 9;
             }
         }
         public override int BaseEnergyResistance
         {
             get
             {
-                return 7;
+                return 8;
             }
         }
         public override int InitMinHits
@@ -103,7 +103,7 @@ namespace Server.Items
         {
             get
             {
-                return 60;
+                return 25;
             }
         }
         public override ArmorMaterialType MaterialType

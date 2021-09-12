@@ -2,21 +2,20 @@ using System;
 
 namespace Server.Items
 {
-    [FlipableAttribute(0x2B0A, 0x2B0B)]
-    public class CompassionArms : BaseArmor
+    [FlipableAttribute(0x2B06, 0x2B07)]
+    public class HonorLegs : BaseArmor
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public CompassionArms()
-            : base(0x2B0A)
+        public HonorLegs()
+            : base(0x2B06)
         {
             this.LootType = LootType.Blessed;
-            this.Weight = 3.0;
+            this.Weight = 9.0;
             this.SetHue = 0;
             this.Hue = 0x226;
 			
-            this.SetSelfRepair = 5;
-			
+            this.SetSelfRepair = 5;			
             this.SetPhysicalBonus = 5;
             this.SetFireBonus = 5;
             this.SetColdBonus = 5;
@@ -24,7 +23,7 @@ namespace Server.Items
             this.SetEnergyBonus = 5;
         }
 
-        public CompassionArms(Serial serial)
+        public HonorLegs(Serial serial)
             : base(serial)
         {
         }
@@ -33,9 +32,9 @@ namespace Server.Items
         {
             get
             {
-                return 1075191;
+                return 1075193;
             }
-        }// Arms of Compassion (Virtue Armor Set)
+        }// Legs of Honor (Virtue Armor Set)
         public override SetItem SetID
         {
             get
@@ -61,28 +60,28 @@ namespace Server.Items
         {
             get
             {
-                return 11;
+                return 7;
             }
         }
         public override int BaseColdResistance
         {
             get
             {
-                return 6;
+                return 10;
             }
         }
         public override int BasePoisonResistance
         {
             get
             {
-                return 8;
+                return 7;
             }
         }
         public override int BaseEnergyResistance
         {
             get
             {
-                return 7;
+                return 8;
             }
         }
         public override int InitMinHits
@@ -103,7 +102,7 @@ namespace Server.Items
         {
             get
             {
-                return 60;
+                return 70;
             }
         }
         public override ArmorMaterialType MaterialType

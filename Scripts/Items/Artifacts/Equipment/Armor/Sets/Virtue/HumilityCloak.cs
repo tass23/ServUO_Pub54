@@ -2,21 +2,20 @@ using System;
 
 namespace Server.Items
 {
-    [FlipableAttribute(0x2B0A, 0x2B0B)]
-    public class CompassionArms : BaseArmor
+    [FlipableAttribute(0x2B04, 0x2B05)]
+    public class HumilityCloak : BaseClothing
     {
 		public override bool IsArtifact { get { return true; } }
         [Constructable]
-        public CompassionArms()
-            : base(0x2B0A)
+        public HumilityCloak()
+            : base(0x2B04, Layer.Cloak)
         {
             this.LootType = LootType.Blessed;
-            this.Weight = 3.0;
+            this.Weight = 6.0;
             this.SetHue = 0;
             this.Hue = 0x226;
 			
-            this.SetSelfRepair = 5;
-			
+            this.SetSelfRepair = 5;			
             this.SetPhysicalBonus = 5;
             this.SetFireBonus = 5;
             this.SetColdBonus = 5;
@@ -24,7 +23,7 @@ namespace Server.Items
             this.SetEnergyBonus = 5;
         }
 
-        public CompassionArms(Serial serial)
+        public HumilityCloak(Serial serial)
             : base(serial)
         {
         }
@@ -33,9 +32,9 @@ namespace Server.Items
         {
             get
             {
-                return 1075191;
+                return 1075195;
             }
-        }// Arms of Compassion (Virtue Armor Set)
+        }// Cloak of Humility (Virtue Armor Set)
         public override SetItem SetID
         {
             get
@@ -50,67 +49,25 @@ namespace Server.Items
                 return 8;
             }
         }
-        public override int BasePhysicalResistance
-        {
-            get
-            {
-                return 8;
-            }
-        }
-        public override int BaseFireResistance
-        {
-            get
-            {
-                return 11;
-            }
-        }
-        public override int BaseColdResistance
-        {
-            get
-            {
-                return 6;
-            }
-        }
-        public override int BasePoisonResistance
-        {
-            get
-            {
-                return 8;
-            }
-        }
-        public override int BaseEnergyResistance
-        {
-            get
-            {
-                return 7;
-            }
-        }
         public override int InitMinHits
         {
             get
             {
-                return 255;
+                return 0;
             }
         }
         public override int InitMaxHits
         {
             get
             {
-                return 255;
+                return 0;
             }
         }
         public override int AosStrReq
         {
             get
             {
-                return 60;
-            }
-        }
-        public override ArmorMaterialType MaterialType
-        {
-            get
-            {
-                return ArmorMaterialType.Plate;
+                return 10;
             }
         }
         public override void Serialize(GenericWriter writer)

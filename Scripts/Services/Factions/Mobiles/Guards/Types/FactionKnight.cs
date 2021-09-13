@@ -3,11 +3,11 @@ using Server.Items;
 
 namespace Server.Factions
 {
-    public class FactionBerserker : BaseFactionGuard
+    public class FactionKnight : BaseFactionGuard
     {
         [Constructable]
-        public FactionBerserker()
-            : base("the berserker")
+        public FactionKnight()
+            : base("the knight")
         {
             this.GenerateBody(false, false);
 
@@ -36,22 +36,23 @@ namespace Server.Factions
             this.SetSkill(SkillName.EvalInt, 100.0, 110.0);
             this.SetSkill(SkillName.Meditation, 100.0, 110.0);
 
-            this.AddItem(this.Immovable(this.Rehued(new BodySash(), 1645)));
-            this.AddItem(this.Immovable(this.Rehued(new Kilt(), 1645)));
-            this.AddItem(this.Immovable(this.Rehued(new Sandals(), 1645)));
-            this.AddItem(this.Newbied(new DoubleAxe()));
+            this.AddItem(this.Immovable(this.Rehued(new ChainChest(), 2125)));
+            this.AddItem(this.Immovable(this.Rehued(new ChainLegs(), 2125)));
+            this.AddItem(this.Immovable(this.Rehued(new ChainCoif(), 2125)));
+            this.AddItem(this.Immovable(this.Rehued(new PlateArms(), 2125)));
+            this.AddItem(this.Immovable(this.Rehued(new PlateGloves(), 2125)));
 
-            this.HairItemID = 0x2047; // Afro
-            this.HairHue = 0x29;
+            this.AddItem(this.Immovable(this.Rehued(new BodySash(), 1254)));
+            this.AddItem(this.Immovable(this.Rehued(new Kilt(), 1254)));
+            this.AddItem(this.Immovable(this.Rehued(new Sandals(), 1254)));
 
-            this.FacialHairItemID = 0x204B; // Medium Short Beard
-            this.FacialHairHue = 0x29;
+            this.AddItem(this.Newbied(new Bardiche()));
 
             this.PackItem(new Bandage(Utility.RandomMinMax(30, 40)));
             this.PackStrongPotions(6, 12);
         }
 
-        public FactionBerserker(Serial serial)
+        public FactionKnight(Serial serial)
             : base(serial)
         {
         }
@@ -60,7 +61,7 @@ namespace Server.Factions
         {
             get
             {
-                return GuardAI.Melee | GuardAI.Curse | GuardAI.Bless;
+                return GuardAI.Magic | GuardAI.Melee | GuardAI.Smart | GuardAI.Curse | GuardAI.Bless;
             }
         }
         public override void Serialize(GenericWriter writer)

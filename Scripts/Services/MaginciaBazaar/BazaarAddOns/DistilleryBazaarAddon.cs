@@ -11,18 +11,19 @@ using Server.Items;
 
 namespace Server.Items
 {
-	public class Alchemist2BazaarAddon : BaseAddon
+	public class DistilleryBazaarAddon : BaseAddon
 	{
         private static int[,] m_AddOnSimpleComponents = new int[,] {
-			  {8511, -1, -1, 0}, {8511, 2, 2, 0}, {8511, -1, 2, 0}// 1	2	3	
-			, {8511, 2, -1, 0}, {8512, 0, 2, 0}, {8512, 1, -1, 0}// 4	5	6	
-			, {8513, -1, 1, 0}, {8513, 2, 0, 0}, {8514, 1, 2, 0}// 7	8	9	
-			, {8514, 0, -1, 0}, {8515, -1, 0, 0}, {8515, 2, 1, 0}// 10	11	12	
-			, {8516, 0, 1, 0}, {8516, 1, 0, 0}, {8511, 0, 0, 0}// 13	14	15	
-			, {8511, 1, 1, 0}, {6422, 0, 2, 0}, {6422, 0, -1, 0}// 16	17	18	
-			, {6423, 1, 2, 0}, {6423, 1, -1, 0}, {6192, 1, -1, 7}// 19	20	23	
-			, {6214, 0, -1, 3}, {6195, 1, -1, 1}, {6238, 1, 2, 6}// 24	25	26	
-			, {6226, 0, 2, 4}, {3659, 2, 2, 0}, {6185, 1, -1, 1}// 27	28	29	
+			  {1306, 1, -1, 0}, {1306, -1, -1, 0}, {1306, 0, -1, 0}// 1	2	3	
+			, {1306, 2, -1, 0}, {3647, -1, -1, 0}, {3647, -1, -1, 3}// 4	5	6	
+			, {4014, 0, -1, 0}, {2500, -1, -1, 6}, {17650, 2, -1, 0}// 8	9	10	
+			, {2513, 2, -1, 1}, {2513, 2, -1, 1}, {2513, 2, -1, 3}// 11	12	13	
+			, {2513, 2, -1, 2}, {2513, 2, -1, 4}, {2513, 2, -1, 1}// 14	15	16	
+			, {2513, 2, -1, 0}, {1306, 1, 0, 0}, {1306, 1, 1, 0}// 17	18	19	
+			, {15803, -1, 2, 0}, {1306, 1, 2, 0}, {1306, -1, 2, 0}// 20	21	22	
+			, {1306, -1, 1, 0}, {1306, 2, 1, 0}, {1306, 2, 0, 0}// 23	24	25	
+			, {1306, -1, 0, 0}, {1306, 0, 0, 0}, {1306, 0, 1, 0}// 26	27	28	
+			, {1306, 0, 2, 0}, {1306, 2, 2, 0}, {15802, -1, 1, 0}// 29	30	32	
 					};
 
  
@@ -31,24 +32,24 @@ namespace Server.Items
 		{
 			get
 			{
-				return new Alchemist2BazaarAddonDeed();
+				return new DistilleryBazaarAddonDeed();
 			}
 		}
 
 		[ Constructable ]
-		public Alchemist2BazaarAddon()
+		public DistilleryBazaarAddon()
 		{
 
             for (int i = 0; i < m_AddOnSimpleComponents.Length / 4; i++)
                 AddComponent( new AddonComponent( m_AddOnSimpleComponents[i,0] ), m_AddOnSimpleComponents[i,1], m_AddOnSimpleComponents[i,2], m_AddOnSimpleComponents[i,3] );
 
 
-			AddComplexComponent( (BaseAddon) this, 3633, -1, -1, 0, 0, 1, "", 1);// 21
-			AddComplexComponent( (BaseAddon) this, 3633, 2, -1, 0, 0, 1, "", 1);// 22
+			AddComplexComponent( (BaseAddon) this, 6464, 1, -1, 0, 0, -1, "a Keg of Wine", 1);// 7
+			AddComplexComponent( (BaseAddon) this, 6871, -1, 0, 0, 644, -1, "", 1);// 31
 
 		}
 
-		public Alchemist2BazaarAddon( Serial serial ) : base( serial )
+		public DistilleryBazaarAddon( Serial serial ) : base( serial )
 		{
 		}
 
@@ -88,23 +89,23 @@ namespace Server.Items
 		}
 	}
 
-	public class Alchemist2BazaarAddonDeed : BaseAddonDeed
+	public class DistilleryBazaarAddonDeed : BaseAddonDeed
 	{
 		public override BaseAddon Addon
 		{
 			get
 			{
-				return new Alchemist2BazaarAddon();
+				return new DistilleryBazaarAddon();
 			}
 		}
 
 		[Constructable]
-		public Alchemist2BazaarAddonDeed()
+		public DistilleryBazaarAddonDeed()
 		{
-			Name = "Alchemist2Bazaar";
+			Name = "DistilleryBazaar";
 		}
 
-		public Alchemist2BazaarAddonDeed( Serial serial ) : base( serial )
+		public DistilleryBazaarAddonDeed( Serial serial ) : base( serial )
 		{
 		}
 

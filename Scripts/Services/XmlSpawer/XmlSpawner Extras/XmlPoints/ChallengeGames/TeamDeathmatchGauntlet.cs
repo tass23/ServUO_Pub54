@@ -9,264 +9,16 @@ using Server.Regions;
 using Server.Engines.XmlSpawner2;
 
 /*
-** CTFGauntlet
+** TeamDeathmatchGauntlet
 ** ArteGordon
 ** updated 12/05/04
 **
-** used to set up a capture the flag pvp challenge game through the XmlPoints system.
+** used to set up a team deathmatch pvp challenge game through the XmlPoints system.
 */
 
 namespace Server.Items
 {
-    public class CTFBase : Item
-    {
-
-        private int m_Team;
-        private int m_ProximityRange = 1;
-        private CTFFlag m_Flag;
-        private bool m_HasFlag;
-        private CTFGauntlet m_gauntlet;
-
-        public int Team { get{ return m_Team; } set { m_Team = value; } }
-
-        public CTFFlag Flag { get{ return m_Flag; } set { m_Flag = value; } }
-
-        [CommandProperty( AccessLevel.GameMaster )]
-        public int ProximityRange { get{ return m_ProximityRange; } set { m_ProximityRange = value; } }
-
-        public bool HasFlag { get { return m_HasFlag; } set { m_HasFlag = value;} }
-
-		public CTFBase(CTFGauntlet gauntlet, int team) : base( 0x1183 )
-		{
-            Movable = false;
-            Hue = BaseChallengeGame.TeamColor(team);
-            Team = team;
-            Name = String.Format("Team {0} Base", team);
-            m_gauntlet = gauntlet;
-
-            // add the flag
-
-            Flag = new CTFFlag(this, team);
-            Flag.HomeBase = this;
-            HasFlag = true;
-		}
-
-		public CTFBase( Serial serial ) : base( serial )
-		{
-		}
-
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-
-			writer.Write( (int) 0 ); // version
-
-			writer.Write(Team);
-			writer.Write(m_ProximityRange);
-			writer.Write(m_Flag);
-			writer.Write(m_gauntlet);
-			writer.Write(m_HasFlag);
-		}
-
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-
-			int version = reader.ReadInt();
-
-			Team = reader.ReadInt();
-			ProximityRange = reader.ReadInt();
-			Flag = reader.ReadItem() as CTFFlag;
-			m_gauntlet = reader.ReadItem() as CTFGauntlet;
-			m_HasFlag = reader.ReadBool();
-		}
-
-		public override void OnDelete()
-		{
-            // delete any flag associated with the base
-            if(m_Flag != null)
-                m_Flag.Delete();
-
-            base.OnDelete();
-		}
-
-		public override void OnLocationChange( Point3D oldLocation )
-        {
-            // set the flag location
-            PlaceFlagAtBase();
-        }
-        
-        public void PlaceFlagAtBase()
-        {
-            if(m_Flag != null)
-            {
-                m_Flag.MoveToWorld(new Point3D(Location.X + 1, Location.Y, Location.Z + 4), Map);
-            }
-        }
-        
-        public override void OnMapChange( )
-        {
-            // set the flag location
-            PlaceFlagAtBase();
-        }
-        
-        public void ReturnFlag()
-        {
-            ReturnFlag(true);
-        }
-
-        public void ReturnFlag(bool verbose)
-        {
-            if(Flag == null) return;
-
-            PlaceFlagAtBase();
-            HasFlag = true;
-            if(m_gauntlet != null && verbose)
-            {
-                m_gauntlet.GameBroadcast(100419,Team); // "Team {0} flag has been returned to base"
-            }
-
-        }
-
-
-		public override bool HandlesOnMovement { get{ return m_gauntlet != null; } }
-
-		public override void OnMovement( Mobile m, Point3D oldLocation )
-		{
-            if(m == null || m_gauntlet == null) return;
-            
-            if(m == null || m.AccessLevel > AccessLevel.Player) return;
-
-            // look for players within range of the base
-            // check to see if player is within range of the spawner
-  			if ((this.Parent == null) && Utility.InRange( m.Location, this.Location, m_ProximityRange ) )
-            {
-
-                CTFGauntlet.ChallengeEntry entry = m_gauntlet.GetParticipant(m) as CTFGauntlet.ChallengeEntry;
-
-                if(entry == null) return;
-                
-                bool carryingflag = false;
-                // is the player carrying a flag?
-                foreach(CTFBase b in m_gauntlet.HomeBases)
-                {
-                    if(b != null && !b.Deleted && b.Flag != null && b.Flag.RootParent == m)
-                    {
-                        carryingflag = true;
-                        break;
-                    }
-                }
-
-                // if the player is on an opposing team and the flag is at the base and the player doesnt already
-                // have a flag then give them the flag
-                if(entry.Team != Team && HasFlag && !carryingflag)
-                {
-                    m.AddToBackpack(m_Flag);
-                    HasFlag = false;
-                    m_gauntlet.GameBroadcast(100420, entry.Team, Team); // "Team {0} has the Team {1} flag"
-                    m_gauntlet.GameBroadcastSound(513);
-                } else
-                if(entry.Team == Team)
-                {
-
-                    // if the player has an opposing teams flag then give them a point and return the flag
-                    foreach(CTFBase b in m_gauntlet.HomeBases)
-                    {
-                        if(b != null && !b.Deleted && b.Flag != null && b.Flag.RootParent == m && b.Team != entry.Team)
-                        {
-                            m_gauntlet.GameBroadcast(100421,entry.Team);  // "Team {0} has scored"
-                            m_gauntlet.AddScore(entry);
-
-                            Effects.SendTargetParticles( entry.Participant, 0x375A, 35, 20, BaseChallengeGame.TeamColor(entry.Team), 0x00, 9502,
-                                (EffectLayer)255, 0x100 );
-                            // play the score sound
-                            m_gauntlet.ScoreSound(entry.Team);
-
-                            b.ReturnFlag(false);
-                            break;
-                        }
-                    }
-                }
-            }
-		}
-
-
-    }
-
-    public class CTFFlag : Item
-    {
-
-        public CTFBase  HomeBase;
-
-		public CTFFlag(CTFBase homebase, int team) : base( 0x161D )
-		{
-            Hue = BaseChallengeGame.TeamColor(team);;
-            Name = String.Format("Team {0} Flag", team);
-            HomeBase = homebase;
-		}
-
-		public CTFFlag( Serial serial ) : base( serial )
-		{
-		}
-
-		public override bool OnDroppedInto( Mobile from, Container target, Point3D p )
-        {
-            // allow movement within a players backpack
-            if(from != null && from.Backpack == target)
-            {
-                return base.OnDroppedInto(from, target, p);
-            }
-
-            return false;
-        }
-        
-        public override bool OnDroppedOnto( Mobile from, Item target )
-        {
-            return false;
-        }
-        
-        public override bool OnDroppedToMobile( Mobile from, Mobile target )
-        {
-            return false;
-        }
-
-		public override bool CheckLift(Mobile from, Item item, ref LRReason reject)
-        {
-            // only allow staff to pick it up when at a base
-            if((from != null && from.AccessLevel > AccessLevel.Player) || RootParent != null)
-            {
-				return base.CheckLift(from, item, ref reject);
-            }
-            return false;
-        }
-
-        public override bool OnDroppedToWorld(Mobile from,Point3D point)
-        {
-            return false;
-        }
-
-
-		public override void Serialize( GenericWriter writer )
-		{
-			base.Serialize( writer );
-
-			writer.Write( (int) 0 ); // version
-
-			writer.Write( HomeBase );
-		}
-
-		public override void Deserialize( GenericReader reader )
-		{
-			base.Deserialize( reader );
-
-			int version = reader.ReadInt();
-
-			HomeBase = reader.ReadItem() as CTFBase;
-		}
-    }
-
-
-    public class CTFGauntlet : BaseChallengeGame
+    public class TeamDeathmatchGauntlet : BaseChallengeGame
     {
 
 
@@ -282,7 +34,7 @@ namespace Server.Items
             public ChallengeEntry(Mobile m) : base (m)
             {
             }
-
+            
             public ChallengeEntry() : base ()
             {
             }
@@ -313,20 +65,14 @@ namespace Server.Items
         private int m_EntryFee;
 
         private int m_TargetScore = 10;                                 // default target score to end match is 10
-
-        private DateTime m_MatchStart;
         
-        private DateTime m_MatchEnd;
+        private DateTime m_MatchStart;
 
         private TimeSpan m_MatchLength = TimeSpan.FromMinutes(10);      // default match length is 10 mins
 
         private int m_ArenaSize = 0;        // maximum distance from the challenge gauntlet allowed before disqualification.  Zero is unlimited range
 
         private int m_Winner = 0;
-        
-        private ArrayList m_HomeBases = new ArrayList();
-        
-        public ArrayList HomeBases { get{ return m_HomeBases; } set { m_HomeBases = value; } }
 
         // how long before the gauntlet decays if a gauntlet is dropped but never started
         public override TimeSpan DecayTime { get{ return TimeSpan.FromMinutes( 15 ); } }  // this will apply to the setup
@@ -346,9 +92,6 @@ namespace Server.Items
 
         [CommandProperty( AccessLevel.GameMaster )]
         public DateTime MatchStart { get{ return m_MatchStart; } set { m_MatchStart = value; } }
-        
-        [CommandProperty( AccessLevel.GameMaster )]
-        public DateTime MatchEnd { get{ return m_MatchEnd; } }
 
         [CommandProperty( AccessLevel.GameMaster )]
         public override Mobile Challenger { get{ return m_Challenger; } set { m_Challenger = value; } }
@@ -380,119 +123,16 @@ namespace Server.Items
             return true;
         }
 
-        public void ScoreSound(int team)
-		{
-            foreach(ChallengeEntry entry in Participants)
-            {
-                if(entry.Participant == null || entry.Status != ChallengeStatus.Active) continue;
-
-                if(entry.Team == team)
-                {
-                    // play the team scored sound
-                    entry.Participant.PlaySound(503);
-                } else
-                {
-                    // play the opponent scored sound
-                    entry.Participant.PlaySound(855 /*700*/);
-                }
-            }
-		}
-
-
         public override void OnTick()
 		{
-
             CheckForDisqualification();
-
-            // check for anyone carrying flags
-            if(HomeBases != null)
-            {
-                ArrayList dlist = null;
-
-                foreach(CTFBase b in HomeBases)
-                {
-                    if(b == null || b.Deleted)
-                    {
-                        if(dlist == null)
-                            dlist = new ArrayList();
-                        dlist.Add(b);
-                        continue;
-                    }
-
-					if (!b.Deleted && b.Flag != null && !b.Flag.Deleted)
-					{
-						if (b.Flag.RootParent is Mobile)
-						{
-
-							Mobile m = b.Flag.RootParent as Mobile;
-
-							// make sure a participant has it
-							IChallengeEntry entry = GetParticipant(m);
-
-							if (entry != null)
-							{
-								// display the flag
-								//m.PublicOverheadMessage( MessageType.Regular, BaseChallengeGame.TeamColor(b.Team), false, b.Team.ToString());
-
-								Effects.SendTargetParticles(m, 0x375A, 35, 10, BaseChallengeGame.TeamColor(b.Team), 0x00, 9502,
-								(EffectLayer)255, 0x100);
-
-							}
-							else
-							{
-								b.ReturnFlag();
-							}
-						} else
-							// if the flag somehow ends up on the ground, send it back to the base
-							if (!b.HasFlag)
-							{
-								b.ReturnFlag();
-							}
-					}
-	
-                }
-
-                if(dlist != null)
-                {
-                    foreach(CTFBase b in dlist)
-                        HomeBases.Remove(b);
-                }
-            }
-		}
-
-		public void ReturnAnyFlags(Mobile m)
-		{
-            // check for anyone carrying flags
-            if(HomeBases != null)
-            {
-                foreach(CTFBase b in HomeBases)
-                {
-                    if(!b.Deleted && b.Flag != null && !b.Flag.Deleted)
-                    {
-                        if(b.Flag.RootParent is Mobile)
-                        {
-                            if(m == b.Flag.RootParent as Mobile)
-                            {
-                                b.ReturnFlag();
-                            }
-                        } else
-                        if(b.Flag.RootParent is Corpse)
-                        {
-                            if(m == ((Corpse)(b.Flag.RootParent)).Owner)
-                            {
-                                b.ReturnFlag();
-                            }
-                        }
-                    }
-                }
-            }
 		}
 
 		public void CheckForDisqualification()
 		{
 		
             if(Participants == null || !GameInProgress) return;
-
+            
              bool statuschange = false;
 
             foreach(ChallengeEntry entry in Participants)
@@ -514,8 +154,8 @@ namespace Server.Items
                             // check to see how long they have been out of bounds
                             if(DateTime.UtcNow - entry.LastCaution > MaximumOfflineDuration)
                             {
-                                // return any flag they might be carrying
-                                ReturnAnyFlags(entry.Participant);
+                                // penalize them
+                                SubtractScore(entry);
                                 entry.LastCaution  = DateTime.UtcNow;
                             }
                         } else
@@ -523,17 +163,18 @@ namespace Server.Items
                             entry.LastCaution  = DateTime.UtcNow;
                             statuschange = true;
                         }
-
+    
                         entry.Caution = ChallengeStatus.Offline;
 
                     } else
                     {
-                        // changing to any other map results in
-                        // return of any flag they might be carrying
-                        ReturnAnyFlags(entry.Participant);
+                        // changing to any other map results in instant
+                        // teleport back to the gauntlet
+                        // and point loss
+                        RespawnWithPenalty(entry);
                         entry.Caution = ChallengeStatus.None;
                     }
-
+                    
 
                 } else
                 // make a range check
@@ -546,8 +187,9 @@ namespace Server.Items
                         // check to see how long they have been out of bounds
                         if(DateTime.UtcNow - entry.LastCaution > MaximumOutOfBoundsDuration)
                         {
-                            // return any flag they might be carrying
-                            ReturnAnyFlags(entry.Participant);
+                            // teleport them back to the gauntlet
+                            RespawnWithPenalty(entry);
+                            GameBroadcast(100401, entry.Participant.Name);  // "{0} was penalized."
                             entry.Caution = ChallengeStatus.None;
                             statuschange = true;
                         }
@@ -560,7 +202,7 @@ namespace Server.Items
                     }
 
                     entry.Caution = ChallengeStatus.OutOfBounds;
-
+                    
 
                 } else
                 // make a hiding check
@@ -572,9 +214,10 @@ namespace Server.Items
                         // check to see how long they have hidden
                         if(DateTime.UtcNow - entry.LastCaution > MaximumHiddenDuration)
                         {
-                            // return any flag they might be carrying
-                            ReturnAnyFlags(entry.Participant);
+                            // penalize them
+                            SubtractScore(entry);
                             entry.Participant.Hidden = false;
+                            GameBroadcast(100401, entry.Participant.Name);  // "{0} was penalized."
                             entry.Caution = ChallengeStatus.None;
                             statuschange = true;
                         }
@@ -598,54 +241,23 @@ namespace Server.Items
                     statuschange = true;
 
             }
-
+            
             if(statuschange)
             {
                 // update gumps with the new status
-                CTFGump.RefreshAllGumps(this, false);
+                TeamDeathmatchGump.RefreshAllGumps(this, false);
             }
 
             // it is possible that the game could end like this so check
             CheckForGameEnd();
-		}
-		
-		public CTFBase FindBase(int team)
-        {
-            // go through the current bases and see if there is one for this team
-            if(HomeBases != null)
-            {
-                foreach(CTFBase b in HomeBases)
-                {
-                    if(b.Team == team)
-                    {
-                        // found one
-                        return b;
-                    }
-                }
-            }
-            
-            return null;
-        }
 
-		public void DeleteBases()
-        {
-            if(HomeBases != null)
-            {
-                foreach(CTFBase b in HomeBases)
-                {
-                    b.Delete();
-                }
-                
-                HomeBases = new ArrayList();
-            }
-        }
+
+
+		}
 
         public override void OnDelete()
         {
             ClearNameHue();
-
-            // remove all bases
-            DeleteBases();
 
             base.OnDelete();
 
@@ -654,10 +266,6 @@ namespace Server.Items
 		public override void EndGame()
 		{
             ClearNameHue();
-            
-            DeleteBases();
-            
-            m_MatchEnd = DateTime.UtcNow;
 
             base.EndGame();
 
@@ -670,27 +278,7 @@ namespace Server.Items
             MatchStart = DateTime.UtcNow;
 
             SetNameHue();
-			
-			// teleport to base
-			TeleportPlayersToBase();
         }
-
-		public void TeleportPlayersToBase()
-		{
-			// teleport players to the base
-			if (Participants != null)
-			{
-				foreach (ChallengeEntry entry in Participants)
-				{
-					CTFBase teambase = FindBase(entry.Team);
-
-					if (entry.Participant != null && teambase != null)
-					{
-						entry.Participant.MoveToWorld(teambase.Location, teambase.Map);
-					}
-				}
-			}
-		}
 
 		public override void CheckForGameEnd()
 		{
@@ -743,7 +331,7 @@ namespace Server.Items
 
                 foreach(TeamInfo t in teams)
                 {
-
+                
                     if(!HasValidMembers(t)) continue;
 
                     if(t.Score >= maxscore)
@@ -754,7 +342,7 @@ namespace Server.Items
                 }
             }
 
-            // and then check to see if this is the CTF
+            // and then check to see if this is the Deathmatch
             if(winner.Count > 0)
             {
 
@@ -764,19 +352,16 @@ namespace Server.Items
                     // flag all members as winners
                     foreach(IChallengeEntry entry in t.Members)
                         entry.Winner = true;
-
                     GameBroadcast( 100414, t.ID);  // "Team {0} is the winner!"
-
-                    GameBroadcastSound(744);
                     AwardTeamWinnings(t.ID, TotalPurse/winner.Count);
-
+                    
                     if(winner.Count == 1) Winner = t.ID;
                 }
 
                 RefreshAllNoto();
 
                 EndGame();
-                CTFGump.RefreshAllGumps(this, true);
+                TeamDeathmatchGump.RefreshAllGumps(this, true);
             }
 
 		}
@@ -784,13 +369,13 @@ namespace Server.Items
 		public void SubtractScore(ChallengeEntry entry)
 		{
             if(entry == null) return;
-
+            
             entry.Score--;
 
             // refresh the gumps
-            CTFGump.RefreshAllGumps(this, false);
+            TeamDeathmatchGump.RefreshAllGumps(this, false);
 		}
-
+		
 		public void AddScore(ChallengeEntry entry)
 		{
             if(entry == null) return;
@@ -798,7 +383,23 @@ namespace Server.Items
             entry.Score++;
             
             // refresh the gumps
-            CTFGump.RefreshAllGumps(this, false);
+            TeamDeathmatchGump.RefreshAllGumps(this, false);
+		}
+
+		public void RespawnWithPenalty(ChallengeEntry entry)
+		{
+            if(entry == null) return;
+            
+            SubtractScore(entry);
+            
+            // move the participant to the gauntlet
+            if(entry.Participant != null)
+            {
+                entry.Participant.MoveToWorld(this.Location, this.Map);
+                entry.Participant.PlaySound( 0x214 );
+				entry.Participant.FixedEffect( 0x376A, 10, 16 );
+				GameBroadcast(100401, entry.Participant.Name);  // "{0} was penalized."
+            }
 		}
 
         public override void OnPlayerKilled(Mobile killer, Mobile killed)
@@ -812,8 +413,40 @@ namespace Server.Items
                     new object[]{ killed, true } );
             }
 
-            // return any flag they were carrying
-            ReturnAnyFlags(killed);
+            // find the player in the participants list and announce it
+            if(m_Participants != null)
+            {
+
+                foreach(ChallengeEntry entry in m_Participants)
+                {
+                    if(entry.Status == ChallengeStatus.Active && entry.Participant == killed)
+                    {
+                        GameBroadcast(100314, killed.Name); // "{0} has been killed"
+                        SubtractScore(entry);
+                    }
+                }
+            }
+
+            // see if the game is over
+            CheckForGameEnd();
+        }
+        
+        public override void OnKillPlayer(Mobile killer, Mobile killed)
+        {
+            if(killer == null) return;
+
+            // find the player in the participants list and announce it
+            if(m_Participants != null)
+            {
+
+                foreach(ChallengeEntry entry in m_Participants)
+                {
+                    if(entry.Status == ChallengeStatus.Active && entry.Participant == killer)
+                    {
+                        AddScore(entry);
+                    }
+                }
+            }
         }
 
         public override bool AreTeamMembers(Mobile from, Mobile target)
@@ -878,7 +511,7 @@ namespace Server.Items
 
         }
 
-        public CTFGauntlet(Mobile challenger) : base( 0x1414 )
+        public TeamDeathmatchGauntlet(Mobile challenger) : base( 0x1414 )
         {
             m_Challenger = challenger;
 
@@ -896,12 +529,13 @@ namespace Server.Items
                 Delete();
             } else
             {
-                Name = XmlPoints.SystemText(100418) + " " + String.Format(XmlPoints.SystemText(100315), challenger.Name); // "Challenge by {0}"
+                Name = XmlPoints.SystemText(100415) + " " + String.Format(XmlPoints.SystemText(100315), challenger.Name); // "Challenge by {0}"
+
             }
         }
 
 
-        public CTFGauntlet( Serial serial ) : base( serial )
+        public TeamDeathmatchGauntlet( Serial serial ) : base( serial )
         {
         }
 
@@ -910,19 +544,6 @@ namespace Server.Items
             base.Serialize( writer );
 
             writer.Write( (int) 0 ); // version
-            
-            // save the home base list
-            if(HomeBases != null)
-            {
-                writer.Write(HomeBases.Count);
-                foreach(CTFBase b in HomeBases)
-                {
-                    writer.Write(b);
-                }
-            } else
-            {
-                writer.Write((int)0);
-            }
 
             writer.Write(m_Challenger);
             writer.Write(m_GameLocked);
@@ -932,7 +553,7 @@ namespace Server.Items
             writer.Write(m_ArenaSize);
             writer.Write(m_TargetScore);
             writer.Write(m_MatchLength);
-
+            
             if(GameTimer != null && GameTimer.Running)
             {
                 writer.Write(DateTime.UtcNow - m_MatchStart);
@@ -940,8 +561,6 @@ namespace Server.Items
             {
                 writer.Write(TimeSpan.Zero);
             }
-            
-            writer.Write(m_MatchEnd);
 
             if(Participants != null)
             {
@@ -973,12 +592,6 @@ namespace Server.Items
             switch(version)
             {
             case 0:
-                int count = reader.ReadInt();
-                for(int i = 0; i< count; i++)
-                {
-                    CTFBase b = reader.ReadItem() as CTFBase;
-                    HomeBases.Add(b);
-                }
                 m_Challenger = reader.ReadMobile();
 
                 m_Organizers.Add(m_Challenger);
@@ -990,17 +603,15 @@ namespace Server.Items
                 m_ArenaSize = reader.ReadInt();
                 m_TargetScore = reader.ReadInt();
                 m_MatchLength = reader.ReadTimeSpan();
-
+                
                 TimeSpan elapsed = reader.ReadTimeSpan();
-
+                
                 if(elapsed > TimeSpan.Zero)
                 {
                     m_MatchStart = DateTime.UtcNow - elapsed;
                 }
                 
-                m_MatchEnd = reader.ReadDateTime();
-
-                count = reader.ReadInt();
+                int count = reader.ReadInt();
                 for(int i = 0;i<count;i++)
                 {
                     ChallengeEntry entry = new ChallengeEntry();
@@ -1025,7 +636,7 @@ namespace Server.Items
             
              if(GameCompleted)
                 Timer.DelayCall( PostGameDecayTime, new TimerCallback( Delete ) );
-
+            
             // start the challenge timer
             StartChallengeTimer();
             
@@ -1035,7 +646,7 @@ namespace Server.Items
         public override void OnDoubleClick( Mobile from )
         {
 
-            from.SendGump( new CTFGump( this, from ) );
+            from.SendGump( new TeamDeathmatchGump( this, from ) );
 
         }
     }

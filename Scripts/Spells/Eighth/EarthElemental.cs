@@ -3,17 +3,17 @@ using Server.Mobiles;
 
 namespace Server.Spells.Eighth
 {
-    public class AirElementalSpell : MagerySpell
+    public class EarthElementalSpell : MagerySpell
     {
         private static readonly SpellInfo m_Info = new SpellInfo(
-            "Air Elemental", "Kal Vas Xen Hur",
+            "Earth Elemental", "Kal Vas Xen Ylem",
             269,
-            9010,
+            9020,
             false,
             Reagent.Bloodmoss,
             Reagent.MandrakeRoot,
             Reagent.SpidersSilk);
-        public AirElementalSpell(Mobile caster, Item scroll)
+        public EarthElementalSpell(Mobile caster, Item scroll)
             : base(caster, scroll, m_Info)
         {
         }
@@ -46,9 +46,9 @@ namespace Server.Spells.Eighth
                 TimeSpan duration = TimeSpan.FromSeconds((2 * this.Caster.Skills.Magery.Fixed) / 5);
 
                 if (Core.AOS)
-                    SpellHelper.Summon(new SummonedAirElemental(), this.Caster, 0x217, duration, false, false);
+                    SpellHelper.Summon(new SummonedEarthElemental(), this.Caster, 0x217, duration, false, false);
                 else
-                    SpellHelper.Summon(new AirElemental(), this.Caster, 0x217, duration, false, false);
+                    SpellHelper.Summon(new EarthElemental(), this.Caster, 0x217, duration, false, false);
             }
 
             this.FinishSequence();

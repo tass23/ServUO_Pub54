@@ -10,72 +10,66 @@ using Server.Gumps;
 using System.Text;
 
 /*
-** XmlCustomAttacks
-** 11/16/04
+** XmlCustomDefenses
+** 11/26/04
 ** ArteGordon
 **
-** This attachment will allow you to create a system for adding special attacks to weapons including combo attacks that require
-** a series of specific special attacks to be executed in a timed sequence
+** This attachment will allow you to create a system for adding special defenses to shields including combo defenses that require
+** a series of specific special defensive moves to be executed in a timed sequence.
+** This is the defensive counterpart to XmlCustomAttacks.
 **
-** Version 1.01
-** updated 11/26/04
-** - restricted attachment to weapons only.
-** - added a few more example custom attacks
 */
 namespace Server.Engines.XmlSpawner2
 {
-    public class XmlCustomAttacks : XmlAttachment
+    public class XmlCustomDefenses : XmlAttachment
     {
 
         // ------------------------------------------------------------------------------
-        // BEGINNING of user-defined special attacks and combos information
+        // BEGINNING of user-defined special defenses and combos information
         // ------------------------------------------------------------------------------
 
         //
-        // define the Combo and special attack enums
+        // define the Combo and special defense enums
         //
-        // you must first add entries here if you wish to add new attacks
+        // you must first add entries here if you wish to add new defenses
         //
-        
-        // ATTACKS
-        public enum ComboAttacks
-        {
-            ThunderStrike,
-            LightningRain,
-            SqueezingFist
-        }
 
-        public enum SpecialAttacks
+        // DEFENSES
+        public enum ComboDefenses
         {
-            TripleSlash,
+            ColdWind
+        }
+        
+        public enum SpecialDefenses
+        {
             MindDrain,
             StamDrain,
             ParalyzingFear,
             GiftOfHealth,
-            VortexStrike,
+            SpikeShield,
             PuffOfSmoke
         }
 
         public static new void Initialize()
         {
             //
-            // define the special attacks and their use requirements
+            // define the special defenses and their use requirements
             //
-            // ideally, you have a definition for every SpecialAttacks enum.  Although it isnt absolutely necessary,
+            // ideally, you have a definition for every SpecialDefenses enum.  Although it isnt absolutely necessary,
             // if it isnt defined here, it will not be available for use
 
-            AddSpecialAttack("Triple Slash", "Deals triple the max damage of the weapon",        // attack name, and description
-                SpecialAttacks.TripleSlash, 0x520C, TimeSpan.FromSeconds(3.5),                   // attack id, id of gump icon, and chaining time
-                30, 20, 5, 0,                                                                    // mana, stam, hits, karma usage
-                70,30,0,                                                                        // str, dex, int requirements
-                new SkillName [] { SkillName.ArmsLore },                                        //  skill requirement list
-                new int [] { 50 },                                                               // minimum skill levels
-                new Type [] {typeof(MandrakeRoot)},                                              // reagent list
-                new int [] { 1 }                                                                 // reagent quantities
+            AddSpecialDefense("Shield of Spikes", "Returns damage to an attacker",
+                SpecialDefenses.SpikeShield, 0x2086, IconTypes.ItemID,TimeSpan.FromSeconds(10.5), // example of using an itemid for the gump icon
+                0, 20, 0, 0,
+                30,30,0,
+                null,
+                null,
+                new Type [] {typeof(PigIron)},
+                new int [] { 3 }
             );
-
-            AddSpecialAttack("Mind Drain", "Drains mana from the target",
-                SpecialAttacks.MindDrain, 0x5007, IconTypes.GumpID, TimeSpan.FromSeconds(3.5),  // explicitly specifying the gump icon as a gumpid
+            
+            AddSpecialDefense("Mind Drain", "Drains mana from the target",
+                SpecialDefenses.MindDrain, 0x5007, IconTypes.GumpID, TimeSpan.FromSeconds(10.5),  // explicitly specifying the gump icon as a gumpid
                 10, 5, 5, 0,
                 0,0,40,
                 new SkillName [] { SkillName.Magery },
@@ -83,19 +77,9 @@ namespace Server.Engines.XmlSpawner2
                 null,
                 null
             );
-            AddSpecialAttack("Vortex Strike", "Calls an energy vortex to aid you in battle",
-                SpecialAttacks.VortexStrike, 0x20b9, IconTypes.ItemID,TimeSpan.FromSeconds(3.5), // example of using an itemid for the gump icon
-                40, 20, 0, 0,
-                0,0,30,
-                new SkillName [] { SkillName.Magery },
-                new int [] { 60 },
-                new Type [] {typeof(Diamond)},
-                new int [] { 3 }
-            );
             
-
-            AddSpecialAttack("Stam Drain", "Drains stamina from the target",
-                SpecialAttacks.StamDrain, 0x500e, TimeSpan.FromSeconds(3.5),                // if the icon type is not specified, gump icons use gumpids
+            AddSpecialDefense("Stam Drain", "Drains stamina from the target",
+                SpecialDefenses.StamDrain, 0x500e, TimeSpan.FromSeconds(10.5),                // if the icon type is not specified, gump icons use gumpids
                 30, 5, 0, 0,
                 40, 40, 0,
                 null,
@@ -104,8 +88,8 @@ namespace Server.Engines.XmlSpawner2
                 new int [] { 1, 2 }
             );
 
-            AddSpecialAttack("Paralyzing Fear", "Paralyzes the target and causes it to flee",
-                SpecialAttacks.ParalyzingFear, 0x500d, TimeSpan.FromSeconds(3.5),
+            AddSpecialDefense("Paralyzing Fear", "Paralyzes the target and causes it to flee",
+                SpecialDefenses.ParalyzingFear, 0x500d, TimeSpan.FromSeconds(10.5),
                 10, 10, 5, 10,
                 0, 0, 40,
                 new SkillName [] { SkillName.Necromancy },
@@ -114,18 +98,18 @@ namespace Server.Engines.XmlSpawner2
                 new int [] { 1 }
             );
 
-            AddSpecialAttack("Gift of Health", "Restores attacker to full health",
-                SpecialAttacks.GiftOfHealth, 0x500c, TimeSpan.FromSeconds(3.5),
-                40, 20, 0, 0,
+            AddSpecialDefense("Gift of Health", "Absorbs damage as health",
+                SpecialDefenses.GiftOfHealth, 0x500c, TimeSpan.FromSeconds(10.5),
+                40, 30, 0, 0,
                 0, 0, 30,
-                new SkillName [] { SkillName.Healing },
-                new int [] { 60 },
-                new Type [] {typeof(Ginseng), typeof(MandrakeRoot), typeof(Gold)},
-                new int [] { 2, 2, 50 }
+                null,
+                null,
+                new Type [] {typeof(Ginseng), typeof(MandrakeRoot)},
+                new int [] { 4, 4 }
             );
 
-            AddSpecialAttack("Puff of Smoke", "Makes the attacker invisible",
-                SpecialAttacks.PuffOfSmoke, 0x520b, TimeSpan.FromSeconds(3.5),
+            AddSpecialDefense("Puff of Smoke", "Makes the defender invisible",
+                SpecialDefenses.PuffOfSmoke, 0x520b, TimeSpan.FromSeconds(10.5),
                 20, 40, 0, 0,
                 0, 40, 0,
                 new SkillName [] { SkillName.Stealth, SkillName.Hiding },
@@ -133,177 +117,136 @@ namespace Server.Engines.XmlSpawner2
                 new Type [] {typeof(SpidersSilk)},
                 new int [] { 2 }
             );
-
-
+            
             //
-            // define combos and the sequence of special attacks needed to activate them
+            // define combos and the sequence of special defenses needed to activate them
             //
-            AddComboAttack( "Thunder Strike", ComboAttacks.ThunderStrike,                       // combo name, and id
-                new SpecialAttacks []                                                           // list of special attacks needed to complete the combo
+            AddComboDefense( "Cold Wind", ComboDefenses.ColdWind,
+                new SpecialDefenses []
                     {
-                    SpecialAttacks.TripleSlash,
-                    SpecialAttacks.MindDrain,
-                    SpecialAttacks.ParalyzingFear,
-                    SpecialAttacks.TripleSlash,
-                    SpecialAttacks.StamDrain
+                    SpecialDefenses.SpikeShield,
+                    SpecialDefenses.SpikeShield,
+                    SpecialDefenses.StamDrain
                     }
             );
 
-            AddComboAttack( "Lightning Rain", ComboAttacks.LightningRain,
-                new SpecialAttacks []
-                    {
-                    SpecialAttacks.TripleSlash,
-                    SpecialAttacks.MindDrain,
-                    SpecialAttacks.MindDrain,
-                    SpecialAttacks.StamDrain
-                    }
-            );
 
-            AddComboAttack( "Squeezing Fist", ComboAttacks.SqueezingFist,
-                new SpecialAttacks []
-                    {
-                    SpecialAttacks.MindDrain,
-                    SpecialAttacks.StamDrain
-                    }
-            );
-
-            // after deser, restore combo and specials lists to all existing CustomAttacks attachments based on these definitions
+            
+            // after deser, restore combo and specials lists to all existing CustomDefenses attachments based on these definitions
             foreach(XmlAttachment x in XmlAttach.AllAttachments.Values)
             {
-                if(x is XmlCustomAttacks)
+                if(x is XmlCustomDefenses)
                 {
-                    ((XmlCustomAttacks)x).FillComboList();
-                    ((XmlCustomAttacks)x).FillSpecialsList();
+                    ((XmlCustomDefenses)x).FillComboList();
+                    ((XmlCustomDefenses)x).FillSpecialsList();
                 }
             }
         }
 
         //
-        // carry out the special attacks
+        // carry out the special defenses
         //
-        // If you add a new attack, you must add the code here to define what it actually does when it hits
+        // If you add a new defense, you must add the code here to define what it actually does when it hits
+        // can optionally return a value that will be used to reduce damage
         //
-        public void DoSpecialAttack(Mobile attacker, Mobile defender, BaseWeapon weapon, int damageGiven, SpecialAttack special)
+        public int DoSpecialDefense(Mobile attacker, Mobile defender, BaseWeapon weapon, int damageGiven, SpecialDefense special)
 		{
+		
+		    if(attacker == null || defender == null || weapon == null || special == null) return 0;
 
-		    if(attacker == null || defender == null || weapon == null || special == null) return;
+            defender.SendMessage("you defend with {0}!", special.Name);
 
-            attacker.SendMessage("you strike with {0}!", special.Name);
-
-            // apply the special attack
-            switch(special.AttackID)
+            // apply the special defense
+            switch(special.DefenseID)
             {
-                case SpecialAttacks.TripleSlash:
+
+                case SpecialDefenses.MindDrain:
                 {
-                    defender.Damage( weapon.MaxDamage*3, attacker );
+                    attacker.Mana -= damageGiven;
+                    defender.FixedEffect( 0x375A, 10, 15 );
+                    // absorb all of the damage you would have taken
+                    return damageGiven;
+                }
+                case SpecialDefenses.StamDrain:
+                {
+                    attacker.Stam -= damageGiven;
+                    defender.FixedEffect( 0x374A, 10, 15 );
+                    // absorb all of the damage you would have taken
+                    return damageGiven;
+                }
+                case SpecialDefenses.SpikeShield:
+                {
+                    // return the damage to attacker
+                    attacker.Damage( damageGiven, defender );
+                    defender.SendMessage("{0} damage reflected!", damageGiven);
+                    // absorb all of the damage you would have taken
+                    return damageGiven;
+                }
+                case SpecialDefenses.PuffOfSmoke:
+                {
+                    defender.Hidden = true;
                     break;
                 }
-                case SpecialAttacks.MindDrain:
+                case SpecialDefenses.GiftOfHealth:
                 {
-                    defender.Mana -= weapon.MaxDamage;
-					attacker.Mana += weapon.MaxDamage;
-                    break;
+                    defender.FixedEffect( 0x376A, 9, 32 );
+                    defender.PlaySound( 0x202 );
+                    defender.Hits += damageGiven;
+                    defender.SendMessage("healed {0}!", damageGiven);
+                    // absorb all of the damage you would have taken
+                    return damageGiven;
                 }
-                case SpecialAttacks.VortexStrike:
-                {
-                    attacker.PlaySound( 0x217 );
-                    BaseCreature m = new EnergyVortex();
-                    m.Summoned = true;
-                    m.SummonMaster = attacker;
-                    m.Combatant = defender;
-                    m.MoveToWorld(defender.Location, defender.Map);
-                    break;
-                }
-                case SpecialAttacks.StamDrain:
-                {
-                    defender.Stam -= weapon.MaxDamage;
-					attacker.Stam += weapon.MaxDamage;
-                    break;
-                }
-                case SpecialAttacks.PuffOfSmoke:
-                {
-                    attacker.Hidden = true;
-                    break;
-                }
-                case SpecialAttacks.GiftOfHealth:
-                {
-                    attacker.FixedEffect( 0x376A, 9, 32 );
-                    attacker.PlaySound( 0x202 );
-                    attacker.Hits = attacker.HitsMax;
-                    break;
-                }
-                case SpecialAttacks.ParalyzingFear:
+                case SpecialDefenses.ParalyzingFear:
                 {
                     // lose target focus
-                    defender.Combatant = null;
+                    attacker.Combatant = null;
                     // flee
-                    if(defender is BaseCreature)
+                    if(attacker is BaseCreature)
                     {
-                    	((BaseCreature)defender).BeginFlee(TimeSpan.FromSeconds(6));
+                    	((BaseCreature)attacker).BeginFlee(TimeSpan.FromSeconds(6));
                     }
                     // and become paralyzed
-                    defender.Freeze( TimeSpan.FromSeconds(3) );
-			        defender.FixedEffect( 0x376A, 9, 32 );
-			        defender.PlaySound( 0x204 );
+                    attacker.Freeze( TimeSpan.FromSeconds(damageGiven/10) );
+			        attacker.FixedEffect( 0x376A, 9, 32 );
+			        attacker.PlaySound( 0x204 );
                     break;
                 }
                 default:
-                    attacker.SendMessage("no effect");
+                    defender.SendMessage("no effect");
                     break;
             }
+            return 0;
         }
 
-        //
-        // carry out the combo attacks
+		//
+        // carry out the combo defenses
         //
         // If you add a new combo, you must add the code here to define what it actually does when it is activated
         //
-        public void DoComboAttack(Mobile attacker, Mobile defender, BaseWeapon weapon, int damageGiven, ComboAttack combo)
+        public void DoComboDefense(Mobile attacker, Mobile defender, BaseWeapon weapon, int damageGiven, ComboDefense combo)
 		{
 		    if(attacker == null || defender == null || weapon == null || combo == null) return;
 
-		    attacker.SendMessage("You unleash the combo attack {0}!",combo.Name);
+		    defender.SendMessage("You unleash the combo defense {0}!",combo.Name);
 
-		    // apply the combo attack
-            switch(combo.AttackID)
+		    // apply the combo defense
+            switch(combo.DefenseID)
             {
-                case ComboAttacks.ThunderStrike:
-                {
-                    defender.FixedEffect( 0x376A, 9, 32 );
-			        defender.PlaySound( 0x28 );
-			        // 5x damage
-                    defender.Damage( weapon.MaxDamage*5, attacker );
-                    // mana and stam drain
-                    defender.Mana -= weapon.MaxDamage*3;
-                    defender.Stam -= weapon.MaxDamage*3;
-                    // full self heal
-                    attacker.FixedEffect( 0x376A, 9, 32 );
-                    attacker.Hits = attacker.HitsMax;
-                    break;
-                }
-                case ComboAttacks.LightningRain:
-                {
-                    defender.Damage( weapon.MaxDamage*3, attacker );
-                    defender.Mana -= weapon.MaxDamage*7;
-                    defender.Stam -= weapon.MaxDamage*4;
-                    break;
-                }
-                case ComboAttacks.SqueezingFist:
+                case ComboDefenses.ColdWind:
                 {
                     // 5 sec paralyze
-                    defender.FixedEffect( 0x376A, 9, 32 );
-			        defender.PlaySound( 0x204 );
-                    defender.Freeze( TimeSpan.FromSeconds(5) );
+                    attacker.FixedEffect( 0x376A, 9, 32 );
+			        attacker.PlaySound( 0x204 );
+                    attacker.Freeze( TimeSpan.FromSeconds(5) );
                     // 7x stam drain
-                    defender.Stam -= weapon.MaxDamage*7;
+                    attacker.Stam -= weapon.MaxDamage*7;
                     break;
                 }
             }
 		}
-
-
+		
 		[Attachable]
-        public XmlCustomAttacks(string name, int nspecials)
+        public XmlCustomDefenses(string name, int nspecials)
         {
 
             FillComboList();
@@ -311,61 +254,51 @@ namespace Server.Engines.XmlSpawner2
             //
             // you can put any named specials configurations that you want in here
             //
-            if(String.Compare("tartan", name, true) == 0)
+            if(String.Compare("brogan", name, true) == 0)
             {
-                AddSpecial(SpecialAttacks.TripleSlash);
-                AddSpecial(SpecialAttacks.MindDrain);
-                AddSpecial(SpecialAttacks.StamDrain);
-                AddSpecial(SpecialAttacks.ParalyzingFear);
-            } else
-            if(String.Compare("balzog", name, true) == 0)
-            {
-                AddSpecial(SpecialAttacks.StamDrain);
-                AddSpecial(SpecialAttacks.ParalyzingFear);
-            } else
-            if(String.Compare("klamath", name, true) == 0)
-            {
-                AddSpecial(SpecialAttacks.TripleSlash);
-                AddSpecial(SpecialAttacks.MindDrain);
+                AddSpecial(SpecialDefenses.SpikeShield);
+                AddSpecial(SpecialDefenses.MindDrain);
+                AddSpecial(SpecialDefenses.StamDrain);
+                AddSpecial(SpecialDefenses.ParalyzingFear);
             } else
             if(String.Compare("random", name, true) == 0)
             {
-                // assign the requested number of random special attacks
+                // assign the requested number of random special defenses
                 SetRandomSpecials(nspecials);
             }
         }
 
 
-        // this constructor is intended to be called from within scripts that wish to define custom attack configurations
-        // by passing it a list of SpecialAttacks
-        public XmlCustomAttacks(SpecialAttacks [] attacklist)
+        // this constructor is intended to be called from within scripts that wish to define custom defense configurations
+        // by passing it a list of SpecialDefenses
+        public XmlCustomDefenses(SpecialDefenses [] defenselist)
         {
-            if(attacklist != null)
+            if(defenselist != null)
             {
-                foreach(SpecialAttacks sid in attacklist)
+                foreach(SpecialDefenses sid in defenselist)
                 {
                     AddSpecial(sid);
                 }
             }
         }
         
-        public XmlCustomAttacks(SpecialAttacks attack)
+        public XmlCustomDefenses(SpecialDefenses defense)
         {
-            AddSpecial(attack);
+            AddSpecial(defense);
+        }
+
+        [Attachable]
+        public XmlCustomDefenses(string name) : this(name, 1)
+        {
         }
         
         [Attachable]
-        public XmlCustomAttacks(string name) : this(name, 1)
-        {
-        }
-        
-        [Attachable]
-        public XmlCustomAttacks() : this("random", 1)
+        public XmlCustomDefenses() : this("random", 1)
         {
         }
 
 		// ------------------------------------------------------------------------------
-        // END of user-defined special attacks and combos information
+        // END of user-defined special defenses and combos information
         // ------------------------------------------------------------------------------
 
         private static Hashtable AllSpecials = new Hashtable();
@@ -377,33 +310,33 @@ namespace Server.Engines.XmlSpawner2
             ItemID
         }
 
-        public class SpecialAttack
+        public class SpecialDefense
         {
             public string      Name;           // attack name
             public string      Description;    // attack description
-            public SpecialAttacks         AttackID;  // attack id
-            public TimeSpan    ChainTime;    // time available until next attack in the chain must be performed
-            public int Icon;                 // button icon for this attack
+            public SpecialDefenses        DefenseID;  // defense id
+            public TimeSpan    ChainTime;    // time available until next defense in the chain must be performed
+            public int Icon;                 // button icon for this defense
             public IconTypes IconType;          // what type of art to use for button icon
-            public int ManaReq;             // mana usage for this attack
-            public int StamReq;             // stamina usage for this attack
-            public int HitsReq;             // hits usage for this attack
-            public int KarmaReq;            // karma usage for this attack
-            public int StrReq;             // str requirements for this attack
-            public int DexReq;             // dex requirements for this attack
-            public int IntReq;             // int requirements for this attack
-            public Type [] Reagents;       // reagent list used for this attack
+            public int ManaReq;             // mana usage for this defense
+            public int StamReq;             // stamina usage for this defense
+            public int HitsReq;             // hits usage for this defense
+            public int KarmaReq;            // karma usage for this defense
+            public int StrReq;             // str requirements for this defense
+            public int DexReq;             // dex requirements for this defense
+            public int IntReq;             // int requirements for this defense
+            public Type [] Reagents;       // reagent list used for this defense
             public int [] Quantity;        // reagent quantity list
-            public SkillName [] Skills;    // list of skill requirements for this attack
+            public SkillName [] Skills;    // list of skill requirements for this defense
             public int [] MinSkillLevel;   // minimum skill levels
 
-            public SpecialAttack( string name, string description, SpecialAttacks id, int icon, IconTypes itype, TimeSpan duration,
+            public SpecialDefense( string name, string description, SpecialDefenses id, int icon, IconTypes itype, TimeSpan duration,
             int mana, int stam, int hits, int karma, int minstr, int mindex, int minint,
             SkillName [] skills, int [] minlevel, Type [] reagents, int [] quantity)
             {
                 Name = name;
                 Description = description;
-                AttackID = id;
+                DefenseID = id;
                 ChainTime = duration;
                 Icon = icon;
                 IconType = itype;
@@ -421,26 +354,26 @@ namespace Server.Engines.XmlSpawner2
             }
         }
 
-        public class ComboAttack
+        public class ComboDefense
         {
             public string Name;
-            public ComboAttacks AttackID;
-            public SpecialAttacks [] AttackSequence;
+            public ComboDefenses DefenseID;
+            public SpecialDefenses [] DefenseSequence;
 
-            public ComboAttack( string name, ComboAttacks id, SpecialAttacks [] sequence)
+            public ComboDefense( string name, ComboDefenses id, SpecialDefenses [] sequence)
             {
                 Name = name;
-                AttackID = id;
-                AttackSequence = sequence;
+                DefenseID = id;
+                DefenseSequence = sequence;
             }
         }
 
         public class ActiveCombo
         {
-            public ComboAttack Combo;
+            public ComboDefense Combo;
             public int PositionInSequence;
 
-            public ActiveCombo(ComboAttack c)
+            public ActiveCombo(ComboDefense c)
             {
                 Combo = c;
                 PositionInSequence  = 0;
@@ -448,7 +381,7 @@ namespace Server.Engines.XmlSpawner2
         }
 
         private ComboTimer m_ComboTimer;
-        public SpecialAttack m_SelectedAttack;
+        public SpecialDefense m_SelectedDefense;
 
         // these are the lists of special moves and combo status for each instance
         private ArrayList Specials = new ArrayList();
@@ -459,7 +392,7 @@ namespace Server.Engines.XmlSpawner2
         // Other overloads could be defined to handle other types of arguments
 
         // a serial constructor is REQUIRED
-        public XmlCustomAttacks(ASerial serial) : base(serial)
+        public XmlCustomDefenses(ASerial serial) : base(serial)
         {
         }
 
@@ -473,9 +406,9 @@ namespace Server.Engines.XmlSpawner2
             // save the specials for this instance
             writer.Write( Specials.Count);
 
-            foreach(SpecialAttack s in Specials)
+            foreach(SpecialDefense s in Specials)
             {
-                writer.Write(s.AttackID.ToString());
+                writer.Write(s.DefenseID.ToString());
             }
         }
 
@@ -498,69 +431,69 @@ namespace Server.Engines.XmlSpawner2
                     string sname = reader.ReadString();
 
                     try{
-                    SpecialAttacks stype = (SpecialAttacks)Enum.Parse(typeof(SpecialAttacks), sname);
+                    SpecialDefenses stype = (SpecialDefenses)Enum.Parse(typeof(SpecialDefenses), sname);
                     tmpSpecialsList.Add(stype);
                     } catch{}
                 }
                 break;
             }
 		}
-		
-		private static void AddSpecialAttack( string name, string description, SpecialAttacks id, int icon, TimeSpan duration,
+
+
+		private static void AddSpecialDefense( string name, string description, SpecialDefenses id, int icon, TimeSpan duration,
         int mana, int stam, int hits, int karma, int minstr, int mindex, int minint,
         SkillName [] skills, int [] minlevel, Type [] reagents, int [] quantity)
         {
-            AddSpecialAttack( name, description, id, icon, IconTypes.GumpID, duration,
+            AddSpecialDefense( name, description, id, icon, IconTypes.GumpID, duration,
             mana, stam, hits, karma, minstr, mindex, minint,
             skills, minlevel, reagents, quantity);
         }
 		
-		private static void AddSpecialAttack( string name, string description, SpecialAttacks id, int icon, IconTypes itype, TimeSpan duration,
+		private static void AddSpecialDefense( string name, string description, SpecialDefenses id, int icon, IconTypes itype, TimeSpan duration,
         int mana, int stam, int hits, int karma, int minstr, int mindex, int minint,
         SkillName [] skills, int [] minlevel, Type [] reagents, int [] quantity)
         {
-            AllSpecials.Add(id, new SpecialAttack( name, description, id, icon, itype,
+            AllSpecials.Add(id, new SpecialDefense( name, description, id, icon, itype,
             duration, mana, stam, hits, karma,
             minstr, mindex, minint, skills, minlevel, reagents, quantity) );
         }
 
-        private static SpecialAttack GetSpecialAttack( SpecialAttacks id )
+        private static SpecialDefense GetSpecialDefense( SpecialDefenses id )
         {
-            return((SpecialAttack)AllSpecials[id]);
+            return((SpecialDefense)AllSpecials[id]);
         }
-        
-        public void AddSpecial( SpecialAttacks id )
+
+        private void AddSpecial( SpecialDefenses id )
         {
-            SpecialAttack s = GetSpecialAttack(id);
+            SpecialDefense s = GetSpecialDefense(id);
 
             if(s != null)
                 Specials.Add(s);
         }
 
-
-        private static void AddComboAttack( string name, ComboAttacks id, SpecialAttacks [] sequence)
+        private static void AddComboDefense( string name, ComboDefenses id, SpecialDefenses [] sequence)
         {
-            AllCombos.Add(id, new ComboAttack( name, id,sequence) );
+            AllCombos.Add(id, new ComboDefense( name, id,sequence) );
         }
 
-        private static ComboAttack GetComboAttack( ComboAttacks id )
+        private static ComboDefense GetComboDefense( ComboDefenses id )
         {
-            return((ComboAttack)AllCombos[id]);
+            return((ComboDefense)AllCombos[id]);
         }
         
-        public static void AddAttack(object target, SpecialAttacks attack)
+        public static void AddDefense(object target, SpecialDefenses defense)
         {
             // is there an existing custom attacks attachment to add to?
-            XmlCustomAttacks a = (XmlCustomAttacks)XmlAttach.FindAttachment(target, typeof(XmlCustomAttacks));
+            XmlCustomDefenses a = (XmlCustomDefenses)XmlAttach.FindAttachment(target, typeof(XmlCustomDefenses));
 
             if(a == null)
             {
                 // add a new custom attacks attachment
-                XmlAttach.AttachTo(target, new XmlCustomAttacks(attack));
+                XmlAttach.AttachTo(target, new XmlCustomDefenses(defense));
             } else
             {
                 // add the new attack to existing attack list
-                a.AddSpecial(attack);
+                a.AddSpecial(defense);
             }
         }
 
@@ -568,7 +501,7 @@ namespace Server.Engines.XmlSpawner2
         {
             Combos = new ArrayList();
 
-            foreach(ComboAttack c in AllCombos.Values)
+            foreach(ComboDefense c in AllCombos.Values)
             {
                 if(c != null)
                 {
@@ -581,9 +514,9 @@ namespace Server.Engines.XmlSpawner2
         {
             Specials = new ArrayList();
 
-            foreach(SpecialAttacks sid in tmpSpecialsList)
+            foreach(SpecialDefenses sid in tmpSpecialsList)
             {
-                SpecialAttack s = GetSpecialAttack(sid);
+                SpecialDefense s = GetSpecialDefense(sid);
                 if(s != null)
                 {
                     Specials.Add(s);
@@ -613,7 +546,7 @@ namespace Server.Engines.XmlSpawner2
 
                     tmplist.Add(rand);
 
-                    SpecialAttack s = GetSpecialAttack((SpecialAttacks)rand);
+                    SpecialDefense s = GetSpecialDefense((SpecialDefenses)rand);
                     if(s != null)
                     {
                         Specials.Add(s);
@@ -649,20 +582,20 @@ namespace Server.Engines.XmlSpawner2
             }
 		}
 
-		private void CheckCombos(Mobile attacker, Mobile defender, BaseWeapon weapon, int damageGiven, SpecialAttack s)
+		private void CheckCombos(Mobile attacker, Mobile defender, BaseWeapon weapon, int damageGiven, SpecialDefense s)
 		{
             if(s == null) return;
 
             foreach(ActiveCombo c in Combos)
             {
-                if(c != null && c.Combo != null && c.Combo.AttackSequence != null && c.PositionInSequence < c.Combo.AttackSequence.Length)
+                if(c != null && c.Combo != null && c.Combo.DefenseSequence != null && c.PositionInSequence < c.Combo.DefenseSequence.Length)
                 {
-                    if(c.Combo.AttackSequence[c.PositionInSequence] == s.AttackID)
+                    if(c.Combo.DefenseSequence[c.PositionInSequence] == s.DefenseID)
                     {
-                        if(++c.PositionInSequence >= c.Combo.AttackSequence.Length)
+                        if(++c.PositionInSequence >= c.Combo.DefenseSequence.Length)
                         {
                             // combo is complete so execute it
-                            DoComboAttack(attacker, defender, weapon, damageGiven, c.Combo);
+                            DoComboDefense(attacker, defender, weapon, damageGiven, c.Combo);
 
                             // and reset it
                             c.PositionInSequence = 0;
@@ -676,7 +609,7 @@ namespace Server.Engines.XmlSpawner2
             }
 		}
 
-		public static bool CheckRequirements(Mobile from, SpecialAttack s)
+		public static bool CheckRequirements(Mobile from, SpecialDefense s)
         {
             if(from == null || s == null) return false;
             
@@ -735,7 +668,7 @@ namespace Server.Engines.XmlSpawner2
             }
             if(from.Hits < s.HitsReq)
             {
-                // clear the selected attack
+                // clear the selected defense
                 from.SendMessage("Need {0} Hits to perform {1}", s.HitsReq, s.Name);
                 return false;
             }
@@ -769,42 +702,44 @@ namespace Server.Engines.XmlSpawner2
             return true;
         }
 
-		public override void OnWeaponHit(Mobile attacker, Mobile defender, BaseWeapon weapon, int damageGiven)
+        public override int OnArmorHit(Mobile attacker, Mobile defender, Item armor, BaseWeapon weapon, int damageGiven)
         {
-            if(attacker == null || defender == null || weapon == null || m_SelectedAttack == null) return;
+            if(attacker == null || defender == null || weapon == null || armor == null || m_SelectedDefense == null) return 0;
 
-            if(!CheckRequirements(attacker,  m_SelectedAttack)) return;
+            if(!CheckRequirements(defender,  m_SelectedDefense)) return 0;
 
             // take the requirements
-            if(attacker.Backpack != null && m_SelectedAttack.Reagents != null && m_SelectedAttack.Quantity != null)
+            if(defender.Backpack != null && m_SelectedDefense.Reagents != null && m_SelectedDefense.Quantity != null)
             {
-                attacker.Backpack.ConsumeTotal( m_SelectedAttack.Reagents, m_SelectedAttack.Quantity, true);
+                defender.Backpack.ConsumeTotal( m_SelectedDefense.Reagents, m_SelectedDefense.Quantity, true);
             }
 
-            attacker.Mana -= m_SelectedAttack.ManaReq;
-            attacker.Stam -= m_SelectedAttack.StamReq;
-            attacker.Hits -= m_SelectedAttack.HitsReq;
-            attacker.Karma -= m_SelectedAttack.KarmaReq;
+            defender.Mana -= m_SelectedDefense.ManaReq;
+            defender.Stam -= m_SelectedDefense.StamReq;
+            defender.Hits -= m_SelectedDefense.HitsReq;
+            defender.Karma -= m_SelectedDefense.KarmaReq;
 
             // apply the attack
-            DoSpecialAttack( attacker, defender, weapon, damageGiven, m_SelectedAttack);
+            int damage = DoSpecialDefense( attacker, defender, weapon, damageGiven, m_SelectedDefense);
 
-            if(m_SelectedAttack.KarmaReq > 0)
+            if(m_SelectedDefense.KarmaReq > 0)
             {
-                attacker.SendMessage("and lose a little karma.");
+                defender.SendMessage("and lose a little karma.");
             }
 
-            // after applying a special attack activate the specials timer for combo chaining
-            DoComboTimer(attacker, m_SelectedAttack.ChainTime);
+            // after applying a special defense activate the specials timer for combo chaining
+            DoComboTimer(defender, m_SelectedDefense.ChainTime);
 
-            // check all combos to see which have this attack as the next in sequence, and which might be complete
-            CheckCombos(attacker, defender, weapon, damageGiven, m_SelectedAttack);
+            // check all combos to see which have this defense as the next in sequence, and which might be complete
+            CheckCombos( attacker, defender, weapon, damageGiven, m_SelectedDefense);
 
-            // clear the selected attack
-            m_SelectedAttack = null;
+            // clear the selected defense
+            m_SelectedDefense = null;
 
             // redisplay the gump
-            attacker.SendGump(new CustomAttacksGump(attacker, this));
+            defender.SendGump(new CustomDefenseGump(defender, this));
+
+            return damage;
         }
 
 		public override void OnEquip( Mobile from )
@@ -812,8 +747,7 @@ namespace Server.Engines.XmlSpawner2
             // open the specials gump
             if(from == null || !from.Player) return;
 
-            from.SendGump(new CustomAttacksGump(from, this));
-
+            from.SendGump(new CustomDefenseGump(from, this));
 		}
 		
 		public override void OnRemoved( object parent )
@@ -821,16 +755,16 @@ namespace Server.Engines.XmlSpawner2
             // open the specials gump
             if(parent != null && parent is Mobile && ((Mobile)parent).Player)
             {
-                ((Mobile)parent).CloseGump(typeof( CustomAttacksGump ));
+                ((Mobile)parent).CloseGump(typeof( CustomDefenseGump ));
             }
 		}
 
 		public override string OnIdentify(Mobile from)
 		{
 
-            string msg = "Special Attacks:";
+            string msg = "Special Defenses:";
 
-            foreach(SpecialAttack s in Specials)
+            foreach(SpecialDefense s in Specials)
             {
                 msg += String.Format("\n{0}", s.Name);
             }
@@ -842,13 +776,13 @@ namespace Server.Engines.XmlSpawner2
 
             return msg;
 		}
-
+		
 		public override void OnAttach()
 		{
             base.OnAttach();
 
-            // only allow attachment to weapons and shields
-            if(!(AttachedTo is BaseWeapon))
+            // only allow attachment to shields (for now)
+            if(!(AttachedTo is BaseShield))
             {
                 Delete();
             }
@@ -866,10 +800,10 @@ namespace Server.Engines.XmlSpawner2
 
         private class ComboTimer : Timer
 		{
-			private XmlCustomAttacks m_attachment;
+			private XmlCustomDefenses m_attachment;
 			private Mobile m_from;
 
-			public ComboTimer( Mobile from, XmlCustomAttacks a, TimeSpan delay ) : base( delay )
+			public ComboTimer( Mobile from, XmlCustomDefenses a, TimeSpan delay ) : base( delay )
 			{
 				Priority = TimerPriority.OneSecond;
 				m_attachment = a;
@@ -886,17 +820,17 @@ namespace Server.Engines.XmlSpawner2
                 // refresh the gump
                 if(m_from != null)
                 {
-                    m_from.SendGump(new CustomAttacksGump(m_from, m_attachment));
+                    m_from.SendGump(new CustomDefenseGump(m_from, m_attachment));
                 }
 			}
 		}
 		
-		private class CustomAttacksInfoGump : Gump
+		private class CustomDefenseInfoGump : Gump
 		{
-            private XmlCustomAttacks m_attachment;
-            private SpecialAttack m_special;
+            private XmlCustomDefenses m_attachment;
+            private SpecialDefense m_special;
 
-    		public CustomAttacksInfoGump( Mobile from, XmlCustomAttacks a, SpecialAttack s) : base( 0,0)
+    		public CustomDefenseInfoGump( Mobile from, XmlCustomDefenses a, SpecialDefense s) : base( 0,0)
             {
 
                 m_attachment = a;
@@ -976,19 +910,19 @@ namespace Server.Engines.XmlSpawner2
             }
         }
 
-		private class CustomAttacksGump : Gump
+		private class CustomDefenseGump : Gump
 		{
-            private XmlCustomAttacks m_attachment;
+            private XmlCustomDefenses m_attachment;
             private const int vertspacing = 47;
 
-    		public CustomAttacksGump( Mobile from, XmlCustomAttacks a) : base( 0,0)
+    		public CustomDefenseGump( Mobile from, XmlCustomDefenses a) : base( 0,0)
             {
                 if(a == null)
                 {
                     return;
                 }
                 if(from != null)
-                    from.CloseGump(typeof( CustomAttacksGump));
+                    from.CloseGump(typeof( CustomDefenseGump));
 
                 m_attachment = a;
 
@@ -998,7 +932,7 @@ namespace Server.Engines.XmlSpawner2
                 AddPage( 0 );
 
                 AddBackground( 0, 0, 70, 75 + specialcount*vertspacing, 5054 );
-                AddLabel( 15, 2, 55, "Attack" );
+                AddLabel( 13, 2, 55, "Defense" );
                 // if combos are still active then give it the green light
                 if(m_attachment != null && m_attachment.HasActiveCombos)
                 {
@@ -1015,34 +949,34 @@ namespace Server.Engines.XmlSpawner2
                 int y = 70;
                 for(int i = 0;i<specialcount;i++)
                 {
-                    SpecialAttack s = (SpecialAttack)m_attachment.Specials[i];
+                    SpecialDefense s = (SpecialDefense)m_attachment.Specials[i];
 
-                    // flag the attack as being selected
-                    // this puts a white background behind the selected attack.  Doesnt look as nice, but works in both the
+                    // flag the defense as being selected
+                    // this puts a white background behind the selected defense.  Doesnt look as nice, but works in both the
                     // 2D and 3D client.  I prefer to leave this commented out for best appearance in the 2D client but
                     // feel free to uncomment it for best client compatibility.
                     /*
-                    if(m_attachment != null && m_attachment.m_SelectedAttack != null && m_attachment.m_SelectedAttack == s)
+                    if(m_attachment != null && m_attachment.m_SelectedDefense != null && m_attachment.m_SelectedDefense == s)
                     {
                         AddImageTiled( 2, y-2, 66, vertspacing+2, 0xBBC );
                     }
                     */
 
-                    // add the attack button
+                    // add the defense button
 
                     if(s.IconType == IconTypes.ItemID)
                     {
-                        AddButton( 5, y, 0x5207, 0x5207, (int)s.AttackID + 1000, GumpButtonType.Reply, 0 );
+                        AddButton( 5, y, 0x5207, 0x5207, (int)s.DefenseID + 1000, GumpButtonType.Reply, 0 );
                         AddImageTiled( 5, y, 44, 44, 0x283E );
                         AddItem(5, y, s.Icon);
                     } else
                     {
-                        AddButton( 5, y, s.Icon, s.Icon, (int)s.AttackID + 1000, GumpButtonType.Reply, 0 );
+                        AddButton( 5, y, s.Icon, s.Icon, (int)s.DefenseID + 1000, GumpButtonType.Reply, 0 );
                     }
                     
-                    // flag the attack as being selected
-                    // colors the attack icon red.  Looks better that the white background highlighting, but only supported by the 2D client.
-                    if(m_attachment != null && m_attachment.m_SelectedAttack != null && m_attachment.m_SelectedAttack == s)
+                    // flag the defense as being selected
+                    // colors the defense icon red.  Looks better that the white background highlighting, but only supported by the 2D client.
+                    if(m_attachment != null && m_attachment.m_SelectedDefense != null && m_attachment.m_SelectedDefense == s)
                     {
                         if(s.IconType == IconTypes.ItemID)
                         {
@@ -1055,7 +989,7 @@ namespace Server.Engines.XmlSpawner2
 
 
                     // add the info button
-                    AddButton( 52, y+13, 0x4b9, 0x4b9, 2000+(int)s.AttackID, GumpButtonType.Reply, 0 );
+                    AddButton( 52, y+13, 0x4b9, 0x4b9, 2000+(int)s.DefenseID, GumpButtonType.Reply, 0 );
 
                     y += vertspacing;
                 }
@@ -1069,36 +1003,36 @@ namespace Server.Engines.XmlSpawner2
                 // go through all of the possible specials and find the matching button
                 for(int i = 0;i<m_attachment.Specials.Count;i++)
                 {
-                    SpecialAttack s = (SpecialAttack)m_attachment.Specials[i];
+                    SpecialDefense s = (SpecialDefense)m_attachment.Specials[i];
 
-                    if(s != null && info.ButtonID == (int)s.AttackID + 1000)
+                    if(s != null && info.ButtonID == (int)s.DefenseID + 1000)
                     {
                         // if clicked again, then deselect
-                        if(s == m_attachment.m_SelectedAttack)
+                        if(s == m_attachment.m_SelectedDefense)
                         {
-                            m_attachment.m_SelectedAttack = null;
+                            m_attachment.m_SelectedDefense = null;
                         } else
                         {
-                            // see whether they have the required resources for this attack
+                            // see whether they have the required resources for this defense
                             if(CheckRequirements(state.Mobile,  s))
                             {
                                 // if so, then let them select it
-                                m_attachment.m_SelectedAttack = s;
+                                m_attachment.m_SelectedDefense = s;
                             } else
                             {
                                 // otherwise clear it
-                                m_attachment.m_SelectedAttack = null;
+                                m_attachment.m_SelectedDefense = null;
                             }
                         }
 
-                        state.Mobile.SendGump(new CustomAttacksGump(state.Mobile, m_attachment));
+                        state.Mobile.SendGump(new CustomDefenseGump(state.Mobile, m_attachment));
                         break;
                     }else
-                    if(s != null && info.ButtonID == (int)s.AttackID + 2000)
+                    if(s != null && info.ButtonID == (int)s.DefenseID + 2000)
                     {
-                        state.Mobile.CloseGump(typeof(CustomAttacksInfoGump));
-                        state.Mobile.SendGump(new CustomAttacksGump(state.Mobile, m_attachment));
-                        state.Mobile.SendGump(new CustomAttacksInfoGump(state.Mobile, m_attachment, s));
+                        state.Mobile.CloseGump(typeof(CustomDefenseInfoGump));
+                        state.Mobile.SendGump(new CustomDefenseGump(state.Mobile, m_attachment));
+                        state.Mobile.SendGump(new CustomDefenseInfoGump(state.Mobile, m_attachment, s));
                         break;
                     }
                 }

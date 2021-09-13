@@ -4,7 +4,7 @@ Servuo is a community driven Ultima Online server emulator written in c#.
 
 
 ### Version
-Publish 54
+Publish 54 v1.0
 
 ### Installation
 
@@ -27,7 +27,7 @@ A quick start guide is available at our forums. Follow this link: [quickstart]
 
 Want to contribute? Great!
 
-You can submit a pull request at any time and we will review it asap!
+You can submit a pull request, each request will be reviewed on a first come, first serve basis.
 
 License
 ----

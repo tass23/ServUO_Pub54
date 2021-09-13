@@ -3,15 +3,15 @@ using Server.Targeting;
 
 namespace Server.Spells.First
 {
-    public class ClumsySpell : MagerySpell
+    public class WeakenSpell : MagerySpell
     {
         private static readonly SpellInfo m_Info = new SpellInfo(
-            "Clumsy", "Uus Jux",
+            "Weaken", "Des Mani",
             212,
             9031,
-            Reagent.Bloodmoss,
+            Reagent.Garlic,
             Reagent.Nightshade);
-        public ClumsySpell(Mobile caster, Item scroll)
+        public WeakenSpell(Mobile caster, Item scroll)
             : base(caster, scroll, m_Info)
         {
         }
@@ -40,18 +40,18 @@ namespace Server.Spells.First
 
                 SpellHelper.CheckReflect((int)this.Circle, this.Caster, ref m);
 
-				SpellHelper.AddStatCurse(this.Caster, m, StatType.Dex);
+				SpellHelper.AddStatCurse(this.Caster, m, StatType.Str);
 				int percentage = (int)(SpellHelper.GetOffsetScalar(this.Caster, m, true) * 100);
 				TimeSpan length = SpellHelper.GetDuration(this.Caster, m);
-				BuffInfo.AddBuff(m, new BuffInfo(BuffIcon.Clumsy, 1075831, length, m, percentage.ToString()));
+				BuffInfo.AddBuff(m, new BuffInfo(BuffIcon.Weaken, 1075837, length, m, percentage.ToString()));
 
 				if (m.Spell != null)
                     m.Spell.OnCasterHurt();
 
                 m.Paralyzed = false;
 
-                m.FixedParticles(0x3779, 10, 15, 5002, EffectLayer.Head);
-                m.PlaySound(0x1DF);
+                m.FixedParticles(0x3779, 10, 15, 5009, EffectLayer.Waist);
+                m.PlaySound(0x1E6);
 
                 this.HarmfulSpell(m);
             }
@@ -59,10 +59,10 @@ namespace Server.Spells.First
             this.FinishSequence();
         }
 
-        private class InternalTarget : Target
+        public class InternalTarget : Target
         {
-            private readonly ClumsySpell m_Owner;
-            public InternalTarget(ClumsySpell owner)
+            private readonly WeakenSpell m_Owner;
+            public InternalTarget(WeakenSpell owner)
                 : base(Core.ML ? 10 : 12, false, TargetFlags.Harmful)
             {
                 this.m_Owner = owner;

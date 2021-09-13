@@ -3,18 +3,21 @@ using System;
 
 namespace Server.Items
 {
-    public class CorgulsEnchantedSash : BodySash
+    public class CorgulsHandbookOnTheUndead : NecromancerSpellbook
     {
-        public override int LabelNumber { get { return 1149781; } }
+        public override int LabelNumber { get { return 1149780; } }
 
         [Constructable]
-        public CorgulsEnchantedSash()
+        public CorgulsHandbookOnTheUndead()
         {
-            Attributes.BonusStam = 1;
+            Hue = 2953;
+            Attributes.RegenMana = 3;
             Attributes.DefendChance = 5;
+            Attributes.LowerManaCost = 10;
+            Attributes.LowerRegCost = 20;
         }
 
-        public CorgulsEnchantedSash(Serial serial)
+        public CorgulsHandbookOnTheUndead(Serial serial)
             : base(serial)
         {
         }

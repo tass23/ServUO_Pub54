@@ -3,18 +3,23 @@ using System;
 
 namespace Server.Items
 {
-    public class CorgulsEnchantedSash : BodySash
+    public class RingOfTheSoulbinder : SilverRing
     {
-        public override int LabelNumber { get { return 1149781; } }
+        public override int LabelNumber { get { return 1116620; } }
 
         [Constructable]
-        public CorgulsEnchantedSash()
+        public RingOfTheSoulbinder()
         {
-            Attributes.BonusStam = 1;
-            Attributes.DefendChance = 5;
+            Hue = 288;
+            Attributes.RegenMana = 2;
+            Attributes.DefendChance = 15;
+            Attributes.CastSpeed = 1;
+            Attributes.CastRecovery = 3;
+            Attributes.SpellDamage = 10;
+            Attributes.LowerRegCost = 10;
         }
 
-        public CorgulsEnchantedSash(Serial serial)
+        public RingOfTheSoulbinder(Serial serial)
             : base(serial)
         {
         }

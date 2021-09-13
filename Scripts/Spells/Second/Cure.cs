@@ -3,15 +3,15 @@ using Server.Targeting;
 
 namespace Server.Spells.Second
 {
-    public class AgilitySpell : MagerySpell
+    public class CureSpell : MagerySpell
     {
         private static readonly SpellInfo m_Info = new SpellInfo(
-            "Agility", "Ex Uus",
+            "Cure", "An Nox",
             212,
             9061,
-            Reagent.Bloodmoss,
-            Reagent.MandrakeRoot);
-        public AgilitySpell(Mobile caster, Item scroll)
+            Reagent.Garlic,
+            Reagent.Ginseng);
+        public CureSpell(Mobile caster, Item scroll)
             : base(caster, scroll, m_Info)
         {
         }
@@ -49,22 +49,40 @@ namespace Server.Spells.Second
             {
                 SpellHelper.Turn(this.Caster, m);
 
-				SpellHelper.AddStatBonus(this.Caster, m, StatType.Dex);
-				int percentage = (int)(SpellHelper.GetOffsetScalar(this.Caster, m, false) * 100);
-				TimeSpan length = SpellHelper.GetDuration(this.Caster, m);
-				BuffInfo.AddBuff(m, new BuffInfo(BuffIcon.Agility, 1075841, length, m, percentage.ToString()));
+                Poison p = m.Poison;
 
-				m.FixedParticles(0x375A, 10, 15, 5010, EffectLayer.Waist);
-                m.PlaySound(0x1e7);
+                if (p != null)
+                {
+                    int chanceToCure = 10000 + (int)(this.Caster.Skills[SkillName.Magery].Value * 75) - ((p.RealLevel + 1) * (Core.AOS ? (p.RealLevel < 4 ? 3300 : 3100) : 1750));
+                    chanceToCure /= 100;
+
+                    if (chanceToCure > Utility.Random(100))
+                    {
+                        if (m.CurePoison(this.Caster))
+                        {
+                            if (this.Caster != m)
+                                this.Caster.SendLocalizedMessage(1010058); // You have cured the target of all poisons!
+
+                            m.SendLocalizedMessage(1010059); // You have been cured of all poisons.
+                        }
+                    }
+                    else
+                    {
+                        m.SendLocalizedMessage(1010060); // You have failed to cure your target!
+                    }
+                }
+
+                m.FixedParticles(0x373A, 10, 15, 5012, EffectLayer.Waist);
+                m.PlaySound(0x1E0);
             }
 
             this.FinishSequence();
         }
 
-        private class InternalTarget : Target
+        public class InternalTarget : Target
         {
-            private readonly AgilitySpell m_Owner;
-            public InternalTarget(AgilitySpell owner)
+            private readonly CureSpell m_Owner;
+            public InternalTarget(CureSpell owner)
                 : base(Core.ML ? 10 : 12, false, TargetFlags.Beneficial)
             {
                 this.m_Owner = owner;

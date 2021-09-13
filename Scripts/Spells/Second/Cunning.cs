@@ -3,15 +3,15 @@ using Server.Targeting;
 
 namespace Server.Spells.Second
 {
-    public class AgilitySpell : MagerySpell
+    public class CunningSpell : MagerySpell
     {
         private static readonly SpellInfo m_Info = new SpellInfo(
-            "Agility", "Ex Uus",
+            "Cunning", "Uus Wis",
             212,
             9061,
-            Reagent.Bloodmoss,
-            Reagent.MandrakeRoot);
-        public AgilitySpell(Mobile caster, Item scroll)
+            Reagent.MandrakeRoot,
+            Reagent.Nightshade);
+        public CunningSpell(Mobile caster, Item scroll)
             : base(caster, scroll, m_Info)
         {
         }
@@ -49,13 +49,13 @@ namespace Server.Spells.Second
             {
                 SpellHelper.Turn(this.Caster, m);
 
-				SpellHelper.AddStatBonus(this.Caster, m, StatType.Dex);
+				SpellHelper.AddStatBonus(this.Caster, m, StatType.Int);
 				int percentage = (int)(SpellHelper.GetOffsetScalar(this.Caster, m, false) * 100);
 				TimeSpan length = SpellHelper.GetDuration(this.Caster, m);
-				BuffInfo.AddBuff(m, new BuffInfo(BuffIcon.Agility, 1075841, length, m, percentage.ToString()));
+				BuffInfo.AddBuff(m, new BuffInfo(BuffIcon.Cunning, 1075843, length, m, percentage.ToString()));
 
-				m.FixedParticles(0x375A, 10, 15, 5010, EffectLayer.Waist);
-                m.PlaySound(0x1e7);
+				m.FixedParticles(0x375A, 10, 15, 5011, EffectLayer.Head);
+                m.PlaySound(0x1EB);
             }
 
             this.FinishSequence();
@@ -63,8 +63,8 @@ namespace Server.Spells.Second
 
         private class InternalTarget : Target
         {
-            private readonly AgilitySpell m_Owner;
-            public InternalTarget(AgilitySpell owner)
+            private readonly CunningSpell m_Owner;
+            public InternalTarget(CunningSpell owner)
                 : base(Core.ML ? 10 : 12, false, TargetFlags.Beneficial)
             {
                 this.m_Owner = owner;

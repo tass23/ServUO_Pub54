@@ -7,20 +7,20 @@ namespace Server.Items
 {
 
     // --------------------------------------------------
-    // Legendary Amethyst
+    // Mythic Tourmaline
     // --------------------------------------------------
 
-    public class MythicAmethyst : BaseSocketAugmentation, IMythicAugment
+    public class MythicTourmaline : BaseSocketAugmentation, IMythicAugment
     {
 
         [Constructable]
-        public MythicAmethyst() : base(0xf26)
+        public MythicTourmaline() : base(0xF2D)
         {
-            Name = "Mythic Amethyst";
-            Hue = 11;
+            Name = "Mythic Tourmaline";
+            Hue = 1161;
         }
 
-        public MythicAmethyst( Serial serial ) : base( serial )
+        public MythicTourmaline( Serial serial ) : base( serial )
 		{
 		}
 
@@ -29,7 +29,7 @@ namespace Server.Items
         public override int Icon {get { return 0x9a8; } }
 
         public override bool UseGumpArt {get { return true; } }
-        
+
         public override int IconXOffset { get { return 15;} }
 
         public override int IconYOffset { get { return 15;} }
@@ -37,29 +37,28 @@ namespace Server.Items
 
         public override string OnIdentify(Mobile from)
         {
-            return "Weapon: +17 Damage\nShields: +9 Str\nArmor: +16 Defend Chance\nCreature: +5 Max Damage";
+            return "Weapon: +25 Weapon speed\nShields,Armor: +15 Reflect physical\nCreature: +5 All resists";
         }
 
         public override bool OnAugment(Mobile from, object target)
         {
             if(target is BaseWeapon)
             {
-                ((BaseWeapon)target).Attributes.WeaponDamage += 17;
+                ((BaseWeapon)target).Attributes.WeaponSpeed += 25;
             } else
-            if(target is BaseShield)
-            {
-                BaseShield s = target as BaseShield;
-
-                s.Attributes.BonusStr += 9;
-
-			} else
             if(target is BaseArmor)
             {
-                ((BaseArmor)target).Attributes.DefendChance += 16;
+                ((BaseArmor)target).Attributes.ReflectPhysical += 15;
             } else
             if(target is BaseCreature)
             {
-                ((BaseCreature)target).DamageMax += 5;
+                BaseCreature b = target as BaseCreature;
+
+                b.PhysicalResistanceSeed += 5;
+                b.FireResistSeed += 5;
+                b.ColdResistSeed += 5;
+                b.PoisonResistSeed += 5;
+                b.EnergyResistSeed += 5;
             } else
 			{
                 return false;
@@ -67,32 +66,32 @@ namespace Server.Items
 
             return true;
         }
+
 
         public override bool CanAugment(Mobile from, object target)
         {
             return (target is BaseWeapon || target is BaseArmor || target is BaseCreature);
         }
-        
+
         public override bool OnRecover(Mobile from, object target, int version)
         {
             if(target is BaseWeapon)
             {
-                ((BaseWeapon)target).Attributes.WeaponDamage -= 17;
+                ((BaseWeapon)target).Attributes.WeaponSpeed -= 25;
             } else
-            if(target is BaseShield)
-            {
-                BaseShield s = target as BaseShield;
-
-                s.Attributes.BonusStr -= 9;
-
-			} else
             if(target is BaseArmor)
             {
-                ((BaseArmor)target).Attributes.DefendChance -= 16;
+                ((BaseArmor)target).Attributes.ReflectPhysical -= 15;
             } else
             if(target is BaseCreature)
             {
-                ((BaseCreature)target).DamageMax -= 5;
+                BaseCreature b = target as BaseCreature;
+
+                b.PhysicalResistanceSeed -= 5;
+                b.FireResistSeed -= 5;
+                b.ColdResistSeed -= 5;
+                b.PoisonResistSeed -= 5;
+                b.EnergyResistSeed -= 5;
             } else
 			{
                 return false;
@@ -101,11 +100,12 @@ namespace Server.Items
             return true;
         }
 
+
         public override bool CanRecover(Mobile from, object target, int version)
         {
             return true;
         }
-        
+
 
 		public override void Serialize( GenericWriter writer )
 		{
@@ -113,7 +113,7 @@ namespace Server.Items
 
 			writer.Write( (int) 0 );
 		}
-		
+
 		public override void Deserialize(GenericReader reader)
 		{
 			base.Deserialize( reader );
@@ -121,29 +121,29 @@ namespace Server.Items
 			int version = reader.ReadInt();
 		}
     }
-    
+
     // --------------------------------------------------
-    // Legendary Amethyst
+    // Legendary Tourmaline
     // --------------------------------------------------
 
-    public class LegendaryAmethyst : BaseSocketAugmentation, ILegendaryAugment
+    public class LegendaryTourmaline : BaseSocketAugmentation, ILegendaryAugment
     {
 
         [Constructable]
-        public LegendaryAmethyst() : base(0xf26)
+        public LegendaryTourmaline() : base(0xf26)
         {
-            Name = "Legendary Amethyst";
-            Hue = 12;
+            Name = "Legendary Tourmaline";
+            Hue = 53;
         }
 
-        public LegendaryAmethyst( Serial serial ) : base( serial )
+        public LegendaryTourmaline( Serial serial ) : base( serial )
 		{
 		}
 
         public override int SocketsRequired {get { return 2; } }
 
         public override int Icon {get { return 0x9a8; } }
-
+        
         public override bool UseGumpArt {get { return true; } }
         
         public override int IconXOffset { get { return 15;} }
@@ -153,29 +153,28 @@ namespace Server.Items
 
         public override string OnIdentify(Mobile from)
         {
-            return "Weapon: +10 Damage\nShields: +5 Str\nArmor: +10 Defend Chance\nCreature: +3 Max Damage";
+            return "Weapon: +15 Weapon speed\nShields,Armor: +8 Reflect physical\nCreature: +3 All resists";
         }
 
         public override bool OnAugment(Mobile from, object target)
         {
             if(target is BaseWeapon)
             {
-                ((BaseWeapon)target).Attributes.WeaponDamage += 10;
+                ((BaseWeapon)target).Attributes.WeaponSpeed += 15;
             } else
-            if(target is BaseShield)
-            {
-                BaseShield s = target as BaseShield;
-
-                s.Attributes.BonusStr += 5;
-
-			} else
             if(target is BaseArmor)
             {
-                ((BaseArmor)target).Attributes.DefendChance += 10;
+                ((BaseArmor)target).Attributes.ReflectPhysical += 8;
             } else
             if(target is BaseCreature)
             {
-                ((BaseCreature)target).DamageMax += 3;
+                BaseCreature b = target as BaseCreature;
+
+                b.PhysicalResistanceSeed += 3;
+                b.FireResistSeed += 3;
+                b.ColdResistSeed += 3;
+                b.PoisonResistSeed += 3;
+                b.EnergyResistSeed += 3;
             } else
 			{
                 return false;
@@ -183,32 +182,33 @@ namespace Server.Items
 
             return true;
         }
+
+
 
         public override bool CanAugment(Mobile from, object target)
         {
             return (target is BaseWeapon || target is BaseArmor || target is BaseCreature);
         }
-        
+
         public override bool OnRecover(Mobile from, object target, int version)
         {
             if(target is BaseWeapon)
             {
-                ((BaseWeapon)target).Attributes.WeaponDamage -= 10;
+                ((BaseWeapon)target).Attributes.WeaponSpeed -= 15;
             } else
-            if(target is BaseShield)
-            {
-                BaseShield s = target as BaseShield;
-
-                s.Attributes.BonusStr -= 5;
-
-			} else
             if(target is BaseArmor)
             {
-                ((BaseArmor)target).Attributes.DefendChance -= 10;
+                ((BaseArmor)target).Attributes.ReflectPhysical -= 8;
             } else
             if(target is BaseCreature)
             {
-                ((BaseCreature)target).DamageMax -= 3;
+                BaseCreature b = target as BaseCreature;
+
+                b.PhysicalResistanceSeed -= 3;
+                b.FireResistSeed -= 3;
+                b.ColdResistSeed -= 3;
+                b.PoisonResistSeed -= 3;
+                b.EnergyResistSeed -= 3;
             } else
 			{
                 return false;
@@ -217,11 +217,14 @@ namespace Server.Items
             return true;
         }
 
+
+
         public override bool CanRecover(Mobile from, object target, int version)
         {
             return true;
         }
-        
+
+
 
 		public override void Serialize( GenericWriter writer )
 		{
@@ -229,7 +232,7 @@ namespace Server.Items
 
 			writer.Write( (int) 0 );
 		}
-		
+
 		public override void Deserialize(GenericReader reader)
 		{
 			base.Deserialize( reader );
@@ -239,20 +242,20 @@ namespace Server.Items
     }
 
     // --------------------------------------------------
-    // Ancient Amethyst
+    // Ancient Tourmaline
     // --------------------------------------------------
 
-    public class AncientAmethyst : BaseSocketAugmentation, IAncientAugment
+    public class AncientTourmaline : BaseSocketAugmentation, IAncientAugment
     {
 
         [Constructable]
-        public AncientAmethyst() : base(0xf26)
+        public AncientTourmaline() : base(0xf26)
         {
-            Name = "Ancient Amethyst";
-            Hue = 15;
+            Name = "Ancient Tourmaline";
+            Hue = 56;
         }
 
-        public AncientAmethyst( Serial serial ) : base( serial )
+        public AncientTourmaline( Serial serial ) : base( serial )
 		{
 		}
 
@@ -261,7 +264,7 @@ namespace Server.Items
         public override int Icon {get { return 0x9a8; } }
 
         public override bool UseGumpArt {get { return true; } }
-        
+
         public override int IconXOffset { get { return 15;} }
 
         public override int IconYOffset { get { return 15;} }
@@ -269,29 +272,28 @@ namespace Server.Items
 
         public override string OnIdentify(Mobile from)
         {
-            return "Weapon: +4 Damage\nShields: +2 Str\nArmor: +4 Defend Chance\nCreature: +1 Max Damage";
+            return "Weapon: +5 Weapon speed\nShields,Armor: +3 Reflect physical\nCreature: +1 All resists";
         }
 
         public override bool OnAugment(Mobile from, object target)
         {
             if(target is BaseWeapon)
             {
-                ((BaseWeapon)target).Attributes.WeaponDamage += 4;
+                ((BaseWeapon)target).Attributes.WeaponSpeed += 5;
             } else
-            if(target is BaseShield)
-            {
-                BaseShield s = target as BaseShield;
-
-                s.Attributes.BonusStr += 2;
-
-			} else
             if(target is BaseArmor)
             {
-                ((BaseArmor)target).Attributes.DefendChance += 4;
+                ((BaseArmor)target).Attributes.ReflectPhysical += 3;
             } else
             if(target is BaseCreature)
             {
-                ((BaseCreature)target).DamageMax += 1;
+                BaseCreature b = target as BaseCreature;
+
+                b.PhysicalResistanceSeed += 1;
+                b.FireResistSeed += 1;
+                b.ColdResistSeed += 1;
+                b.PoisonResistSeed += 1;
+                b.EnergyResistSeed += 1;
             } else
 			{
                 return false;
@@ -299,6 +301,7 @@ namespace Server.Items
 
             return true;
         }
+
 
         public override bool CanAugment(Mobile from, object target)
         {
@@ -309,22 +312,21 @@ namespace Server.Items
         {
             if(target is BaseWeapon)
             {
-                ((BaseWeapon)target).Attributes.WeaponDamage -= 4;
+                ((BaseWeapon)target).Attributes.WeaponSpeed -= 5;
             } else
-            if(target is BaseShield)
-            {
-                BaseShield s = target as BaseShield;
-
-                s.Attributes.BonusStr -= 2;
-
-			} else
             if(target is BaseArmor)
             {
-                ((BaseArmor)target).Attributes.DefendChance -= 4;
+                ((BaseArmor)target).Attributes.ReflectPhysical -= 3;
             } else
             if(target is BaseCreature)
             {
-                ((BaseCreature)target).DamageMax -= 1;
+                BaseCreature b = target as BaseCreature;
+
+                b.PhysicalResistanceSeed -= 1;
+                b.FireResistSeed -= 1;
+                b.ColdResistSeed -= 1;
+                b.PoisonResistSeed -= 1;
+                b.EnergyResistSeed -= 1;
             } else
 			{
                 return false;
@@ -333,11 +335,12 @@ namespace Server.Items
             return true;
         }
 
+
         public override bool CanRecover(Mobile from, object target, int version)
         {
             return true;
         }
-        
+
 
 		public override void Serialize( GenericWriter writer )
 		{

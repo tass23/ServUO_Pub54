@@ -3,27 +3,27 @@ using Server;
 
 namespace Server.Items
 {
-    public class BlackPowder : Item, ICommodity
+    public class Charcoal : Item, ICommodity
     {
-        public override int LabelNumber { get { return 1095826; } }
+        public override int LabelNumber { get { return 1116303; } }
 
         int ICommodity.DescriptionNumber { get { return LabelNumber; } }
         bool ICommodity.IsDeedable { get { return true; } }
 
         [Constructable]
-        public BlackPowder() : this(1)
+        public Charcoal() : this(1)
         {
         }
 
         [Constructable]
-        public BlackPowder(int amount) : base(16954)
+        public Charcoal(int amount) : base(16954)
         {
             Stackable = true;
             Amount = amount;
-            Hue = 2069;
+            Hue = 1457;
         }
 
-        public BlackPowder(Serial serial) : base(serial) { }
+        public Charcoal(Serial serial) : base(serial) { }
 
         public override void Serialize(GenericWriter writer)
         {

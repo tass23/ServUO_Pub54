@@ -4,18 +4,18 @@ using Server.Targeting;
 
 namespace Server.Spells.Seventh
 {
-    public class ChainLightningSpell : MagerySpell
+    public class MeteorSwarmSpell : MagerySpell
     {
         private static readonly SpellInfo m_Info = new SpellInfo(
-            "Chain Lightning", "Vas Ort Grav",
-            209,
-            9022,
+            "Meteor Swarm", "Flam Kal Des Ylem",
+            233,
+            9042,
             false,
-            Reagent.BlackPearl,
             Reagent.Bloodmoss,
             Reagent.MandrakeRoot,
-            Reagent.SulfurousAsh);
-        public ChainLightningSpell(Mobile caster, Item scroll)
+            Reagent.SulfurousAsh,
+            Reagent.SpidersSilk);
+        public MeteorSwarmSpell(Mobile caster, Item scroll)
             : base(caster, scroll, m_Info)
         {
         }
@@ -62,10 +62,7 @@ namespace Server.Spells.Seventh
 
                     foreach (Mobile m in eable)
                     {
-                        if (Core.AOS && m == this.Caster)
-                            continue;
-
-                        if (SpellHelper.ValidIndirectTarget(this.Caster, m) && this.Caster.CanBeHarmful(m, false))
+                        if (this.Caster != m && SpellHelper.ValidIndirectTarget(this.Caster, m) && this.Caster.CanBeHarmful(m, false))
                         {
                             if (Core.AOS && !this.Caster.InLOS(m))
                                 continue;
@@ -81,6 +78,8 @@ namespace Server.Spells.Seventh
 
                 if (targets.Count > 0)
                 {
+                    Effects.PlaySound(p, this.Caster.Map, 0x160);
+
                     for (int i = 0; i < targets.Count; ++i)
                     {
                         Mobile m = targets[i];
@@ -104,14 +103,10 @@ namespace Server.Spells.Seventh
 
                         damage *= this.GetDamageScalar(m);
                         this.Caster.DoHarmful(m);
-                        SpellHelper.Damage(this, m, damage, 0, 0, 0, 0, 100);
+                        SpellHelper.Damage(this, m, damage, 0, 100, 0, 0, 0);
 
-                        m.BoltEffect(0);
+                        this.Caster.MovingParticles(m, 0x36D4, 7, 0, false, true, 9501, 1, 0, 0x100);
                     }
-                }
-                else
-                {
-                    this.Caster.PlaySound(0x29);
                 }
             }
 
@@ -120,8 +115,8 @@ namespace Server.Spells.Seventh
 
         private class InternalTarget : Target
         {
-            private readonly ChainLightningSpell m_Owner;
-            public InternalTarget(ChainLightningSpell owner)
+            private readonly MeteorSwarmSpell m_Owner;
+            public InternalTarget(MeteorSwarmSpell owner)
                 : base(Core.ML ? 10 : 12, true, TargetFlags.None)
             {
                 this.m_Owner = owner;

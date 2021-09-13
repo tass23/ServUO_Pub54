@@ -3,13 +3,13 @@ using System.Data;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using Server.ContextMenus;
 using Server;
 using Server.Items;
 using Server.Network;
 using Server.Gumps;
 using Server.Targeting;
 using System.Reflection;
+using Server.ContextMenus;
 using Server.Commands;
 using CPA = Server.CommandPropertyAttribute;
 using System.Xml;
@@ -21,19 +21,41 @@ using System.Text.RegularExpressions;
 using Server.Engines.XmlSpawner2;
 
 /*
-** TalkingBaseCreature
-** A mobile that can be programmed with branching conversational sequences that are advanced by keywords at each sequence point.
-**
-** 2/10/05
-** modified to use the XmlDialog attachment
+** mirrors the TalkingBaseCreature only for vendors
 */
+
 namespace Server.Mobiles
 {
-	public class TalkingBaseCreature : BaseCreature
-	{ 
+	public abstract class TalkingBaseVendor : BaseVendor
+	{
+
+		public TalkingBaseVendor( string title ) : base( title )
+		{
+			// add the XmlDialog attachment
+			m_DialogAttachment = new XmlDialog((string)null);
+			XmlAttach.AttachTo(this, m_DialogAttachment);
+
+		}
+
+		public TalkingBaseVendor( Serial serial ) : base( serial )
+		{
+		}
+        
+		public static void Initialize()
+		{
+			// reestablish the DialogAttachment assignment
+			foreach(Mobile m in World.Mobiles.Values)
+			{
+				if(m is TalkingBaseVendor)
+				{
+					XmlDialog xa = XmlAttach.FindAttachment(m, typeof(XmlDialog)) as XmlDialog;
+					((TalkingBaseVendor)m).DialogAttachment = xa;
+				}
+			}
+		}
+
 
 		private XmlDialog m_DialogAttachment;
-
         
 		public XmlDialog DialogAttachment {get { return m_DialogAttachment; } set {m_DialogAttachment = value; }}
 
@@ -44,9 +66,11 @@ namespace Server.Mobiles
 		private int m_EHue = 68; // green
 
 		[CommandProperty( AccessLevel.GameMaster )]
-		public int EItemID { 
+		public int EItemID 
+		{ 
 			get{ return m_EItemID; } 
-			set { 
+			set 
+			{ 
 				m_EItemID = value; 
 			} 
 		}
@@ -80,31 +104,13 @@ namespace Server.Mobiles
 				m_EHue = value; 
 			} 
 		}
-		public void DisplayHighlight()
+
+		private void DisplayHighlight()
 		{
 			if(EItemID > 0)
 			{
-				 //SendOffsetTargetEffect(this, new Point3D(Location.X + EOffset.X, Location.Y + EOffset.Y, Location.Z + EOffset.Z), EItemID, 10, EDuration, EHue, 0);
 				Effects.SendLocationEffect(new Point3D(Location.X + EOffset.X, Location.Y + EOffset.Y, Location.Z + EOffset.Z), Map, EItemID, EDuration, EHue, 0);
-
 				lasteffect = DateTime.UtcNow;
-
-			}
-		}
-
-		public static void SendOffsetTargetEffect( IEntity target, Point3D loc, int itemID, int speed, int duration, int hue, int renderMode )
-		{
-			if ( target is Mobile )
-				((Mobile)target).ProcessDelta();
-
-			Effects.SendPacket( loc, target.Map, new OffsetTargetEffect( target, loc, itemID, speed, duration, hue, renderMode ) );
-		}
-
-		public sealed class OffsetTargetEffect : HuedEffect
-		{
-			public OffsetTargetEffect(IEntity e, Point3D loc, int itemID, int speed, int duration, int hue, int renderMode)
-				: base(EffectType.FixedFrom, e.Serial, Serial.Zero, itemID, loc, loc, speed, duration, true, false, hue, renderMode)
-			{
 			}
 		}
 
@@ -115,9 +121,9 @@ namespace Server.Mobiles
 			if(lasteffect + TimeSpan.FromSeconds(1) < DateTime.UtcNow)
 			{
 				DisplayHighlight();
-			}
+			}			
 		}
-        
+       
 		public override bool Move( Direction d )
 		{
 			bool didmove = base.Move( d );
@@ -131,7 +137,7 @@ namespace Server.Mobiles
 
 		[CommandProperty( AccessLevel.GameMaster )]
 		public string TalkText {get{ return m_TalkText; } set { m_TalkText = value; }}
-
+        
 		// properties below are modified to access the equivalent XmlDialog properties
 		// this is largely for backward compatibility, but it does also add some convenience
 
@@ -227,6 +233,7 @@ namespace Server.Mobiles
 
 		}
 
+
 		[CommandProperty( AccessLevel.GameMaster )]
 		public AccessLevel TriggerAccessLevel 
 		{
@@ -266,7 +273,7 @@ namespace Server.Mobiles
 		{
 			get 
 			{
-					return false;
+				return false;
 			}
 			set 
 			{
@@ -343,7 +350,7 @@ namespace Server.Mobiles
 					DialogAttachment.ResetTime = value;
 			}
 		}
-        
+
 		[CommandProperty( AccessLevel.GameMaster )]
 		public int SpeechPace
 		{
@@ -556,7 +563,7 @@ namespace Server.Mobiles
 					return -1;
 			}
 			set
-			{ 
+			{
 				if(DialogAttachment != null && DialogAttachment.CurrentEntry != null)
 					DialogAttachment.CurrentEntry.PrePause = value;
 			}
@@ -651,7 +658,7 @@ namespace Server.Mobiles
 			get{return false;}
 			set
 			{ 
-				if(value == true && DialogAttachment != null) 
+				if(value == true && DialogAttachment != null)
 					DialogAttachment.DoSaveNPC(null,ConfigFile, false);
 			}
 		}
@@ -724,9 +731,9 @@ namespace Server.Mobiles
 
 		private class TalkEntry : ContextMenuEntry
 		{
-			private TalkingBaseCreature m_NPC;
+			private TalkingBaseVendor m_NPC;
 
-			public TalkEntry( TalkingBaseCreature npc ) : base( 6146 )
+			public TalkEntry( TalkingBaseVendor npc ) : base( 6146 )
 			{
 				m_NPC = npc;
 			}
@@ -744,7 +751,7 @@ namespace Server.Mobiles
 			}
 		}
 
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
+		public override void GetContextMenuEntries(Mobile from, List<ContextMenuEntry> list)
 		{
 			if ( from.Alive )
 			{
@@ -755,38 +762,6 @@ namespace Server.Mobiles
 			}
 
 			base.GetContextMenuEntries( from, list );
-		}
-
-
-
-		public TalkingBaseCreature(AIType ai,
-			FightMode mode,
-			int iRangePerception,
-			int iRangeFight,
-			double dActiveSpeed, 
-			double dPassiveSpeed): base( ai, mode, iRangePerception, iRangeFight, dActiveSpeed, dPassiveSpeed )
-		{
-			// add the XmlDialog attachment
-			m_DialogAttachment = new XmlDialog((string)null);
-			XmlAttach.AttachTo(this, m_DialogAttachment);
-
-		}
-
-		public TalkingBaseCreature( Serial serial ) : base( serial )
-		{
-		}
-        
-		public static void Initialize()
-		{
-			// reestablish the DialogAttachment assignment
-			foreach(Mobile m in World.Mobiles.Values)
-			{
-				if(m is TalkingBaseCreature)
-				{
-					XmlDialog xa = XmlAttach.FindAttachment(m, typeof(XmlDialog)) as XmlDialog;
-					((TalkingBaseCreature)m).DialogAttachment = xa;
-				}
-			}
 		}
 
 

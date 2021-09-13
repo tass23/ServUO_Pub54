@@ -6,7 +6,7 @@ using Server.Mobiles;
 
 namespace Server.Engines.XmlSpawner2
 {
-	public class XmlData : XmlAttachment
+	public class XmlLocalVariable : XmlAttachment
 	{
 		private string m_DataValue = null;    // default data
 
@@ -18,26 +18,26 @@ namespace Server.Engines.XmlSpawner2
 		// Other overloads could be defined to handle other types of arguments
        
 		// a serial constructor is REQUIRED
-		public XmlData(ASerial serial) : base(serial)
+		public XmlLocalVariable(ASerial serial) : base(serial)
 		{
 		}
 
 		[Attachable]
-		public XmlData(string name)
+		public XmlLocalVariable(string name)
 		{
 			Name = name;
 			Data = String.Empty;
 		}
 
 		[Attachable]
-		public XmlData(string name, string data)
+		public XmlLocalVariable(string name, string data)
 		{
 			Name = name;
 			Data = data;
 		}
 
 		[Attachable]
-		public XmlData(string name, string data, double expiresin)
+		public XmlLocalVariable(string name, string data, double expiresin)
 		{
 			Name = name;
 			Data = data;
@@ -70,11 +70,11 @@ namespace Server.Engines.XmlSpawner2
 
 			if(Expiration > TimeSpan.Zero)
 			{
-				return String.Format("{2}: Data {0} expires in {1} mins",Data,Expiration.TotalMinutes, Name);
+				return String.Format("{2} = {0} : expires in {1} mins",Data,Expiration.TotalMinutes, Name);
 			} 
 			else
 			{
-				return String.Format("{1}: Data {0}",Data, Name);
+				return String.Format("{1} = {0}",Data, Name);
 			}
 		}
 	}

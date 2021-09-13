@@ -6,44 +6,47 @@ using Server.Mobiles;
 
 namespace Server.Engines.XmlSpawner2
 {
-	public class XmlData : XmlAttachment
+	public class XmlDate : XmlAttachment
 	{
-		private string m_DataValue = null;    // default data
+		private DateTime m_DataValue;
 
 		[CommandProperty( AccessLevel.GameMaster )]
-		public string Data { get{ return m_DataValue; } set { m_DataValue = value; } }
+		public DateTime Date { get{ return m_DataValue; } set { m_DataValue = value; } }
 
 		// These are the various ways in which the message attachment can be constructed.  
 		// These can be called via the [addatt interface, via scripts, via the spawner ATTACH keyword.
 		// Other overloads could be defined to handle other types of arguments
        
 		// a serial constructor is REQUIRED
-		public XmlData(ASerial serial) : base(serial)
+		public XmlDate(ASerial serial) : base(serial)
 		{
 		}
 
 		[Attachable]
-		public XmlData(string name)
+		public XmlDate(string name)
 		{
 			Name = name;
-			Data = String.Empty;
+			Date = DateTime.UtcNow;
 		}
-
+        
 		[Attachable]
-		public XmlData(string name, string data)
+		public XmlDate(string name, double expiresin)
 		{
 			Name = name;
-			Data = data;
-		}
-
-		[Attachable]
-		public XmlData(string name, string data, double expiresin)
-		{
-			Name = name;
-			Data = data;
+			Date = DateTime.UtcNow;
 			Expiration = TimeSpan.FromMinutes(expiresin);
 
 		}
+
+		[Attachable]
+		public XmlDate(string name, DateTime value, double expiresin)
+		{
+			Name = name;
+			Date = value;
+			Expiration = TimeSpan.FromMinutes(expiresin);
+
+		}
+
 
 		public override void Serialize( GenericWriter writer )
 		{
@@ -51,7 +54,7 @@ namespace Server.Engines.XmlSpawner2
 
 			writer.Write( (int) 0 );
 			// version 0
-			writer.Write((string)m_DataValue);
+			writer.Write(m_DataValue);
 
 		}
 
@@ -61,7 +64,7 @@ namespace Server.Engines.XmlSpawner2
 
 			int version = reader.ReadInt();
 			// version 0
-			m_DataValue = reader.ReadString();
+			m_DataValue = reader.ReadDateTime();
 		}
 
 		public override string OnIdentify(Mobile from)
@@ -70,11 +73,11 @@ namespace Server.Engines.XmlSpawner2
 
 			if(Expiration > TimeSpan.Zero)
 			{
-				return String.Format("{2}: Data {0} expires in {1} mins",Data,Expiration.TotalMinutes, Name);
+				return String.Format("{2}: Date {0} expires in {1} mins",Date,Expiration.TotalMinutes, Name);
 			} 
 			else
 			{
-				return String.Format("{1}: Data {0}",Data, Name);
+				return String.Format("{1}: Date {0}",Date, Name);
 			}
 		}
 	}

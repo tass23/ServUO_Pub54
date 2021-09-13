@@ -5,20 +5,20 @@ using Server.Mobiles;
 
 namespace Server.Items
 {
-    public class CorrosiveAsh : Item
+    public class QuartzGrit : Item
     {
-        public override int LabelNumber { get { return 1151809; } } // Corrosive Ash
+        public override int LabelNumber { get { return 1151808; } } // Quartz Grit
 
         [Constructable]
-        public CorrosiveAsh()
+        public QuartzGrit()
             : this(1)
         {
         }
 
         [Constructable]
-        public CorrosiveAsh(int amount) : base(0x423A)
+        public QuartzGrit(int amount) : base(0x423A)
         {
-            this.Hue = 1360;
+            this.Hue = 1151;
             this.Weight = 1;
 
             Stackable = true;
@@ -29,10 +29,10 @@ namespace Server.Items
         {
             if (!IsChildOf(from.Backpack))
                 from.SendLocalizedMessage(1042001); // That must be in your pack for you to use it.
-            else if (from.Backpack.GetAmount(typeof(QuartzGrit)) == 0)
-                from.SendLocalizedMessage(1151813, "#1151808"); // You do not have a required component: ~1_val~
             else if (from.Backpack.GetAmount(typeof(CursedOilstone)) == 0)
                 from.SendLocalizedMessage(1151813, "#1151810"); // You do not have a required component: ~1_val~
+            else if (from.Backpack.GetAmount(typeof(CorrosiveAsh)) == 0)
+                from.SendLocalizedMessage(1151813, "#1151809"); // You do not have a required component: ~1_val~
             else
             {
                 from.Backpack.ConsumeTotal(new Type[] { typeof(CursedOilstone), typeof(CorrosiveAsh) },
@@ -45,7 +45,7 @@ namespace Server.Items
             }
         }
 
-        public CorrosiveAsh(Serial serial)
+        public QuartzGrit(Serial serial)
             : base(serial)
         {
         }

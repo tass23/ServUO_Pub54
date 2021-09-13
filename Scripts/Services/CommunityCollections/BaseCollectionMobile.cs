@@ -2,14 +2,31 @@ using System;
 using System.Collections.Generic;
 using Server.Engines.Quests;
 using Server.Gumps;
-using Server.Mobiles;
 using Server.Network;
+using Server.Services.Community_Collections;
 
-namespace Server.Items
+namespace Server.Mobiles
 {
-    public abstract class BaseCollectionItem : Item, IComunityCollection
+    public abstract class BaseCollectionMobile : BaseVendor, IComunityCollection
     { 
-        #region IComunityCollection		
+        private readonly List<SBInfo> m_SBInfos = new List<SBInfo>();
+        protected override List<SBInfo> SBInfos
+        {
+            get
+            {
+                return this.m_SBInfos;
+            }
+        }
+
+        public override bool IsActiveVendor
+        {
+            get
+            {
+                return false;
+            }
+        }
+	
+        #region IComunityCollection
         public abstract Collection CollectionID { get; }
         public abstract int MaxTier { get; }
 		
@@ -146,6 +163,7 @@ namespace Server.Items
         #endregion
 		
         private List<List<object>> m_Tiers;
+        private object m_DonationTitle;
 		
         public List<List<object>> Tiers
         {
@@ -155,17 +173,51 @@ namespace Server.Items
             }
         }
 		
-        public BaseCollectionItem(int itemID)
-            : base(itemID)
+        [CommandProperty(AccessLevel.GameMaster)]
+        public int DonationLabel
         {
-            this.Movable = false;
-		
-            this.Init();
+            get
+            {
+                return this.m_DonationTitle is int ? (int)this.m_DonationTitle : 0;
+            }
+            set
+            {
+                this.m_DonationTitle = value;
+            }
         }
 		
-        public BaseCollectionItem(Serial serial)
+        [CommandProperty(AccessLevel.GameMaster)]
+        public string DonationString
+        {
+            get
+            {
+                return this.m_DonationTitle is string ? (string)this.m_DonationTitle : null;
+            }
+            set
+            {
+                this.m_DonationTitle = value;
+            }
+        }
+		
+        public BaseCollectionMobile(string name, string title)
+            : base(title)
+        {
+            this.Name = name;
+            this.Frozen = true;
+            this.CantWalk = true;
+		
+            this.Init();
+
+			CollectionsSystem.RegisterMobile(this);
+        }
+		
+        public BaseCollectionMobile(Serial serial)
             : base(serial)
         {
+        }
+		
+        public override void InitSBInfo()
+        { 
         }
 		
         public override void OnDoubleClick(Mobile from)
@@ -182,7 +234,7 @@ namespace Server.Items
                     from.SendLocalizedMessage(1042753, "Public donations"); // ~1_SOMETHING~ has been temporarily disabled.
                     return;
                 }
-				
+			
                 if (from.InRange(this.Location, 2) && from is PlayerMobile && this.CanDonate((PlayerMobile)from))
                 {
                     from.CloseGump(typeof(ComunityCollectionGump));
@@ -195,34 +247,50 @@ namespace Server.Items
 		
         public override void GetProperties(ObjectPropertyList list)
         {
-            this.AddNameProperty(list);
+            base.GetProperties(list);
 			
             list.Add(1072819, this.m_Tier.ToString()); // Current Tier: ~1_TIER~
             list.Add(1072820, this.m_Points.ToString()); // Current Points: ~1_POINTS~
             list.Add(1072821, this.m_Tier > this.MaxTier ? 0.ToString() : this.CurrentTier.ToString()); // Points until next tier: ~1_POINTS~
+			
+            if (this.DonationLabel > 0)
+                list.Add(this.DonationLabel);
+            else if (this.DonationString != null)
+                list.Add(this.DonationString);
         }
 		
+		public CollectionData GetData()
+		{
+			CollectionData ret = new CollectionData();
+
+			ret.Collection = CollectionID;
+			ret.Points = Points;
+			ret.StartTier = StartTier;
+			ret.NextTier = NextTier;
+			ret.DailyDecay = DailyDecay;
+			ret.Tier = Tier;
+			ret.DonationTitle = m_DonationTitle;
+			ret.Tiers = m_Tiers;
+
+			return ret;
+		}
+
+		public void SetData(CollectionData data)
+		{
+			Points = data.Points;
+			StartTier = data.StartTier;
+			NextTier = data.NextTier;
+			DailyDecay = data.DailyDecay;
+			m_Tier = data.Tier;
+			m_DonationTitle = data.DonationTitle;
+			m_Tiers = data.Tiers;
+		}
+
         public override void Serialize(GenericWriter writer)
         {
             base.Serialize(writer);
 			
-            writer.Write((int)0); // version
-			
-            writer.Write((long)this.m_Points);
-            writer.Write((long)this.m_StartTier);
-            writer.Write((long)this.m_NextTier);
-            writer.Write((long)this.m_DailyDecay);
-            writer.Write((int)this.m_Tier);
-			
-            writer.Write((int)this.m_Tiers.Count);				
-			
-            for (int i = 0; i < this.m_Tiers.Count; i ++)
-            {
-                writer.Write((int)this.m_Tiers[i].Count);
-				
-                for (int j = 0; j < this.m_Tiers[i].Count; j ++)					
-                    QuestWriter.Object(writer, this.m_Tiers[i][j]);
-            }
+            writer.Write((int)1); // version			
         }
 		
         public override void Deserialize(GenericReader reader)
@@ -230,24 +298,33 @@ namespace Server.Items
             base.Deserialize(reader);
 			
             int version = reader.ReadInt();
-			
-            this.m_Points = reader.ReadLong();
-            this.m_StartTier = reader.ReadLong();
-            this.m_NextTier = reader.ReadLong();
-            this.m_DailyDecay = reader.ReadLong();
-            this.m_Tier = reader.ReadInt();			
-			
-            this.Init();
-			
-            for (int i = reader.ReadInt(); i > 0; i --)
-            {
-                List<object> list = new List<object>();
-			
-                for (int j = reader.ReadInt(); j > 0; j --)
-                    list.Add(QuestReader.Object(reader));
-					
-                this.m_Tiers.Add(list);
-            }
+
+			this.Init();
+
+			if (version == 0)
+			{
+				this.m_Points = reader.ReadLong();
+				this.m_StartTier = reader.ReadLong();
+				this.m_NextTier = reader.ReadLong();
+				this.m_DailyDecay = reader.ReadLong();
+				this.m_Tier = reader.ReadInt();
+
+				this.m_DonationTitle = QuestReader.Object(reader);
+
+				for (int i = reader.ReadInt(); i > 0; i--)
+				{
+					List<object> list = new List<object>();
+
+					for (int j = reader.ReadInt(); j > 0; j--)
+						list.Add(QuestReader.Object(reader));
+
+					this.m_Tiers.Add(list);
+				}
+				CollectionsSystem.RegisterMobile(this);
+			}
+
+			if (this.CantWalk)
+                this.Frozen = true;
         }
 		
         #region IComunityCollection
@@ -288,9 +365,8 @@ namespace Server.Items
                 item.Delete();
             }
 			
-            reward.OnGiveReward(player, this, hue);
-
-			player.CloseGump(typeof(ComunityCollectionGump));
+            reward.OnGiveReward(player, this, hue);	
+			
             player.SendGump(new ComunityCollectionGump(player, this, this.Location));
         }
 		
@@ -357,5 +433,12 @@ namespace Server.Items
         {
             return true;
         }
-    }
+
+		public override void OnDelete()
+		{
+			base.OnDelete();
+
+			CollectionsSystem.UnregisterMobile(this);
+		}
+	}
 }

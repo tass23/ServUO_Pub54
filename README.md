@@ -14,7 +14,8 @@ Maintained by:
 Getting started with ServUO is quite easy.
 
 #### Windows
-Just run `Compile.WIN.bat` and follow the prompts. This script will compile both the server binary and Ultima SDK binary for you and run the server for you at end. After this you can run the server by executing `ServUO.exe`.
+1. Rename ServUO._xe to ServUO.exe.
+2.Just run `Compile.WIN.bat` and follow the prompts. This script will compile both the server binary and Ultima SDK binary for you and run the server for you at end. After this you can run the server by executing `ServUO.exe`.
 
 #### OSX
 `brew install mono`  
